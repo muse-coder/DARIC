@@ -1,4 +1,4 @@
-`include "param_define.v"
+`include "../param_define.v"
 module fifo (
 	input	en,
 	input	RE,
@@ -9,17 +9,17 @@ module fifo (
 //----------single port ram_0 signal----------//
  	output 	ENABLE_0,
 	output	WE_0,
-	output	[`WIDTH-2:0] A_0,
+	output	[`A_W -2:0] A_0,
 //----------single port ram_1 signal----------//
  	output 	ENABLE_1,
 	output	WE_1,
-	output	[`WIDTH-2:0] A_1
+	output	[`A_W -2:0] A_1
 );
 
 	wire	we_n;
 	wire	re_n;
-	wire	[`WIDTH-1:0]  r_adr;
-	wire	[`WIDTH-1:0]  w_adr;	
+	wire	[`A_W -1:0]  r_adr;
+	wire	[`A_W -1:0]  w_adr;	
 
     address_update lut1(
 	    .clk        (clk        ),

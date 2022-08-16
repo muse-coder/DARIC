@@ -1,4 +1,4 @@
-module PE_crossbar_9x6 (
+module PE_crossbar_9x7 (
     input   [31:0]  din_N,
     input   [31:0]  din_S,
     input   [31:0]  din_W,
@@ -8,29 +8,31 @@ module PE_crossbar_9x6 (
     input   [31:0]  din_R2,
     input   [31:0]  din_R3,
     input   [31:0]  fu_res,
-    input   [23:0]  switch,
+    input   [27:0]  switch,
     output  reg [31:0]  operand_A,  
     output  reg [31:0]  operand_B,
     output  reg [31:0]  dout_N,
     output  reg [31:0]  dout_S,
     output  reg [31:0]  dout_W,
-    output  reg [31:0]  dout_E
+    output  reg [31:0]  dout_E,
+    output  reg [31:0]  dout_LSU
 );
-    wire    [3:0]   dout_N_sel;
-    wire    [3:0]   dout_S_sel;
-    wire    [3:0]   dout_W_sel;
-    wire    [3:0]   dout_E_sel;
-    wire    [3:0]   op_A_sel;
-    wire    [3:0]   op_B_sel;
-    wire    [3:0]   res_sel;
+    wire    [3:0]   dout_N_sel    ;
+    wire    [3:0]   dout_S_sel    ;
+    wire    [3:0]   dout_W_sel    ;
+    wire    [3:0]   dout_E_sel    ;
+    wire    [3:0]   dout_LSU_sel  ;
+    wire    [3:0]   op_A_sel      ;
+    wire    [3:0]   op_B_sel      ;
     
     assign  {
-        op_A_sel, //23:20
-        op_B_sel, //19:16
-        dout_N_sel,//15:12
-        dout_S_sel,//11:8
-        dout_W_sel,//7:4
-        dout_E_sel //3:0
+        dout_LSU_sel,   //27:24
+        op_A_sel,       //23:20
+        op_B_sel,       //19:16
+        dout_N_sel,     //15:12
+        dout_S_sel,     //11:8
+        dout_W_sel,     //7:4
+        dout_E_sel      //3:0
     } = switch;
     
     
@@ -121,6 +123,21 @@ module PE_crossbar_9x6 (
             4'd7:   operand_B = din_R3 ;
             4'd8:   operand_B = fu_res ;
         default:    operand_B = 32'hffffffff;
+        endcase
+    end
+
+    always @(*) begin
+        case (dout_LSU_sel)
+            4'd0:   dout_LSU = din_N  ;
+            4'd1:   dout_LSU = din_S  ; 
+            4'd2:   dout_LSU = din_W  ; 
+            4'd3:   dout_LSU = din_E  ; 
+            4'd4:   dout_LSU = din_R0 ; 
+            4'd5:   dout_LSU = din_R1 ; 
+            4'd6:   dout_LSU = din_R2 ;
+            4'd7:   dout_LSU = din_R3 ;
+            4'd8:   dout_LSU = fu_res ;
+        default:    dout_LSU = 32'hffffffff;
         endcase
     end
 

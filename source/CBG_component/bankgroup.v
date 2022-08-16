@@ -1,4 +1,4 @@
-`include "param_define.v"
+`include "../param_define.v"
 
 module bankgroup (
     input               clk,
@@ -13,16 +13,16 @@ module bankgroup (
     input               flush,
     output  [31:0]      dout
 );
-    wire    [`WIDTH-2:0]    random_addr;
+    wire    [`A_W-2:0]    random_addr;
     wire    ram_sel;
     assign  {
         random_addr,//9:1
         ram_sel     //0:0
     }   = addr;
 
-    wire    [`WIDTH-1:0]    fifo_0_start = 32'b0;
-    wire    [`WIDTH-1:0]    fifo_1_start = 32'b0 + `fifo_deep >> 1;
-    wire    [`WIDTH-1:0]    fifo_2_start = 32'b0 + `fifo_deep  ;
+    wire    [`A_W-1:0]    fifo_0_start = 32'b0;
+    wire    [`A_W-1:0]    fifo_1_start = 32'b0 + `F_D >> 1;
+    wire    [`A_W-1:0]    fifo_2_start = 32'b0 + `F_D  ;
     
 
 // ---------模式选择---------------//
@@ -34,8 +34,8 @@ module bankgroup (
 
 //-----------fifo 0 号--------------//
 
-    wire    [`WIDTH-2:0]  fifo_0_addr_0;
-    wire    [`WIDTH-2:0]  fifo_0_addr_1;
+    wire    [`A_W-2:0]  fifo_0_addr_0;
+    wire    [`A_W-2:0]  fifo_0_addr_1;
 
     wire    fifo_0_en_0;
     wire    fifo_0_en_1;
@@ -62,8 +62,8 @@ module bankgroup (
 
 //-----------fifo 1 号--------------//
 
-    wire    [`WIDTH-2:0]  fifo_1_addr_0;
-    wire    [`WIDTH-2:0]  fifo_1_addr_1;
+    wire    [`A_W-2:0]  fifo_1_addr_0;
+    wire    [`A_W-2:0]  fifo_1_addr_1;
 
     wire    fifo_1_en_0;
     wire    fifo_1_en_1;
@@ -89,8 +89,8 @@ module bankgroup (
 
 //-----------fifo 2 号--------------//
 
-    wire    [`WIDTH-2:0]  fifo_2_addr_0;
-    wire    [`WIDTH-2:0]  fifo_2_addr_1;
+    wire    [`A_W-2:0]  fifo_2_addr_0;
+    wire    [`A_W-2:0]  fifo_2_addr_1;
 
     wire    fifo_2_en_0;
     wire    fifo_2_en_1;
@@ -119,13 +119,13 @@ module bankgroup (
     wire    FIFO_WE_0;
     wire    FIFO_WE_1;
     
-    wire    [`WIDTH-2:0]    FIFO_ADDR_0;
-    wire    [`WIDTH-2:0]    FIFO_ADDR_1;
+    wire    [`A_W-2:0]    FIFO_ADDR_0;
+    wire    [`A_W-2:0]    FIFO_ADDR_1;
     
     assign  FIFO_EN_0 = (fifo_sel == 2'b00) ? fifo_0_en_0 :
                         (fifo_sel == 2'b01) ? fifo_1_en_0 :
                         (fifo_sel == 2'b10) ? fifo_2_en_0 :
-                                                1'b1; 
+                                                1'b0; 
 
     assign  FIFO_EN_1 = (fifo_sel == 2'b00) ? fifo_0_en_1 :
                         (fifo_sel == 2'b01) ? fifo_1_en_1 :
@@ -152,10 +152,10 @@ module bankgroup (
                             (fifo_sel == 2'b10) ? fifo_2_addr_1 + fifo_2_start  :
                                                     32'b0;
 
-    wire    [`WIDTH-2:0]    ram_0_addr;
+    wire    [`A_W-2:0]    ram_0_addr;
     wire    ram_0_en;
     wire    ram_0_we;
-    wire    [`WIDTH-2:0]    ram_1_addr;
+    wire    [`A_W-2:0]    ram_1_addr;
     wire    ram_1_en;
     wire    ram_1_we;
 
@@ -212,6 +212,6 @@ module bankgroup (
     
     assign  dout = read_valid_0 ? data0 :
                    read_valid_1 ? data1 :
-                                32'hffffffff; 
+                                'hffffffff; 
     
 endmodule

@@ -1,4 +1,4 @@
-`include "param_define.v"
+`include "../param_define.v"
 
 module single_port_ram (
 	input	clk,
@@ -11,7 +11,7 @@ module single_port_ram (
 	output reg [31:0]	dout,
 	output reg read_valid
 );
-	parameter  num = 32'b1<<`WIDTH;
+	parameter  num = 32'b1<<`A_W;
 	reg [31:0] ram[num-1:0];
 	integer i;
 	always @(posedge clk ) begin

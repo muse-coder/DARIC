@@ -1,28 +1,28 @@
-`include "param_define.v"
+`include "../param_define.v"
 module part_sel    (
 	input	clk,
 	input	rst,
 	input	WE_N,
 	input	RE_N,
-	input	[`WIDTH-1:0] R_ADR,
-	input	[`WIDTH-1:0] W_ADR,
+	input	[`A_W-1:0] R_ADR,
+	input	[`A_W-1:0] W_ADR,
 //----------single port ram_0 signal----------//
  	output 	ENABLE_0,
 	output	WE_0,
-	output	[`WIDTH-2:0] A_0,
+	output	[`A_W-2:0] A_0,
 //----------single port ram_1 signal----------//
  	output 	ENABLE_1,
 	output	WE_1,
-	output	[`WIDTH-2:0] A_1
+	output	[`A_W-2:0] A_1
 
 );
 	wire	R_bit, W_bit;
-	wire	[`WIDTH-2:0] R_A;
-	wire	[`WIDTH-2:0] W_A;
+	wire	[`A_W-2:0] R_A;
+	wire	[`A_W-2:0] W_A;
 	
 //--- write signal  register --------//
 	reg		W_bit_D;
-	reg		[`WIDTH-2:0] W_A_D;
+	reg		[`A_W-2:0] W_A_D;
 	reg		[31:0] DI_D; 	
 	reg		flag;
 //----------------------------------//

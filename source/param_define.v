@@ -18,5 +18,12 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`define WIDTH 8'd10
-`define fifo_deep 8'd8
+`define A_W 8'd10 //address_width
+
+`define F_D 8'd8        //fifo_depth
+`define L_I_W   8'd8    //lsu_inst_width
+`define L_C_bus 8'd42    //lsu_to_CBG_bus
+`define C_L_bus 8'd42    //CBG_to_lsu_bus  
+`define Config_W  8'd8  //config_buffer_width
+`define PE_I_W  8'd45   //pe_inst_width
+`define H_C_W   8'd100  //host_controller_width

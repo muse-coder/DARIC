@@ -1,17 +1,20 @@
+`include "../param_define.v"
+
+
 module scratchpad (
 	input	clk,
 	input	rst,
-	input	[11:0]host_controller,
-	input	[31:0]external_memory,
-	input	[31:0]switch_in_3,
-	input	[31:0]switch_in_2,
-	input	[31:0]switch_in_1,
-	input	[31:0]switch_in_0,
+	input	[11:0]	inst,
+	input	[31:0]	external_memory,
+	input	[`L_C_bus-1:0]	switch_in_3,
+	input	[`L_C_bus-1:0]	switch_in_2,
+	input	[`L_C_bus-1:0]	switch_in_1,
+	input	[`L_C_bus-1:0]	switch_in_0,
 	
-	output	[31:0]switch_out_3,
-	output	[31:0]switch_out_2,
-	output	[31:0]switch_out_1,
-	output	[31:0]switch_out_0
+	output	[`C_L_bus-1:0]	switch_out_3,
+	output	[`C_L_bus-1:0]	switch_out_2,
+	output	[`C_L_bus-1:0]	switch_out_1,
+	output	[`C_L_bus-1:0]	switch_out_0
 );
 	wire BG0_sel,BG1_sel,BG2_sel,BG3_sel;
 	wire BG0_mode,BG1_mode,BG2_mode,BG3_mode;
@@ -33,7 +36,7 @@ module scratchpad (
 		BG2_mode,//	2:2
 		BG1_mode,//	1:1
 		BG0_mode//	0:0
-	} = host_controller;
+	} = inst;
 
 	assign BG3_feed_data = BG3_sel ? switch_in_3 :external_memory ;
 	assign BG2_feed_data = BG2_sel ? switch_in_2 :external_memory ;
