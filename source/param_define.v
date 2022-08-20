@@ -22,8 +22,9 @@
 
 `define F_D 8'd8        //fifo_depth
 `define L_I_W   8'd8    //lsu_inst_width
-`define L_C_bus 8'd42    //lsu_to_CBG_bus
-`define C_L_bus 8'd42    //CBG_to_lsu_bus  
+`define L_C_bus 8'd47    //lsu_to_CBG_bus
+`define C_L_bus 8'd32    //CBG_to_lsu_bus  
 `define Config_W  8'd8  //config_buffer_width
 `define PE_I_W  8'd45   //pe_inst_width
 `define H_C_W   8'd100  //host_controller_width
+`define EX_bus    8'd44     //external_memory_bus

@@ -14,27 +14,33 @@ module single_port_ram (
 	parameter  num = 32'b1<<`A_W;
 	reg [31:0] ram[num-1:0];
 	integer i;
+	reg		write_valid;
 	always @(posedge clk ) begin
-		if(ena & (rst | flush)) begin
+		if((rst | flush)) begin
 			for (i = 0;i<num ;i=i+1 ) begin
 				ram[i] <= 32'b0;
 			end
-			dout <= 32'b0;			
+			dout <= 32'hffffffff;			
 			read_valid <=1'b0;
+			write_valid<=1'b0;
 		end
 
 		else if (ena && wea) begin
 			ram[addr] <= din;
 			read_valid <= 1'b0;
+			write_valid<=1'b1;
 		end 
 
 		else if (ena && ~wea) begin
 			dout <= ram[addr];
 			read_valid <=1'b1;
+			write_valid<=1'b0;
 		end
 
-		else
+		else begin
 			read_valid <=1'b0;
+			write_valid<=1'b0;			
+		end
 	end
 	
 

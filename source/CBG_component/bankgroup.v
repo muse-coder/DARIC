@@ -5,7 +5,7 @@ module bankgroup (
     input               rst,
     input               en,
     input   [31:0]      din,
-    input               pattern,
+    input               pattern,//0：随机访存  // 1：FIFO模式
     input   [9:0]       addr,
     input               we,
     input               re,
@@ -44,7 +44,7 @@ module bankgroup (
     fifo  fifo_0(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
-        .en         (fifo_0_en & en   ),
+        .en         (fifo_0_en & pattern   ),
 	    .RE         (re         ),
 	    .WE         (we         ),
         .flush      (flush      ),
@@ -72,7 +72,7 @@ module bankgroup (
     fifo  fifo_1(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
-        .en         (fifo_1_en & en   ),
+        .en         (fifo_1_en & pattern   ),
 	    .RE         (re         ),
 	    .WE         (we         ),
         .flush      (flush      ),
@@ -99,7 +99,7 @@ module bankgroup (
     fifo  fifo_2(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
-        .en         (fifo_2_en & en   ),
+        .en         (fifo_2_en & pattern   ),
 	    .RE         (re         ),
 	    .WE         (we         ),
         .flush      (flush      ),

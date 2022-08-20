@@ -47,9 +47,8 @@ module LSU(
             //待定
         end
 
-        else if(din_valid ) begin
+        else 
             load_reg <= din;
-        end
     end
 
 //----------------end------------------//
