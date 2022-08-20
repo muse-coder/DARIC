@@ -13,7 +13,7 @@ module testbench (
 	reg 	BG0_sel,BG1_sel,BG2_sel,BG3_sel;
 	reg 	BG0_mode,BG1_mode,BG2_mode,BG3_mode;
 	reg 	BG0_en,BG1_en,BG2_en,BG3_en;
-    wire    [11:0]  inst;
+    wire    [11:0]  SPM_inst;
 	wire	[`EX_bus-1 :0]	ex_bus;
 
     reg     [1:0]   BG3_switch;
@@ -29,7 +29,7 @@ module testbench (
     };
 
 
-    assign inst  =  {
+    assign SPM_inst  =  {
 		BG3_en,//	11:11
 		BG2_en,// 	10:10
 		BG1_en,//  9:9
@@ -87,10 +87,10 @@ module testbench (
         BG0_mode    = 1'b0;
         ex_wen      =1'b1;
         rst         =1'b0;
-		ex_addr   = 10'b1   ;	//41:32
+		ex_addr   = 10'b0   ;	//41:32
 		ex_data   = 32'b1   ;  		//31:0
 
-        for ( i=1 ;i<=10 ;i=i+1 ) begin
+        for ( i=0 ;i<=10 ;i=i+1 ) begin
     		#10 ex_addr   = 10'b1 +i   ;	//41:32
     		    ex_data   = 32'b1 +i   ;  		//31:0
         end
@@ -100,63 +100,94 @@ module testbench (
     wire    [`L_C_bus-1:0]      crossbar_BG2_out ;
     wire    [`L_C_bus-1:0]      crossbar_BG1_out ;
     wire    [`L_C_bus-1:0]      crossbar_BG0_out ;
-    wire    [`C_L_bus-1:0]      corssbar_BG3_in  ;
-    wire    [`C_L_bus-1:0]      corssbar_BG2_in  ;
-    wire    [`C_L_bus-1:0]      corssbar_BG1_in  ;
-    wire    [`C_L_bus-1:0]      corssbar_BG0_in  ;
+    wire    [`C_L_bus-1:0]      crossbar_BG3_in  ;
+    wire    [`C_L_bus-1:0]      crossbar_BG2_in  ;
+    wire    [`C_L_bus-1:0]      crossbar_BG1_in  ;
+    wire    [`C_L_bus-1:0]      crossbar_BG0_in  ;
 
-    wire    [`L_C_bus-1:0]      corssbar_LSU3_in ; 
-    wire    [`L_C_bus-1:0]      corssbar_LSU2_in ;
-    wire    [`L_C_bus-1:0]      corssbar_LSU1_in ;
-    wire    [`L_C_bus-1:0]      corssbar_LSU0_in ;
+    wire    [`L_C_bus-1:0]      crossbar_LSU3_in ; 
+    wire    [`L_C_bus-1:0]      crossbar_LSU2_in ;
+    wire    [`L_C_bus-1:0]      crossbar_LSU1_in ;
+    wire    [`L_C_bus-1:0]      crossbar_LSU0_in ;
 
-    wire    [`C_L_bus-1:0]      corssbar_LSU3_out;
-    wire    [`C_L_bus-1:0]      corssbar_LSU2_out;
-    wire    [`C_L_bus-1:0]      corssbar_LSU1_out;
-    wire    [`C_L_bus-1:0]      corssbar_LSU0_out;
+    wire    [`C_L_bus-1:0]      crossbar_LSU3_out;
+    wire    [`C_L_bus-1:0]      crossbar_LSU2_out;
+    wire    [`C_L_bus-1:0]      crossbar_LSU1_out;
+    wire    [`C_L_bus-1:0]      crossbar_LSU0_out;
+
+
 
     scratchpad  s(
-        .rst            (rst        ),
-        .clk            (clk        ),
-        .inst           (inst       ),
-        .ex_bus         (ex_bus     ),
-        .switch_in_3    ('b0        ),
-        .switch_in_2    ('b0        ),
-        .switch_in_1    ('b0        ),
-        .switch_in_0    ('b0        ),
+        .rst            (rst                ),
+        .clk            (clk                ),
+        .inst           (SPM_inst           ),
+        .ex_bus         (ex_bus             ),
+        .switch_in_3    (crossbar_BG3_out   ),
+        .switch_in_2    (crossbar_BG2_out   ),
+        .switch_in_1    (crossbar_BG1_out   ),
+        .switch_in_0    (crossbar_BG0_out   ),
 	
-	    .switch_out_3   (corssbar_BG3_in   ),
-	    .switch_out_2   (corssbar_BG2_in   ),
-	    .switch_out_1   (corssbar_BG1_in   ),
-	    .switch_out_0   (corssbar_BG0_in   )
+	    .switch_out_3   (crossbar_BG3_in   ),
+	    .switch_out_2   (crossbar_BG2_in   ),
+	    .switch_out_1   (crossbar_BG1_in   ),
+	    .switch_out_0   (crossbar_BG0_in   )
     );
 
-    BG_LSU_crossbar_4x4 crossbar_4x4(
-        .BG3_in             (corssbar_BG3_in    ),
-        .BG2_in             (corssbar_BG2_in    ),
-        .BG1_in             (corssbar_BG1_in    ),
-        .BG0_in             (corssbar_BG0_in    ),
-        .LSU3_in            (corssbar_LSU3_in   ), 
-        .LSU2_in            (corssbar_LSU2_in   ),
-        .LSU1_in            (corssbar_LSU1_in   ),
-        .LSU0_in            (corssbar_LSU0_in   ),
-    
-        .switch             (cross_switch       ),
-    
-        .BG3_out            (crossbar_BG3_out   ),
-        .BG2_out            (crossbar_BG2_out   ),
-        .BG1_out            (crossbar_BG1_out   ),
-        .BG0_out            (crossbar_BG0_out   ),
-        .LSU3_out           (corssbar_LSU3_out  ), 
-        .LSU2_out           (corssbar_LSU2_out  ),
-        .LSU1_out           (corssbar_LSU1_out  ),
-        .LSU0_out           (corssbar_LSU0_out  )
+    wire    [`R_Q    -1:0]  LSU_3_R_request;
+    wire    [`R_Q    -1:0]  LSU_2_R_request;
+    wire    [`R_Q    -1:0]  LSU_1_R_request;
+    wire    [`R_Q    -1:0]  LSU_0_R_request;
+
+    wire    [`W_Q    -1:0]  LSU_3_W_request;
+    wire    [`W_Q    -1:0]  LSU_2_W_request;
+    wire    [`W_Q    -1:0]  LSU_1_W_request;
+    wire    [`W_Q    -1:0]  LSU_0_W_request;
+
+    wire    [31:0]  LSU_3_to_PE;
+    wire    [31:0]  LSU_2_to_PE;
+    wire    [31:0]  LSU_1_to_PE;
+    wire    [31:0]  LSU_0_to_PE;
+    LSU lsu0(
+        .clk                (clk                ),
+        .rst                (rst                ),
+        .LSU_inst           (                   ),
+        .PE_0               (                   ),
+        .PE_1               (                   ),
+        .PE_2               (                   ),
+        .PE_3               (                   ),
+        .LSU_to_PE          (LSU_0_to_PE        ),
+        .R_request          (LSU_0_R_request    ),
+        .W_request          (LSU_0_W_request    )  
     );
 
 
 
-    
+    BG_LSU_independent_crossbar_4x4 cross_4x4 (
+        .R_request_3        (LSU_3_R_request    ),
+        .R_request_2        (LSU_2_R_request    ),
+        .R_request_1        (LSU_1_R_request    ),
+        .R_request_0        (LSU_0_R_request    ),
 
+        .W_request_3        (LSU_3_W_request    ),
+        .W_request_2        (LSU_2_W_request    ),
+        .W_request_1        (LSU_1_W_request    ),
+        .W_request_0        (LSU_0_W_request    ),
+
+        .R_reponse_3        (crossbar_BG3_in    ), 
+        .R_reponse_2        (crossbar_BG2_in    ),
+        .R_reponse_1        (crossbar_BG1_in    ),
+        .R_reponse_0        (crossbar_BG0_in    ),
+
+        .BG_3_out           (crossbar_BG3_out   ),
+        .BG_2_out           (crossbar_BG2_out   ),
+        .BG_1_out           (crossbar_BG1_out   ),
+        .BG_0_out           (crossbar_BG0_out   ),
+
+        .LSU3_out           (crossbar_LSU3_out  ),
+        .LSU2_out           (crossbar_LSU2_out  ),
+        .LSU1_out           (crossbar_LSU1_out  ),
+        .LSU0_out           (crossbar_LSU0_out  )
+        );
 
 
 endmodule

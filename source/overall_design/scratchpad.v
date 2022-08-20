@@ -124,7 +124,7 @@ module scratchpad (
     	.we			(BG0_wen		),
     	.re			(BG0_ren		),
 		.fifo_sel	(sin_0_fifo_sel	),
-    	.flush		(				),
+    	.flush		(	1'b0			),
     	.dout		(switch_out_0)
 	);
 
@@ -138,7 +138,7 @@ module scratchpad (
     	.we			(BG1_wen),
     	.re			(BG1_ren),
     	.fifo_sel	(sin_1_fifo_sel	),
-    	.flush		(),
+    	.flush		(1'b0),
     	.dout		(switch_out_1	)
 	);
 
@@ -152,7 +152,7 @@ module scratchpad (
     	.we			(BG2_wen),
     	.re			(BG2_ren),
     	.fifo_sel	(sin_2_fifo_sel	),
-    	.flush		(),
+    	.flush		(1'b0),
     	.dout		(switch_out_2	)
 	);
 
@@ -166,7 +166,7 @@ module scratchpad (
     	.we			(BG1_wen),
     	.re			(BG1_ren),
     	.fifo_sel	(sin_3_fifo_sel	),
-    	.flush		(),
+    	.flush		(1'b0),
     	.dout		(switch_out_3	)
 	);
 

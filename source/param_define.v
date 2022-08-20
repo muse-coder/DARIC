@@ -28,3 +28,5 @@
 `define PE_I_W  8'd45   //pe_inst_width
 `define H_C_W   8'd100  //host_controller_width
 `define EX_bus    8'd44     //external_memory_bus
+`define R_Q               //read_quest
+`define W_Q               //write_quest

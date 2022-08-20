@@ -11,25 +11,26 @@ module bankgroup (
     input               re,
     input   [1:0]       fifo_sel,
     input               flush,
-    output  [31:0]      dout
+    output  [`C_L_bus-1:0]      dout
 );
     wire    [`A_W-2:0]    random_addr;
     wire    ram_sel;
+
+    parameter    fifo_0_start = 32'b0;
+    parameter    fifo_1_start = 32'b0 + `F_D >> 1;
+    parameter    fifo_2_start = 32'b0 + `F_D  ;
+    parameter    random_start = fifo_2_start + (`F_D >> 1)  ;
+
     assign  {
         random_addr,//9:1
         ram_sel     //0:0
-    }   = addr;
-
-    wire    [`A_W-1:0]    fifo_0_start = 32'b0;
-    wire    [`A_W-1:0]    fifo_1_start = 32'b0 + `F_D >> 1;
-    wire    [`A_W-1:0]    fifo_2_start = 32'b0 + `F_D  ;
+    }   = addr + random_start;
     
-
 // ---------模式选择---------------//
     wire    fifo_0_en;
     wire    fifo_1_en;
     wire    fifo_2_en;
-    wire    random_en;
+    // wire    random_en;
     assign  {fifo_0_en, fifo_1_en, fifo_2_en} = {3'b100} >> fifo_sel;
 
 //-----------fifo 0 号--------------//
@@ -210,8 +211,8 @@ module bankgroup (
     	.dout       (data1)
     );
     
-    assign  dout = read_valid_0 ? data0 :
-                   read_valid_1 ? data1 :
+    assign  dout = read_valid_0 ? {read_valid_0,data0} :
+                   read_valid_1 ? {read_valid_1,data1} :
                                 'hffffffff; 
     
 endmodule

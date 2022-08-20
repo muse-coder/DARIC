@@ -27,7 +27,7 @@ module address_update (
     
 
 	always @(posedge clk ) begin
-		if(en & (rst | flush)) begin
+		if((rst | flush)) begin
 			rd_addr <= 32'b0;
 			wr_addr <= 32'b0;
 		end
@@ -42,7 +42,7 @@ module address_update (
 
 
 	always @(posedge clk ) begin
-		if(en & (rst | flush)) begin
+		if((rst | flush)) begin
 			count	<= 32'b0;
 		end
 
