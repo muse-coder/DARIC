@@ -4,7 +4,7 @@
 module scratchpad (
 	input	clk,
 	input	rst,
-	input	[11:0]	inst,
+	input	[`SPM_INST-1:0]	inst,
 	input	[`EX_bus-1 :0]	ex_bus,
 	input	[`L_C_bus-1:0]	switch_in_3,
 	input	[`L_C_bus-1:0]	switch_in_2,
@@ -28,10 +28,10 @@ module scratchpad (
 	wire	ex_wen,ex_ren;
 
 	wire	[`A_W-1:0]	sin_0_addr,sin_1_addr,sin_2_addr,sin_3_addr;
-	wire	[`A_W-1:0]	sin_0_data,sin_1_data,sin_2_data,sin_3_data;
+	wire	[31:0]	sin_0_data,sin_1_data,sin_2_data,sin_3_data;
 	wire	sin_0_wen,sin_1_wen,sin_2_wen,sin_3_wen;
 	wire	sin_0_ren,sin_1_ren,sin_2_ren,sin_3_ren;
-	wire	[1:0]	sin_0_fifo_sel,sin_1_fifo_sel,sin_2_fifo_sel,sin_3_fifo_sel;
+	wire	[1:0]	BG_0_fifo_sel,BG_1_fifo_sel,BG_2_fifo_sel,BG_3_fifo_sel;
 	assign	{
 		ex_wen,		//43:43
 		ex_ren,		//42:42
@@ -40,33 +40,27 @@ module scratchpad (
 	}	=	ex_bus;
 
 	assign	{
-		sin_0_fifo_sel, //46:45
-		sin_0_wen,		//44:44
-		sin_0_ren,		//43:43
+		sin_0_wen,		//43:43
+		sin_0_ren,		//42:42
 		sin_0_addr, 	//41:32
 		sin_0_data		//31:0
 	}	=	switch_in_0;
 
 	assign	{
-		// write_sel,		//50:49
-		// read_sel,		//48:47
-		sin_1_fifo_sel, //46:45
-		sin_1_wen,		//44:44
-		sin_1_ren,		//43:43
+		sin_1_wen,		
+		sin_1_ren,		
 		sin_1_addr,
 		sin_1_data
 	}	=	switch_in_1;
 
 	assign	{
-		sin_2_fifo_sel, //46:45
-		sin_2_wen,		//44:44
-		sin_2_ren,		//43:43
+		sin_2_wen,		
+		sin_2_ren,		
 		sin_2_addr,
 		sin_2_data
 	}	=	switch_in_2;
 
 	assign	{
-		sin_3_fifo_sel, //46:45
 		sin_3_wen,		//44:44
 		sin_3_ren,		//43:43
 		sin_3_addr,
@@ -74,12 +68,17 @@ module scratchpad (
 	}	=	switch_in_3;
 
 
-	wire [31:0] BG0_feed_data,BG1_feed_data,BG2_feed_data,BG3_feed_data;
+	wire    [31:0] BG0_feed_data,BG1_feed_data,BG2_feed_data,BG3_feed_data;
+    wire    [1:0] BG0_fifo_sel,BG1_fifo_sel,BG2_fifo_sel,BG3_fifo_sel;
 	assign {
-		BG3_en,//	11:11
-		BG2_en,// 	10:10
-		BG1_en,//  9:9
-		BG0_en,//  8:8
+        BG3_fifo_sel,   //  19:18
+		BG2_fifo_sel,   //  17:16
+		BG1_fifo_sel,   //  15:14
+        BG0_fifo_sel,   //  13:12
+		BG3_en,         //	11:11
+		BG2_en,         // 	10:10
+		BG1_en,         //  9:9
+		BG0_en,         //  8:8
 
 		BG3_sel,//	7:7
 		BG2_sel,// 	6:6
@@ -123,9 +122,9 @@ module scratchpad (
     	.addr		(BG0_addr		),
     	.we			(BG0_wen		),
     	.re			(BG0_ren		),
-		.fifo_sel	(sin_0_fifo_sel	),
+		.fifo_sel	(BG0_fifo_sel	),
     	.flush		(	1'b0			),
-    	.dout		(switch_out_0)
+    	.dout_bus		(switch_out_0)
 	);
 
 	bankgroup	BG1(
@@ -137,9 +136,9 @@ module scratchpad (
     	.addr		(BG1_addr),
     	.we			(BG1_wen),
     	.re			(BG1_ren),
-    	.fifo_sel	(sin_1_fifo_sel	),
+    	.fifo_sel	(BG1_fifo_sel	),
     	.flush		(1'b0),
-    	.dout		(switch_out_1	)
+    	.dout_bus		(switch_out_1	)
 	);
 
 	bankgroup	BG2(
@@ -148,12 +147,12 @@ module scratchpad (
     	.en			(BG2_en 		),		
     	.din		(BG2_feed_data	),
     	.pattern	(BG2_mode		),
-    	.addr		(BG2_addr),
-    	.we			(BG2_wen),
-    	.re			(BG2_ren),
-    	.fifo_sel	(sin_2_fifo_sel	),
+    	.addr		(BG2_addr       ),
+    	.we			(BG2_wen        ),
+    	.re			(BG2_ren        ),
+    	.fifo_sel	(BG2_fifo_sel	),
     	.flush		(1'b0),
-    	.dout		(switch_out_2	)
+    	.dout_bus		(switch_out_2	)
 	);
 
 	bankgroup	BG3(
@@ -163,11 +162,11 @@ module scratchpad (
     	.din		(BG3_feed_data	),
     	.pattern	(BG3_mode		),
     	.addr		(BG3_addr),
-    	.we			(BG1_wen),
-    	.re			(BG1_ren),
-    	.fifo_sel	(sin_3_fifo_sel	),
+    	.we			(BG3_wen),
+    	.re			(BG3_ren),
+    	.fifo_sel	(BG3_fifo_sel	),
     	.flush		(1'b0),
-    	.dout		(switch_out_3	)
+    	.dout_bus		(switch_out_3	)
 	);
 
 endmodule

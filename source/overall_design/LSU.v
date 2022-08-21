@@ -16,7 +16,6 @@ module LSU  (
     );
 
     wire    [31:0]  din;
-    wire    [31:0]  dout;
     wire    [1:0]   pe_sel;
     wire            store_sel;
     wire    ren;
@@ -25,7 +24,8 @@ module LSU  (
     wire    [31:0]  PE_in;
     reg     [31:0]  load_reg;
     reg     [31:0]  store_reg;
-    reg     [`A_W-1:0]  AG;
+    reg     [`A_W-1:0]  R_AG;
+    reg     [`A_W-1:0]  W_AG;
     wire    read_valid;
     assign  {read_valid , din} =  CBG_to_LSU_bus;
     assign  {
@@ -40,35 +40,43 @@ module LSU  (
                     (pe_sel == 2'b01) ? PE_1:
                     (pe_sel == 2'b10) ? PE_2:
                                         PE_3;  
-    reg count;
+
 
 //-------------------read & write request-----------------//
     assign  R_request = {
         ren,
-        AG  //
+        R_AG  //
     };
 
     assign  W_request = {
         w_sel,
         wen,
-        AG,
+        W_AG,
         store_reg
     };
 //--------------address generate------------//
     always @(posedge clk ) begin
-        if(rst)
-            AG <= 'b0;
-        else    begin
-            AG <= AG + 1'b1;
+        if(rst) begin
+            R_AG <= 'b0;
+            W_AG <= 'b0;
+        end
+            
+        else if(ren)   begin
+            R_AG <= R_AG + 1'b1;
+        end
+
+        else if(wen)    begin
+            W_AG <= W_AG + 1'b1;
         end
     end
+
 
 //-------------load data-----------------//
     always @(posedge clk ) begin
         if(rst) begin
             load_reg <= 32'hffffffff;
         end
-        else if(read_valid)
+        else 
             load_reg <= din;
     end
 

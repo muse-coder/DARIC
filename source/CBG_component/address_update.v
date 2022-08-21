@@ -31,13 +31,10 @@ module address_update (
 			rd_addr <= 32'b0;
 			wr_addr <= 32'b0;
 		end
-		else if(re_n) begin
-			rd_addr <= (rd_addr == `F_D - 1'b1) ? 32'b0 : rd_addr + 1'b1; 
-		end
-
-		else if(we_n) begin
-			wr_addr <= (wr_addr == `F_D - 1'b1) ? 32'b0 : wr_addr + 1'b1;
-		end
+		else begin
+            if(re_n)  rd_addr <= (rd_addr == `F_D - 1'b1) ? 32'b0 : rd_addr + 1'b1;   
+            if(we_n)  wr_addr <= (wr_addr == `F_D - 1'b1) ? 32'b0 : wr_addr + 1'b1;
+        end
 	end
 
 

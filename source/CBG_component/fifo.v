@@ -21,12 +21,12 @@ module fifo (
 	wire	[`A_W -1:0]  r_adr;
 	wire	[`A_W -1:0]  w_adr;	
 
-    address_update lut1(
+    address_update ADDR_update(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
 		.en         (en		    ),
-		.we         (we         ),
-		.re         (re         ),
+		.we         (WE         ),
+		.re         (RE         ),
 		.flush      (flush      ),
         .we_n       (we_n	    ),
         .re_n       (re_n	    ),
@@ -34,7 +34,7 @@ module fifo (
 	    .wr_addr    (w_adr)
     );
 
-	part_sel lut2    (
+	part_sel    PART_sel(
 		.WE_N		(we_n	),
 		.RE_N		(re_n	),
 		.R_ADR		(r_adr	),

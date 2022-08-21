@@ -1,7 +1,5 @@
 `include "../param_define.v"
 module part_sel    (
-	input	clk,
-	input	rst,
 	input	WE_N,
 	input	RE_N,
 	input	[`A_W-1:0] R_ADR,
@@ -20,11 +18,6 @@ module part_sel    (
 	wire	[`A_W-2:0] R_A;
 	wire	[`A_W-2:0] W_A;
 	
-//--- write signal  register --------//
-	reg		W_bit_D;
-	reg		[`A_W-2:0] W_A_D;
-	reg		[31:0] DI_D; 	
-	reg		flag;
 //----------------------------------//
 	assign  {R_A,R_bit} = R_ADR;
 	assign  {W_A,W_bit} = W_ADR;

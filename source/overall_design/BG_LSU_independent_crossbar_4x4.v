@@ -31,15 +31,9 @@ module BG_LSU_independent_crossbar_4x4 (
     wire [1:0]   LSU_2_W_sel;
     wire [1:0]   LSU_1_W_sel;
     wire [1:0]   LSU_0_W_sel;
-    wire [1:0]   LSU_3_R_sel;
-    wire [1:0]   LSU_2_R_sel;
-    wire [1:0]   LSU_1_R_sel;
-    wire [1:0]   LSU_0_R_sel;
     
     wire   Ren_0,Ren_1,Ren_2,Ren_3;
     wire   Wen_0,Wen_1,Wen_2,Wen_3;
-    wire   R_mode_0,R_mode_1,R_mode_2,R_mode_3;
-    wire   W_mode_0,W_mode_1,W_mode_2,W_mode_3;
     wire [`A_W-1:0]   R_addr_0,R_addr_1,R_addr_2,R_addr_3;
     wire [`A_W-1:0]   W_addr_0,W_addr_1,W_addr_2,W_addr_3;
     wire    [31:0]     W_data_0,W_data_1,W_data_2,W_data_3;
@@ -96,7 +90,7 @@ module BG_LSU_independent_crossbar_4x4 (
 	wire    BG_0_Ren,BG_1_Ren,BG_2_Ren,BG_3_Ren;
     wire    [`A_W-1:0]  BG_0_W_addr,BG_1_W_addr,BG_2_W_addr,BG_3_W_addr;
     wire    [`A_W-1:0]  BG_0_R_addr,BG_1_R_addr,BG_2_R_addr,BG_3_R_addr;
-    wire    [`A_W-1:0]  BG_0_A,BG_1_A,BG_0_2,BG_3_A;
+    wire    [`A_W-1:0]  BG_0_A,BG_1_A,BG_2_A,BG_3_A;
 
 //--------------------read bus connect--------------//
     assign  {BG_3_Ren , BG_3_R_addr} = {Ren_3 , R_addr_3} ;
@@ -152,7 +146,8 @@ module BG_LSU_independent_crossbar_4x4 (
                                 'b0;
 
     assign BG_0_out = {
-		BG_0_Wen,		//44:44
+		
+        BG_0_Wen,		//44:44
 		BG_0_Ren,		//43:43
 		BG_0_A, 	//41:32
 		BG_0_data		//31:0
@@ -173,8 +168,8 @@ module BG_LSU_independent_crossbar_4x4 (
 	};
     
     assign BG_3_out = {
-		BG_3_Wen,		//44:44
-		BG_3_Ren,		//43:43
+		BG_3_Wen,		//43:43
+		BG_3_Ren,		//42:42
 		BG_3_A, 	//41:32
 		BG_3_data		//31:0
 	};
