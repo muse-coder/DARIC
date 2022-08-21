@@ -97,29 +97,7 @@ module BG_LSU_independent_crossbar_4x4 (
     wire    [`A_W-1:0]  BG_0_W_addr,BG_1_W_addr,BG_2_W_addr,BG_3_W_addr;
     wire    [`A_W-1:0]  BG_0_R_addr,BG_1_R_addr,BG_2_R_addr,BG_3_R_addr;
     wire    [`A_W-1:0]  BG_0_A,BG_1_A,BG_0_2,BG_3_A;
-    // assign  {BG_0_Ren , BG_0_R_addr}   =  (LSU_0_R_sel == 2'b00) ? {Ren_0 , R_addr_0} :
-    //                                     (LSU_1_R_sel == 2'b00) ? {Ren_1 , R_addr_1} :
-    //                                     (LSU_2_R_sel == 2'b00) ? {Ren_2 , R_addr_2} :
-    //                                     (LSU_3_R_sel == 2'b00) ? {Ren_3 , R_addr_3} :
-    //                                                             'b0;    
-    
-    // assign  {BG_1_Ren , BG_1_R_addr}   =  (LSU_0_R_sel == 2'b01) ? {Ren_0 , R_addr_0} :
-    //                                     (LSU_1_R_sel == 2'b01) ? {Ren_1 , R_addr_1} :
-    //                                     (LSU_2_R_sel == 2'b01) ? {Ren_2 , R_addr_2} :
-    //                                     (LSU_3_R_sel == 2'b01) ? {Ren_3 , R_addr_3} :
-    //                                                             'b0;    
-       
-    // assign  {BG_2_Ren , BG_2_R_addr}   =  (LSU_0_R_sel == 2'b10) ? {Ren_0 , R_addr_0} :
-    //                                     (LSU_1_R_sel == 2'b10) ? {Ren_1 , R_addr_1} :
-    //                                     (LSU_2_R_sel == 2'b10) ? {Ren_2 , R_addr_2} :
-    //                                     (LSU_3_R_sel == 2'b10) ? {Ren_3 , R_addr_3} :
-    //                                                             'b0;    
-     
-    // assign  {BG_3_Ren , BG_3_R_addr}   =  (LSU_0_R_sel == 2'b11) ? {Ren_0 , R_addr_0} :
-    //                                     (LSU_1_R_sel == 2'b11) ? {Ren_1 , R_addr_1} :
-    //                                     (LSU_2_R_sel == 2'b11) ? {Ren_2 , R_addr_2} :
-    //                                     (LSU_3_R_sel == 2'b11) ? {Ren_3 , R_addr_3} :
-    //                                                             'b0;    
+
 //--------------------read bus connect--------------//
     assign  {BG_3_Ren , BG_3_R_addr} = {Ren_3 , R_addr_3} ;
     assign  {BG_2_Ren , BG_2_R_addr} = {Ren_2 , R_addr_2} ;

@@ -45,7 +45,7 @@ module LSU  (
 //-------------------read & write request-----------------//
     assign  R_request = {
         ren,
-        AG
+        AG  //
     };
 
     assign  W_request = {

@@ -7,33 +7,36 @@ module testbench (
     parameter cycle = 10;
     reg clk;
     reg rst;
-    reg [31:0]  ex_data;
-    reg ex_wen,ex_ren;
-    reg [`A_W-1:0]  ex_addr;
+
+//-----------Host_controller--------//
+    wire    [`H_C_W -1  :0]     Host_Config;
+
+// -----------LSU_INST-----------//
+    
+    reg    ren,wen,store_sel;
+    reg    [1:0]   w_sel,pe_sel;
+    wire   [`L_I_W-1  :0]  LSU_inst;
+    assign LSU_inst = {
+        ren,      //6:6
+        wen,      //5:5
+        w_sel,    //4:3
+        pe_sel,   //2:1
+        store_sel //0:0
+    };
+
+// ------------end-----------//
+
+// ---------------SPM----------------//
 	reg 	BG0_sel,BG1_sel,BG2_sel,BG3_sel;
 	reg 	BG0_mode,BG1_mode,BG2_mode,BG3_mode;
 	reg 	BG0_en,BG1_en,BG2_en,BG3_en;
     wire    [11:0]  SPM_inst;
-	wire	[`EX_bus-1 :0]	ex_bus;
-
-    reg     [1:0]   BG3_switch;
-    reg     [1:0]   BG2_switch;
-    reg     [1:0]   BG1_switch;
-    reg     [1:0]   BG0_switch;
-    wire    [7:0]   cross_4x4_switch;
-    assign  cross_4x4_switch = {
-        BG3_switch,//7:6
-        BG2_switch,//5:4
-        BG1_switch,//3:2
-        BG0_switch//1:0
-    };
-
-
+    
     assign SPM_inst  =  {
 		BG3_en,//	11:11
 		BG2_en,// 	10:10
-		BG1_en,//  9:9
-		BG0_en,//  8:8
+		BG1_en,//   9:9
+		BG0_en,//   8:8
 
 		BG3_sel,//	7:7
 		BG2_sel,// 	6:6
@@ -45,6 +48,14 @@ module testbench (
 		BG1_mode,//	1:1
 		BG0_mode//	0:0
 	} ;
+//-----------------end--------------//
+
+//---------ex_bus-----------//
+    reg [31:0]  ex_data;
+    reg ex_wen,ex_ren;
+    reg [`A_W-1:0]  ex_addr;
+
+	wire	[`EX_bus-1 :0]	ex_bus;
 
 	assign	ex_bus  =  {
 		ex_wen,
@@ -52,49 +63,51 @@ module testbench (
 		ex_addr,	//41:32
 		ex_data		//31:0
 	}	;    
-
+// ---------end-----------//
 
     always  #(cycle/2)  clk = ~ clk;
     integer i;
     initial begin
         clk = 1'b1;
         rst = 1'b1;
-        BG3_en    = 1'b0;//	11:11
-		BG2_en    = 1'b0;// 	10:10
-		BG1_en    = 1'b0;//  9:9
-		BG0_en    = 1'b0;//  8:8
-		BG3_sel   = 1'b1;//	7:7
-		BG2_sel   = 1'b1;// 	6:6
-		BG1_sel   = 1'b1;//  5:5
-		BG0_sel   = 1'b1;//  4:4
-		BG3_mode  = 1'b0    ;// 3:3
-		BG2_mode  = 1'b0    ;//	2:2
-		BG1_mode  = 1'b0    ;//	1:1
-		BG0_mode  = 1'b0    ;//	0:0
+        BG3_en  =  1'b0 ;   BG3_sel  =  1'b0 ;    BG3_mode  =  1'b0 ; 
+	    BG2_en  =  1'b0 ;   BG2_sel  =  1'b0 ;    BG2_mode  =  1'b0 ; 
+	    BG1_en  =  1'b0 ;   BG1_sel  =  1'b0 ;    BG1_mode  =  1'b0 ; 
+	    BG0_en  =  1'b0 ;   BG0_sel  =  1'b0 ;    BG0_mode  =  1'b0 ; 
+        ex_wen  =  'b0;  ren      ='b0 ; 
+	    ex_ren  =  'b0;  wen      ='b0 ; 
+	    ex_addr =  'b0;  w_sel    ='b0 ;
+	    ex_data =  'b1;  pe_sel   ='b0 ;  
+                        store_sel='b0 ;  
 
-        BG3_switch = 2'b11  ;  //7:6
-        BG2_switch = 2'b10  ; //5:4
-        BG1_switch = 2'b01  ; //3:2
-        BG0_switch = 2'b00  ;   //1:0
-    
-   		ex_wen    = 1'b0    ;
-		ex_ren    = 1'b0    ;
-		ex_addr   = 10'b0   ;	//41:32
-		ex_data   = 32'b0   ;   //31:0
-        
-    #50 BG0_en      = 1'b1;
-        BG0_sel     = 1'b0;
-        BG0_mode    = 1'b0;
-        ex_wen      =1'b1;
-        rst         =1'b0;
-		ex_addr   = 10'b0   ;	//41:32
-		ex_data   = 32'b1   ;  		//31:0
-
-        for ( i=0 ;i<=10 ;i=i+1 ) begin
-    		#10 ex_addr   = 10'b1 +i   ;	//41:32
-    		    ex_data   = 32'b1 +i   ;  		//31:0
+    #40 BG0_en      =   1'b1;
+        ex_wen      =   1'b1;
+        for ( i=1 ;i<=10 ;i=i+1 ) begin
+    		#10 ex_addr   <= 'b0 +i   ;	//41:32
+    		    ex_data   <= 'b1 +i   ;  		//31:0
         end
     end
+
+    assign  Host_Config ={
+        SPM_inst  ,
+        ex_bus    ,
+        LSU_inst  
+    } ;
+    
+    wire    [`SPM_INST-1:0]   SPM_inst_valid ;
+    wire    [`EX_bus-1  :0]	  ex_bus_valid   ;
+    wire    [`L_I_W-1   :0]   LSU_inst_valid ;
+
+
+    Host_Controller hconf(
+        .clk                (clk            ),
+        .rst                (rst            ),
+        .Host_Config        (Host_Config    ),
+        .SPM_inst           (SPM_inst_valid ),
+        .ex_bus             (ex_bus_valid   ),
+        .LSU_inst           (LSU_inst_valid )
+    );
+
 
     wire    [`L_C_bus-1:0]      crossbar_BG3_out ;
     wire    [`L_C_bus-1:0]      crossbar_BG2_out ;
@@ -115,13 +128,11 @@ module testbench (
     wire    [`C_L_bus-1:0]      crossbar_LSU1_out;
     wire    [`C_L_bus-1:0]      crossbar_LSU0_out;
 
-
-
     scratchpad  s(
         .rst            (rst                ),
         .clk            (clk                ),
-        .inst           (SPM_inst           ),
-        .ex_bus         (ex_bus             ),
+        .inst           (SPM_inst_valid     ),
+        .ex_bus         (ex_bus_valid       ),
         .switch_in_3    (crossbar_BG3_out   ),
         .switch_in_2    (crossbar_BG2_out   ),
         .switch_in_1    (crossbar_BG1_out   ),
@@ -150,7 +161,7 @@ module testbench (
     LSU lsu0(
         .clk                (clk                ),
         .rst                (rst                ),
-        .LSU_inst           (                   ),
+        .LSU_inst           (LSU_inst_valid     ),
         .PE_0               (                   ),
         .PE_1               (                   ),
         .PE_2               (                   ),
