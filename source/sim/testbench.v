@@ -105,6 +105,9 @@ module testbench (
 	}	;    
 // ---------end-----------//
 
+//---------------PE_INST----------------//
+
+
     always  #(cycle/2)  clk = ~ clk;
     integer i;
     initial begin
@@ -126,11 +129,11 @@ module testbench (
         LSU_0_store_sel='b1 ;   LSU_1_store_sel='b1 ;   LSU_2_store_sel='b1 ;   LSU_3_store_sel='b1 ;
           
                            
-//--------向BG0写入10个数据-----------------//
+//--------向BG0写入20个数据-----------------//
     #40 rst = 1'b0;
         BG0_en      =   1'b1;
         ex_wen      =   1'b1;
-        for ( i=1 ;i<=10 ;i=i+1 ) begin
+        for ( i=1 ;i<=20 ;i=i+1 ) begin
     		#10 ex_addr   <= 'b0 +i   ;	//41:32
     		    ex_data   <= 'b1 +i   ;  		//31:0
         end
@@ -147,6 +150,8 @@ module testbench (
          BG1_sel     =   1'b1   ;  
          LSU_0_w_sel =   2'b01  ;
          LSU_0_wen   =   1'b1   ;
+//  LSU0向PE0写入load数据至R0
+    
 //  LSU0停止写FIFO   LSU1开始读BG1的FIFO0 且将读出的数据写入到BG2的FIFO0         
     #100 LSU_0_wen   =   1'b0   ;
          LSU_1_ren   =   1'b1   ;

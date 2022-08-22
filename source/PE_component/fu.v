@@ -18,23 +18,23 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "../param_define.v"
 
 module fu(
         input   [31:0]      a,
         input   [31:0]      b,
-        input   [4:0]       fu_opcode,
+        input   [`FU-1:0]       fu_opcode,
         output  reg [31:0]  fu_result//reg??????
     );
-    parameter ADD   =   5'd0 ;
-    parameter SUB   =   5'd1 ;
-    parameter MULT  =   5'd2 ;
-    parameter SLL   =   5'd3 ;
-    parameter SRL   =   5'd4 ;
-    parameter AND   =   5'd5 ;
-    parameter OR    =   5'd6 ;
-    parameter NOT   =   5'd7 ;
-    parameter XOR   =   5'd8 ;
+    parameter ADD   =   4'd0 ;
+    parameter SUB   =   4'd1 ;
+    parameter MULT  =   4'd2 ;
+    parameter SLL   =   4'd3 ;
+    parameter SRL   =   4'd4 ;
+    parameter AND   =   4'd5 ;
+    parameter OR    =   4'd6 ;
+    parameter NOT   =   4'd7 ;
+    parameter XOR   =   4'd8 ;
     // parameter ADDI  =   5'd9 ;
     // parameter SUBI  =   5'd10;
     always @(*) begin

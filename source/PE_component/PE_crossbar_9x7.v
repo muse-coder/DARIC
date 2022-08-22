@@ -1,3 +1,5 @@
+`include "../param_define.v"
+
 module PE_crossbar_9x7 (
     input   [31:0]  din_N,
     input   [31:0]  din_S,
@@ -8,7 +10,7 @@ module PE_crossbar_9x7 (
     input   [31:0]  din_R2,
     input   [31:0]  din_R3,
     input   [31:0]  fu_res,
-    input   [27:0]  switch,
+    input   [`PE_9x7-1:0]  switch,
     output  reg [31:0]  operand_A,  
     output  reg [31:0]  operand_B,
     output  reg [31:0]  dout_N,

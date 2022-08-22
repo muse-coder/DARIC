@@ -4,10 +4,10 @@
 module PE(
     input   clk,
     input   rst,
-    input   [`PE_I_W -1:0]  inst,
+    input   [`PE_inst-1:0]  inst,
     input   [31:0]  din_N,//上
     input   [31:0]  din_S,//下
-    input   [31:0]  din_W,//左
+    input   [31:0]  din_W,//左 
     input   [31:0]  din_E,//右
     input   [31:0]  din_LSU,
     output  [31:0]  dout_N,
@@ -22,28 +22,23 @@ module PE(
     wire    [31:0]  din_W_tmp;
     wire    [31:0]  din_E_tmp;
 
-    wire    [31:0]  dout_N_tmp;
-    wire    [31:0]  dout_S_tmp;
-    wire    [31:0]  dout_W_tmp;
-    wire    [31:0]  dout_E_tmp;
-
     wire    [31:0]  dout_R0_tmp;
     wire    [31:0]  dout_R1_tmp;
     wire    [31:0]  dout_R2_tmp;
     wire    [31:0]  dout_R3_tmp;
     
     wire    [3:0]   reg_file_sel;
-    wire    [4:0]   fu_opcode;
-    wire    [11:0]   switch_5x4;
-    wire    [23:0]  switch_9x6;
+    wire    [`FU-1:0]   fu_opcode;
+    wire    [`PE_5x4-1:0]   switch_5x4;
+    wire    [`PE_9x7-1:0]  switch_9x7;
     reg     [31:0]  res;
     wire    [31:0]  OP_A; 
     wire    [31:0]  OP_B;   
     wire    [31:0]  fu_result;
 
     assign  {
-        fu_opcode,   // 44:40  5bit
-        switch_9x6,  // 39:16  24 bit
+        fu_opcode,   // 47:44  4bit
+        switch_9x7,  // 43:16  28 bit
         switch_5x4,  // 15:4   12 bit
         reg_file_sel // 3:0    4 bit
     }   = inst;
@@ -74,24 +69,21 @@ module PE(
         .dout_R0        (dout_R0_tmp    ),
         .dout_R1        (dout_R1_tmp    ),
         .dout_R2        (dout_R2_tmp    ),
-        .dout_R3        (dout_R3_tmp    ),    
-        .dout_N         (dout_N_tmp     ),
-        .dout_S         (dout_S_tmp     ),
-        .dout_W         (dout_W_tmp     ),
-        .dout_E         (dout_E_tmp     )
+        .dout_R3        (dout_R3_tmp    )    
     );
 
 
     PE_crossbar_9x7 PE_crossbar_9x7_inst(
-        .din_N          (dout_N_tmp       ),
-        .din_S          (dout_S_tmp       ),
-        .din_W          (dout_W_tmp       ),
-        .din_E          (dout_E_tmp       ),
+        .din_N          (din_N_tmp        ),
+        .din_S          (din_S_tmp        ),
+        .din_W          (din_W_tmp        ),
+        .din_E          (din_E_tmp        ),
         .din_R0         (dout_R0_tmp      ),
         .din_R1         (dout_R1_tmp      ),
         .din_R2         (dout_R2_tmp      ),
         .din_R3         (dout_R3_tmp      ),
-        .switch         (switch_9x6       ),
+        .fu_res         (fu_result        ),
+        .switch         (switch_9x7       ),
         .operand_A      (OP_A             ),  
         .operand_B      (OP_B             ),
         .dout_N         (dout_N           ),
