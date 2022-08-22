@@ -1,25 +1,15 @@
 `include "../param_define.v"
 `timescale 1ns / 1ps
 
-module testbench2 (
+module test_PE_4 (
 
 );
     parameter cycle = 10;
     reg clk;
     reg rst;
 
-// -----------LSU_INST-----------//
-    wire   [`L_I_W-1  :0]  LSU_0_inst;
-    wire   [`L_I_W-1  :0]  LSU_1_inst;
-    wire   [`L_I_W-1  :0]  LSU_2_inst;
-    wire   [`L_I_W-1  :0]  LSU_3_inst;
-    
-
-
-// ------------end-----------//
-
 //---------------PE_INST----------------//
-    wire   [`PE_inst -1:0]    PE_0_inst;
+    wire   [`PE_inst -1:0]    PE_4_inst;
     wire    [3:0]              reg_file_sel;
     reg    [`FU-1:0]          fu_opcode;
     wire   [`PE_5x4  -1:0]    switch_5x4;
@@ -43,16 +33,16 @@ module testbench2 (
     wire   [31:0]               din_S;
     wire   [31:0]               din_W;
     wire   [31:0]               din_E;
-    reg   [31:0]                din_N_r;
-    reg   [31:0]                din_S_r;
-    reg   [31:0]                din_W_r;
-    reg   [31:0]                din_E_r;
+    reg    [31:0]                din_N_r;
+    reg    [31:0]                din_S_r;
+    reg    [31:0]                din_W_r;
+    reg    [31:0]                din_E_r;
     
-    wire   [31:0]               PE_0_dout_N  ;
-    wire   [31:0]               PE_0_dout_S  ;
-    wire   [31:0]               PE_0_dout_W  ;
-    wire   [31:0]               PE_0_dout_E  ;
-    
+    wire   [31:0]               PE_4_dout_N  ;
+    wire   [31:0]               PE_4_dout_S  ;
+    wire   [31:0]               PE_4_dout_W  ;
+    wire   [31:0]               PE_4_dout_E  ;
+    wire   [31:0]               PE_4_dout_LSU;
     assign      din_N = din_N_r;
     assign      din_S = din_S_r;
     assign      din_W = din_W_r;
@@ -67,7 +57,7 @@ module testbench2 (
         _9x7_dout_E_sel      //3:0
     } ;
 
-    assign PE_0_inst =  {
+    assign PE_4_inst =  {
         fu_opcode,   // 47:44  4bit
         switch_9x7,  // 43:16  28 bit
         switch_5x4,  // 15:4   12 bit
@@ -95,47 +85,47 @@ module testbench2 (
     initial begin
         clk = 1'b1;
         rst = 1'b1;
-// -----LSUdata=5进入R0 , din_S=8进入R3 进行加法  res输出dout_S=13 R3输出dout_E=8
+// -----LSUdata=9进入R0 , din_E=8进入R3 ,din_N=5与R3进行加法  res输出dout_S=13 dout_N输出R0  dout_LSU输出R3
+    //inst 值 07074807883f  [`PE_inst -1:0] 48bit
         #30 rst = 1'b0;
         fu_opcode           =  'd0; 
         _5x4_dout_N_sel     =  'd4;
-        _5x4_dout_S_sel     =  'd3;
-        _5x4_dout_W_sel     =  'd3;
-        _5x4_dout_E_sel     =  'd1;
-        R0_sel              =  'd1; //3:3
-        R1_sel              =  'd1; //2:2
-        R2_sel              =  'd1; //1:1
-        R3_sel              =  'd1;
-        din_N_r             =  'd7;
-        din_S_r             =  'd8;
-        din_W_r             =  'd9;
-        din_E_r             =  'd4;
+        R0_sel              =  'd1;
+        _5x4_dout_S_sel     =  'd2;
+        _5x4_dout_W_sel     =  'd0;
+        _5x4_dout_E_sel     =  'd3; 
+        R3_sel              =  'd1; 
+        R1_sel              =  'd1; 
+        R2_sel              =  'd1;
+        din_N_r             =  'd5;
+        din_S_r             =  'd6;
+        din_W_r             =  'd7;
+        din_E_r             =  'd8;
 
-        _9x7_dout_LSU_sel   = 'd0;
-        _9x7_op_A_sel       = 'd4;
+        _9x7_dout_LSU_sel   = 'd7;
+        _9x7_op_A_sel       = 'd0;
         _9x7_op_B_sel       = 'd7; 
-        _9x7_dout_N_sel     = 'd0;  
+        _9x7_dout_N_sel     = 'd4;  
         _9x7_dout_S_sel     = 'd8; 
         _9x7_dout_W_sel     = 'd0;
         _9x7_dout_E_sel     = 'd7;
-        LSU_data            = 32'd5;
-        
+        LSU_data            = 32'd9;
     end
 
     PE  pe_0(
         .clk            (clk            ),
         .rst            (rst            ),
-        .inst           (PE_0_inst      ),
+        .inst           (PE_4_inst      ),
         .din_N          (din_N          ),//上
         .din_S          (din_S          ),//下
         .din_W          (din_W          ),//左 
         .din_E          (din_E          ),//右
         .din_LSU        (LSU_data       ),
-        .dout_N         (PE_0_dout_N    ),
-        .dout_S         (PE_0_dout_S    ),
-        .dout_W         (PE_0_dout_W    ),
-        .dout_E         (PE_0_dout_E    ),
-        .dout_LSU       (               )
+        .dout_N         (PE_4_dout_N    ),
+        .dout_S         (PE_4_dout_S    ),
+        .dout_W         (PE_4_dout_W    ),
+        .dout_E         (PE_4_dout_E    ),
+        .dout_LSU       (PE_4_dout_LSU  )
     );
 
 endmodule

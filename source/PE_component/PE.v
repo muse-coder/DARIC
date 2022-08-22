@@ -74,10 +74,10 @@ module PE(
 
 
     PE_crossbar_9x7 PE_crossbar_9x7_inst(
-        .din_N          (din_N_tmp        ),
-        .din_S          (din_S_tmp        ),
-        .din_W          (din_W_tmp        ),
-        .din_E          (din_E_tmp        ),
+        .din_N          (din_N            ),
+        .din_S          (din_S            ),
+        .din_W          (din_W            ),
+        .din_E          (din_E            ),
         .din_R0         (dout_R0_tmp      ),
         .din_R1         (dout_R1_tmp      ),
         .din_R2         (dout_R2_tmp      ),
@@ -103,6 +103,7 @@ module PE(
     always @(posedge clk ) begin
         if(rst) begin
             //待定
+            res <= 'b0;
         end
         else begin
             res <= fu_result;
