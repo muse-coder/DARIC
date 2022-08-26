@@ -147,58 +147,58 @@ module scratchpad (
 	assign	BG0_ren	  =  BG0_sel ?	sin_0_ren	:	ex_ren	;
 
 	bankgroup	BG0(
-    	.clk		(clk			),
-    	.rst		(rst			),
-    	.en			(BG0_en 		),		
-    	.din		(BG0_feed_data	),
-    	.pattern	(BG0_mode		),
-    	.addr		(BG0_addr		),
-    	.we			(BG0_wen		),
-    	.re			(BG0_ren		),
-		.fifo_sel	(BG0_fifo_sel	),
-    	.flush		(	1'b0			),
+    	.clk		    (clk			),
+    	.rst		    (rst			),
+    	.en_i			(BG0_en 		),		
+    	.din_i		    (BG0_feed_data	),
+    	.pattern_i	    (BG0_mode		),
+    	.addr_i		    (BG0_addr		),
+    	.we_i			(BG0_wen		),
+    	.re_i			(BG0_ren		),
+		.fifo_sel_i	    (BG0_fifo_sel	),
+    	.flush_i		(	1'b0			),
     	.dout_bus		(switch_out_0)
 	);
 
 	bankgroup	BG1(
-    	.clk		(clk			),
-    	.rst		(rst			),
-    	.en			(BG1_en 		),		
-    	.din		(BG1_feed_data	),
-    	.pattern	(BG1_mode		),
-    	.addr		(BG1_addr),
-    	.we			(BG1_wen),
-    	.re			(BG1_ren),
-    	.fifo_sel	(BG1_fifo_sel	),
-    	.flush		(1'b0),
+    	.clk		    (clk			),
+    	.rst		    (rst			),
+    	.en_i			(BG1_en 		),		
+    	.din_i		    (BG1_feed_data	),
+    	.pattern_i	    (BG1_mode		),
+    	.addr_i		    (BG1_addr),
+    	.we_i			(BG1_wen),
+    	.re_i			(BG1_ren),
+    	.fifo_sel_i	    (BG1_fifo_sel	),
+    	.flush_i		(1'b0),
     	.dout_bus		(switch_out_1	)
 	);
 
 	bankgroup	BG2(
-    	.clk		(clk			),
-    	.rst		(rst			),
-    	.en			(BG2_en 		),		
-    	.din		(BG2_feed_data	),
-    	.pattern	(BG2_mode		),
-    	.addr		(BG2_addr       ),
-    	.we			(BG2_wen        ),
-    	.re			(BG2_ren        ),
-    	.fifo_sel	(BG2_fifo_sel	),
-    	.flush		(1'b0),
+    	.clk		    (clk			),
+    	.rst		    (rst			),
+    	.en_i			(BG2_en 		),		
+    	.din_i		    (BG2_feed_data	),
+    	.pattern_i	    (BG2_mode		),
+    	.addr_i		    (BG2_addr       ),
+    	.we_i			(BG2_wen        ),
+    	.re_i			(BG2_ren        ),
+    	.fifo_sel_i	    (BG2_fifo_sel	),
+    	.flush_i		(1'b0),
     	.dout_bus		(switch_out_2	)
 	);
 
 	bankgroup	BG3(
-    	.clk		(clk			),
-    	.rst		(rst			),
-    	.en			(BG3_en 		),		
-    	.din		(BG3_feed_data	),
-    	.pattern	(BG3_mode		),
-    	.addr		(BG3_addr),
-    	.we			(BG3_wen),
-    	.re			(BG3_ren),
-    	.fifo_sel	(BG3_fifo_sel	),
-    	.flush		(1'b0),
+    	.clk		    (clk			),
+    	.rst		    (rst			),
+    	.en_i			(BG3_en 		),		
+    	.din_i		    (BG3_feed_data	),
+    	.pattern_i	    (BG3_mode		),
+    	.addr_i		    (BG3_addr),
+    	.we_i			(BG3_wen),
+    	.re_i			(BG3_ren),
+    	.fifo_sel_i	    (BG3_fifo_sel	),
+    	.flush_i		(1'b0),
     	.dout_bus		(switch_out_3	)
 	);
 

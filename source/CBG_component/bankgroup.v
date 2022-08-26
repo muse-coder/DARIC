@@ -1,17 +1,17 @@
 `include "../param_define.v"
 
 module bankgroup (
-    input               clk,
-    input               rst,
-    input               en_i,
-    input   [31:0]      din_i,
-    input               pattern_i,//0：随机访存  // 1：FIFO模式
+    input                    clk,
+    input                    rst,
+    input                    en_i,
+    input   [31:0]           din_i,
+    input                    pattern_i,//0：随机访存  // 1：FIFO模式
     input   [`A_W-1:0]       addr_i,
-    input               we_i,
-    input               re_i,
-    input   [1:0]       fifo_sel_i,
-    input               flush_i,
-    output  [`C_L_bus-1:0]      dout_bus
+    input                    we_i,
+    input                    re_i,
+    input   [1:0]            fifo_sel_i,
+    input                    flush_i,
+    output  [`C_L_bus-1:0]   dout_bus
 );
     wire    ram_sel;
     wire    [`A_W-2:0]    random_addr;

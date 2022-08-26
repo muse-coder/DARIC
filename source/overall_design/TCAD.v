@@ -6,7 +6,7 @@ module TCAD (
     input   init    ,
     input   run     ,
     input   [`H_C_W-1:0]    host_controller,
-    input   [31:0]          external_memory
+	input	[`EX_bus-1 :0]	ex_bus
 );
 
     wire    [`Array     -1:0]   pe_config;
@@ -50,7 +50,7 @@ module TCAD (
 	    .inst               (scr_config         ),
         .init               (init               ),
         .run                (run                ),
-	    .external_memory    (external_memory    ),
+	    .ex_bus             (ex_bus             ),
 	    .switch_in_3        (L_to_C_bus_3       ),
 	    .switch_in_2        (L_to_C_bus_2       ),
 	    .switch_in_1        (L_to_C_bus_1       ),
