@@ -3,29 +3,47 @@
 module bankgroup (
     input               clk,
     input               rst,
-    input               en,
-    input   [31:0]      din,
-    input               pattern,//0：随机访存  // 1：FIFO模式
-    input   [9:0]       addr,
-    input               we,
-    input               re,
-    input   [1:0]       fifo_sel,
-    input               flush,
+    input               en_i,
+    input   [31:0]      din_i,
+    input               pattern_i,//0：随机访存  // 1：FIFO模式
+    input   [`A_W-1:0]       addr_i,
+    input               we_i,
+    input               re_i,
+    input   [1:0]       fifo_sel_i,
+    input               flush_i,
     output  [`C_L_bus-1:0]      dout_bus
 );
-    wire    [`A_W-2:0]    random_addr;
     wire    ram_sel;
-
+    wire    [`A_W-2:0]    random_addr;
+    
     parameter    fifo_0_start = 32'b0;
     parameter    fifo_1_start = 32'b0 + `F_D >> 1;
     parameter    fifo_2_start = 32'b0 + `F_D  ;
     parameter    random_start = fifo_2_start + (`F_D >> 1)  ;
 
+
+//-----------输入数据 控制信号 和地址暂存一拍  缓解关键路径延迟------------//
+    reg   [31       :0]     din;
+    reg   [`A_W-1   :0]     addr;
+    reg   [1        :0]     fifo_sel;
+    reg   en;
+    reg   pattern;//0：随机访存  // 1：FIFO模式
+    reg   we;
+    reg   re;
+    reg   flush;
+       
+    always @(posedge clk ) begin
+        if(rst)
+            {en , pattern , we , re , flush , din , addr , fifo_sel } <='b0;
+        else
+            {en , pattern , we , re , flush , din , addr , fifo_sel} <=     
+            {en_i , pattern_i , we_i , re_i , flush_i , din_i , addr_i , fifo_sel_i };
+    end
+//------------------end---------------------------//
     assign  {
         random_addr,//9:1
         ram_sel     //0:0
     }   = addr ;
-    
 // ---------模式选择---------------//
     wire    fifo_0_en;
     wire    fifo_1_en;

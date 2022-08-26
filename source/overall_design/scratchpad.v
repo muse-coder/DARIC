@@ -5,6 +5,8 @@ module scratchpad (
 	input	clk,
 	input	rst,
 	input	[`SPM_INST-1:0]	inst,
+    input   init,
+    input   run,
 	input	[`EX_bus-1 :0]	ex_bus,
 	input	[`L_C_bus-1:0]	switch_in_3,
 	input	[`L_C_bus-1:0]	switch_in_2,
@@ -41,31 +43,60 @@ module scratchpad (
 
 	assign	{
 		sin_0_wen,		//43:43
-		sin_0_ren,		//42:42
-		sin_0_addr, 	//41:32
-		sin_0_data		//31:0
+		sin_0_data,	
+        sin_0_ren,		//42:42
+		sin_0_addr	//31:0
 	}	=	switch_in_0;
 
 	assign	{
-		sin_1_wen,		
-		sin_1_ren,		
-		sin_1_addr,
-		sin_1_data
+		sin_1_wen,		//43:43
+		sin_1_data,	
+        sin_1_ren,		//42:42
+		sin_1_addr
 	}	=	switch_in_1;
 
 	assign	{
-		sin_2_wen,		
-		sin_2_ren,		
-		sin_2_addr,
-		sin_2_data
+		sin_2_wen,		//43:43
+		sin_2_data,	
+        sin_2_ren,		//42:42
+		sin_2_addr
 	}	=	switch_in_2;
 
 	assign	{
-		sin_3_wen,		//44:44
-		sin_3_ren,		//43:43
-		sin_3_addr,
-		sin_3_data
+		sin_3_wen,		//43:43
+		sin_3_data,	
+        sin_3_ren,		//42:42
+		sin_3_addr
 	}	=	switch_in_3;
+
+//------------configuration buffer-------------//
+    reg     [`SPM_INST-1:0]    config_buffer [31:0]  ;
+    reg     [31:0]  init_count;
+    reg     [31:0]  run_count;
+    integer i = 0;
+//-------------初始化-------------------//
+    always @(posedge clk ) begin
+        if(rst) begin
+            init_count  <=  'b0;
+            for (i = 0; i <32 ; i = i + 1) begin
+                config_buffer[i] <='b0;
+            end
+        end
+        else if(init) begin
+            config_buffer[init_count] <= inst;
+            init_count <= init_count +1'b1;
+        end
+    end
+//------------------运行时---------------//
+    always @(posedge clk ) begin
+        if(rst) begin
+            run_count   <=  'b0;
+        end
+        else if(run) begin
+            run_count <= run_count +1'b1;
+        end
+    end
+//-----------------end-----------------//
 
 
 	wire    [31:0] BG0_feed_data,BG1_feed_data,BG2_feed_data,BG3_feed_data;
@@ -90,6 +121,9 @@ module scratchpad (
 		BG1_mode,//	1:1
 		BG0_mode//	0:0
 	} = inst;
+
+    
+
 
 	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data ;
 	assign	BG2_feed_data = BG2_sel ? sin_2_data :	ex_data ;

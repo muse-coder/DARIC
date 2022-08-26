@@ -4,7 +4,9 @@
 module PE(
     input   clk,
     input   rst,
-    input   [`PE_inst-1:0]  inst,
+    input   [`PE_inst-1:0]  PE_inst,
+    input   init,
+    input   run,
     input   [31:0]  din_N,//上
     input   [31:0]  din_S,//下
     input   [31:0]  din_W,//左 
@@ -36,12 +38,43 @@ module PE(
     wire    [31:0]  OP_B;   
     wire    [31:0]  fu_result;
 
+
+//------------configuration buffer-------------//
+    reg     [`PE_inst-1:0]    config_buffer [31:0]  ;
+    reg     [31:0]  init_count;
+    reg     [31:0]  run_count;
+    integer i = 0;
+//-------------初始化-------------------//
+    always @(posedge clk ) begin
+        if(rst) begin
+            init_count  <=  'b0;
+            for (i = 0; i <32 ; i = i + 1) begin
+                config_buffer[i] <='b0;
+            end
+        end
+        else if(init) begin
+            config_buffer[init_count] <= PE_inst;
+            init_count <= init_count +1'b1;
+        end
+    end
+//------------------运行时---------------//
+    always @(posedge clk ) begin
+        if(rst) begin
+            run_count   <=  'b0;
+        end
+        else if(run) begin
+            run_count <= run_count +1'b1;
+        end
+    end
+//-----------------end-----------------//
     assign  {
         fu_opcode,   // 47:44  4bit
         switch_9x7,  // 43:16  28 bit
         switch_5x4,  // 15:4   12 bit
         reg_file_sel // 3:0    4 bit
-    }   = inst;
+    }   = config_buffer[run_count];
+
+
 
     PE_crossbar_5x4 PE_crossbar_5x4_inst(
         .din_N      (din_N      ),
@@ -82,7 +115,7 @@ module PE(
         .din_R1         (dout_R1_tmp      ),
         .din_R2         (dout_R2_tmp      ),
         .din_R3         (dout_R3_tmp      ),
-        .fu_res         (fu_result        ),
+        .fu_res         (res              ),
         .switch         (switch_9x7       ),
         .operand_A      (OP_A             ),  
         .operand_B      (OP_B             ),

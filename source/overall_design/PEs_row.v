@@ -12,7 +12,7 @@ module PE_row (
     input   [31:0]  pe_1_Sin,
     input   [31:0]  pe_2_Sin,
     
-    input   [`Config_W  -1:0   ]  config_buffer,
+    input   [`Config_W  -1:0   ]  config_buffer ,
     input   [`C_L_bus   -1:0   ]  CBG_to_LSU_bus,
     
     output  [`L_C_bus   -1:0   ]  LSU_to_CBG_bus,
@@ -23,7 +23,10 @@ module PE_row (
 
     output  [31:0]  PE_0_Sout,
     output  [31:0]  PE_1_Sout,
-    output  [31:0]  PE_2_Sout
+    output  [31:0]  PE_2_Sout,
+
+    output  [`R_Q-1    :0]  R_request,
+    output  [`W_Q-1    :0]  W_request 
 
 );
 //-----------------end-------------------//
@@ -70,23 +73,30 @@ module PE_row (
         pe_2_inst,
         pe_3_inst
     }   =   config_buffer;
+    
     LSU lsu(
         .clk            (clk            ),
         .rst            (rst            ),
         .LSU_inst       (LSU_inst       ),
+        .init           (init           ),
+        .run            (run            ),
         .PE_0           (PE_0_Lout      ),
         .PE_1           (PE_1_Lout      ),
         .PE_2           (PE_2_Lout      ),
         .PE_3           (PE_3_Lout      ),
         .CBG_to_LSU_bus (CBG_to_LSU_bus ),
         .LSU_to_PE      (lsu_to_pe      ),
-        .LSU_to_CBG_bus (LSU_to_CBG_bus )
+        .LSU_to_CBG_bus (LSU_to_CBG_bus ),
+        .R_request      (R_request      ),
+        .W_request      (W_request      )  
     );
     
     PE  pe_0(
         .clk            (clk            ),
         .rst            (rst            ),
         .inst           (pe_0_inst      ),
+        .init           (init           ),
+        .run            (run            ),
         .din_N          (pe_0_Nin       ),//上
         .din_S          (pe_0_Sin       ),//下
         .din_W          (               ),//左
@@ -103,6 +113,8 @@ module PE_row (
         .clk            (clk            ),
         .rst            (rst            ),
         .inst           (pe_1_inst      ),
+        .init           (init           ),
+        .run            (run            ),
         .din_N          (pe_1_Nin       ),//上
         .din_S          (pe_1_Sin       ),//下
         .din_W          (PE_0_Eout      ),//左
@@ -119,6 +131,8 @@ module PE_row (
         .clk            (clk            ),
         .rst            (rst            ),
         .inst           (pe_2_inst      ),
+        .init           (init           ),
+        .run            (run            ),
         .din_N          (pe_2_Nin       ),//上
         .din_S          (pe_2_Sin       ),//下
         .din_W          (PE_1_Eout      ),//左
@@ -135,6 +149,8 @@ module PE_row (
         .clk            (clk            ),
         .rst            (rst            ),
         .inst           (pe_3_inst      ),
+        .init           (init           ),
+        .run            (run            ),
         .din_N          (               ),//上
         .din_S          (               ),//下
         .din_W          (PE_2_Eout      ),//左
