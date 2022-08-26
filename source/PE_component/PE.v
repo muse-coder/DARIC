@@ -44,6 +44,8 @@ module PE(
     reg     [31:0]  init_count;
     reg     [31:0]  run_count;
     integer i = 0;
+    reg     [`PE_inst-1:0]    PE_inst_r;
+
 //-------------初始化-------------------//
     always @(posedge clk ) begin
         if(rst) begin
@@ -51,6 +53,7 @@ module PE(
             for (i = 0; i <32 ; i = i + 1) begin
                 config_buffer[i] <='b0;
             end
+            PE_inst_r   <= 'b0;
         end
         else if(init) begin
             config_buffer[init_count] <= PE_inst;
@@ -63,7 +66,8 @@ module PE(
             run_count   <=  'b0;
         end
         else if(run) begin
-            run_count <= run_count +1'b1;
+            run_count   <= run_count +1'b1;
+            PE_inst_r   <= config_buffer[run_count]; 
         end
     end
 //-----------------end-----------------//
@@ -72,7 +76,7 @@ module PE(
         switch_9x7,  // 43:16  28 bit
         switch_5x4,  // 15:4   12 bit
         reg_file_sel // 3:0    4 bit
-    }   = config_buffer[run_count];
+    }   = PE_inst_r;
 
 
 

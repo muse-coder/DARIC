@@ -74,6 +74,7 @@ module scratchpad (
     reg     [31:0]  init_count;
     reg     [31:0]  run_count;
     integer i = 0;
+    reg     [`SPM_INST-1:0]     inst_r;
 //-------------初始化-------------------//
     always @(posedge clk ) begin
         if(rst) begin
@@ -81,7 +82,9 @@ module scratchpad (
             for (i = 0; i <32 ; i = i + 1) begin
                 config_buffer[i] <='b0;
             end
+            inst_r <= 'b0;
         end
+
         else if(init) begin
             config_buffer[init_count] <= inst;
             init_count <= init_count +1'b1;
@@ -94,6 +97,7 @@ module scratchpad (
         end
         else if(run) begin
             run_count <= run_count +1'b1;
+            inst_r  <= config_buffer[run_count];
         end
     end
 //-----------------end-----------------//
@@ -120,10 +124,7 @@ module scratchpad (
 		BG2_mode,//	2:2
 		BG1_mode,//	1:1
 		BG0_mode//	0:0
-	} = inst;
-
-    
-
+	} = inst_r;
 
 	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data ;
 	assign	BG2_feed_data = BG2_sel ? sin_2_data :	ex_data ;
@@ -144,8 +145,6 @@ module scratchpad (
 	assign	BG2_ren	  =  BG2_sel ?	sin_2_ren	:	ex_ren	;
 	assign	BG1_ren	  =  BG1_sel ?	sin_1_ren	:	ex_ren	;
 	assign	BG0_ren	  =  BG0_sel ?	sin_0_ren	:	ex_ren	;
-
-
 
 	bankgroup	BG0(
     	.clk		(clk			),

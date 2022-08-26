@@ -3,7 +3,8 @@
 
 module LSU #(
     parameter alpha = 1,
-    parameter beta  = 1
+    parameter beta  = 20,
+    parameter num =20
 ) (       
     input                   clk,
     input                   rst,
@@ -18,7 +19,7 @@ module LSU #(
     output  [31        :0]  LSU_to_PE,
     output  [`R_Q-1    :0]  R_request,
     output  [`W_Q-1    :0]  W_request,  
-    output  [`A_W-1    :0]  AG
+    output  [`A_bus    -1:0]  LSU_addr_bus
     );
     wire    [`L_I_W-1   :0] inst;
     wire    [31:0]  din;
@@ -28,6 +29,7 @@ module LSU #(
     wire    wen;
     wire    [1:0]   w_sel;
     wire    [1:0]   r_sel;
+    wire    [1:0]   addr_sel;
     wire    [31:0]  PE_in;
     reg     [31:0]  load_reg;
     reg     [31:0]  store_reg;
@@ -39,6 +41,7 @@ module LSU #(
     reg     [31:0]  init_count;
     reg     [31:0]  run_count;
     integer i = 0;
+    reg     [`L_I_W-1:0]    inst_r;
 //-------------初始化-------------------//
     always @(posedge clk ) begin
         if(rst) begin
@@ -46,6 +49,7 @@ module LSU #(
             for (i = 0; i <32 ; i = i + 1) begin
                 config_buffer[i] <='b0;
             end
+            inst_r  <= 'b0;
         end
         else if(init) begin
             config_buffer[init_count] <= LSU_inst;
@@ -59,24 +63,26 @@ module LSU #(
         end
         else if(run) begin
             run_count <= run_count +1'b1;
+            inst_r    <= config_buffer[run_count];
         end
     end
 //-----------------end-----------------//
     assign  {read_valid , din} =  CBG_to_LSU_bus;
 
     assign  {
-        ren,      //6:6
-        wen,      //5:5
-        w_sel,    //4:3
+        ren,      //12:11
+        wen,      //10:9
+        r_sel,    //8:7
+        w_sel,    //6:5
+        addr_sel, //4:3
         pe_sel,   //2:1
         store_sel //0:0
-    }   =   config_buffer[run_count];
+    } = inst_r;
 
     assign  PE_in = (pe_sel == 2'b00) ? PE_0:
                     (pe_sel == 2'b01) ? PE_1:
                     (pe_sel == 2'b10) ? PE_2:
                                         PE_3;  
-
 
 //-------------------read & write request-----------------//
     assign  R_request = {
@@ -89,22 +95,37 @@ module LSU #(
         wen,
         store_reg
     };
+
+    wire    [`A_W-1:0]  ADDR;
+    assign  LSU_addr_bus ={
+        addr_sel,
+        ADDR
+    };
 //--------------address generate------------//
+    reg     [`A_W-1:0]  ACC_i;
+    reg     [`A_W-1:0]  ACC_j;
+    reg     [31:0]  count_j;
     always @(posedge clk ) begin
         if(rst) begin
-            R_AG <= 'b0;
-            W_AG <= 'b0;
+            count_j <= 'b0;
+            ACC_j <= 'b0;
+            ACC_i <= 'b0;
         end
+        else if (ren | wen) begin
             
-        if(ren)   begin
-            R_AG <= R_AG + 1'b1;
-        end
-
-        if(wen)    begin
-            W_AG <= W_AG + 1'b1;
+            if(count_j < num) begin
+                ACC_j  <= ACC_j + beta;    
+                count_j <= count_j + 1'b1;
+            end
+            else    begin
+                count_j <= 'b0;
+                ACC_i   <= ACC_i + alpha;
+                ACC_j   <= 'b0;
+            end
         end
     end
 
+    assign  ADDR = ACC_i + ACC_j ;
 
 //-------------load data-----------------//
     always @(posedge clk ) begin
@@ -129,7 +150,5 @@ module LSU #(
             store_reg <= store_sel ? load_reg : PE_in ;
         end
     end
-
-
 
 endmodule

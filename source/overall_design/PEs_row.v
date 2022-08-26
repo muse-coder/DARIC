@@ -4,30 +4,30 @@
 module PE_row (
     input   clk,
     input   rst,
-    input   [31:0]  pe_0_Nin,
-    input   [31:0]  pe_1_Nin,
-    input   [31:0]  pe_2_Nin,
+    input   init,
+    input   run,
+    input   [31:                0]  pe_0_Nin,
+    input   [31:                0]  pe_1_Nin,
+    input   [31:                0]  pe_2_Nin,
     
-    input   [31:0]  pe_0_Sin,
-    input   [31:0]  pe_1_Sin,
-    input   [31:0]  pe_2_Sin,
+    input   [31:                0]  pe_0_Sin,
+    input   [31:                0]  pe_1_Sin,
+    input   [31:                0]  pe_2_Sin,       
     
-    input   [`Config_W  -1:0   ]  config_buffer ,
-    input   [`C_L_bus   -1:0   ]  CBG_to_LSU_bus,
-    
-    output  [`L_C_bus   -1:0   ]  LSU_to_CBG_bus,
-    
-    output  [31:0]  PE_0_Nout,
-    output  [31:0]  PE_1_Nout,
-    output  [31:0]  PE_2_Nout,
+    input   [`Config_W  -1:     0]  config_buffer ,
+    input   [`C_L_bus   -1:     0]  CBG_to_LSU_bus,
+        
+    output  [31:                0]  PE_0_Nout,
+    output  [31:                0]  PE_1_Nout,
+    output  [31:                0]  PE_2_Nout,
 
-    output  [31:0]  PE_0_Sout,
-    output  [31:0]  PE_1_Sout,
-    output  [31:0]  PE_2_Sout,
+    output  [31:                0]  PE_0_Sout,
+    output  [31:                0]  PE_1_Sout,
+    output  [31:                0]  PE_2_Sout,
 
-    output  [`R_Q-1    :0]  R_request,
-    output  [`W_Q-1    :0]  W_request 
-
+    output  [`R_Q   -1          :0]  R_request,
+    output  [`W_Q   -1          :0]  W_request, 
+    output  [`A_bus -1          :0]  LSU_addr_bus
 );
 //-----------------end-------------------//
     wire    [31:0]  PE_0_Win;
@@ -60,10 +60,12 @@ module PE_row (
 
 //--------------------end---------------//
     wire    [31:0]  lsu_to_pe;
-    wire    [`PE_I_W -1:0]  pe_0_inst;
-    wire    [`PE_I_W -1:0]  pe_1_inst;
-    wire    [`PE_I_W -1:0]  pe_2_inst;
-    wire    [`PE_I_W -1:0]  pe_3_inst;
+
+    wire    [`PE_inst-1:0]  pe_0_inst;
+    wire    [`PE_inst-1:0]  pe_1_inst;
+    wire    [`PE_inst-1:0]  pe_2_inst;
+    wire    [`PE_inst-1:0]  pe_3_inst;
+
     wire    [`L_I_W  -1:0]  LSU_inst;
     
     assign  {
@@ -71,7 +73,7 @@ module PE_row (
         pe_0_inst,
         pe_1_inst,
         pe_2_inst,
-        pe_3_inst
+        pe_3_inst //
     }   =   config_buffer;
     
     LSU lsu(
@@ -86,9 +88,9 @@ module PE_row (
         .PE_3           (PE_3_Lout      ),
         .CBG_to_LSU_bus (CBG_to_LSU_bus ),
         .LSU_to_PE      (lsu_to_pe      ),
-        .LSU_to_CBG_bus (LSU_to_CBG_bus ),
         .R_request      (R_request      ),
-        .W_request      (W_request      )  
+        .W_request      (W_request      ), 
+        .LSU_addr_bus   (LSU_addr_bus   ) 
     );
     
     PE  pe_0(
