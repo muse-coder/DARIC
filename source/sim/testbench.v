@@ -271,7 +271,7 @@ module testbench (
 //  LSU1开始读BG1的FIFO0 且将读出的数据写入到BG2的FIFO0 
         LSU_1_ren   =   1'b0   ;
         LSU_1_r_sel =   2'b01  ;
-        LSU_1_wen   =   1'b1   ;
+        // LSU_1_wen   =   1'b0   ;
         LSU_1_w_sel =   2'b10  ;
         BG2_mode    =   1'b1   ;
         BG2_en      =   1'b1   ;
@@ -279,6 +279,7 @@ module testbench (
 //  LSU2开始读BG2中的FIFO0数据
         LSU_2_ren   =   1'b0   ;
         LSU_2_r_sel =   2'b10  ;
+    #10 LSU_1_wen   =   1'b1;
 //------------配置初始化结束---------------//
 
 
@@ -292,10 +293,12 @@ module testbench (
                 run       <= 'b0;
         end
         ex_wen      =   1'b1;
-    #10 run  = 1'b1;   
-    #10 run  = 1'b0;
-    #30 run  = 1'b1;
-    #10 run  = 1'b0;
+    #10  run  = 1'b1;   
+    #10  run  = 1'b0;
+    #30  run  = 1'b1;
+    #10  run  = 1'b0;
+    #130 run = 1'b1;
+    #10  run = 1'b0;
     end
 
 
