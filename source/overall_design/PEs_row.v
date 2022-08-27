@@ -96,7 +96,7 @@ module PE_row (
     PE  pe_0(
         .clk            (clk            ),
         .rst            (rst            ),
-        .inst           (pe_0_inst      ),
+        .PE_inst           (pe_0_inst      ),
         .init           (init           ),
         .run            (run            ),
         .din_N          (pe_0_Nin       ),//上
@@ -114,7 +114,7 @@ module PE_row (
     PE  pe_1(
         .clk            (clk            ),
         .rst            (rst            ),
-        .inst           (pe_1_inst      ),
+        .PE_inst           (pe_1_inst      ),
         .init           (init           ),
         .run            (run            ),
         .din_N          (pe_1_Nin       ),//上
@@ -132,7 +132,7 @@ module PE_row (
     PE  pe_2(
         .clk            (clk            ),
         .rst            (rst            ),
-        .inst           (pe_2_inst      ),
+        .PE_inst           (pe_2_inst      ),
         .init           (init           ),
         .run            (run            ),
         .din_N          (pe_2_Nin       ),//上
@@ -150,7 +150,7 @@ module PE_row (
     PE  pe_3(
         .clk            (clk            ),
         .rst            (rst            ),
-        .inst           (pe_3_inst      ),
+        .PE_inst           (pe_3_inst      ),
         .init           (init           ),
         .run            (run            ),
         .din_N          (               ),//上

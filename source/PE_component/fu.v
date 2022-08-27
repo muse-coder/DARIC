@@ -39,16 +39,16 @@ module fu(
     // parameter SUBI  =   5'd10;
     always @(*) begin
         case (fu_opcode)
-            ADD   : fu_result = a + b   ; 
-            SUB   : fu_result = a - b   ;
-            MULT  : fu_result = a * b   ;
-            SLL   : fu_result = a << b  ;
-            SRL   : fu_result = a >> b  ;
-            AND   : fu_result = a & b   ;
-            OR    : fu_result = a | b   ;
-            NOT   : fu_result = ~a      ;
-            XOR   : fu_result = a ^ b   ; 
-            // default: 
+            ADD   :     fu_result = a + b   ; 
+            SUB   :     fu_result = a - b   ;
+            MULT  :     fu_result = a * b   ;
+            SLL   :     fu_result = a << b  ;
+            SRL   :     fu_result = a >> b  ;
+            AND   :     fu_result = a & b   ;
+            OR    :     fu_result = a | b   ;
+            NOT   :     fu_result = ~a      ;
+            XOR   :     fu_result = a ^ b   ; 
+            default:    fu_result = 'b0     ;
         endcase
     end
 

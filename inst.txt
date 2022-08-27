@@ -1,0 +1,15 @@
+CBG_0 从外部写入数据：
+	SPM_inst: 00100     ex_wen=1 
+
+LSU_0 随机读取CBG_0数据 ：
+指令码：
+	LSU_inst   0401(hex)  
+	SPM_inst  00110
+
+LSU_0 向CBG_1 FIFO_0写入数据
+	LSU_inst  0621
+	SPM_inst 00332
+
+LSU_1 读取CBG_1 FIFO_0数据 并将读出数据写入CBG_2 FIFO_0
+
+	SPM_inst 00776

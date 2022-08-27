@@ -42,9 +42,10 @@ module PEs_array (
     wire    [31:0]  row_2_1_Nout;
     wire    [31:0]  row_2_2_Nout;
 
-    wire    [31:0]  row_2_0_Sout;
-    wire    [31:0]  row_2_1_Sout;
-    wire    [31:0]  row_2_2_Sout;
+    wire    [31:0]  row_3_0_Nout;
+    wire    [31:0]  row_3_1_Nout;
+    wire    [31:0]  row_3_2_Nout;
+
 
     wire    [`Config_W-1:0]  config_buffer_0;
     wire    [`Config_W-1:0]  config_buffer_1;
@@ -72,7 +73,6 @@ module PEs_array (
 
         .config_buffer      (config_buffer_0    ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_0   ),
-        .LSU_to_CBG_bus     (LSU_to_CBG_bus_0   ),
     
         .PE_0_Nout          (                   ),
         .PE_1_Nout          (                   ),
@@ -101,7 +101,6 @@ module PEs_array (
 
         .config_buffer      (config_buffer_1    ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_1   ),
-        .LSU_to_CBG_bus     (LSU_to_CBG_bus_1   ),
     
         .PE_0_Nout          (row_1_0_Nout       ),
         .PE_1_Nout          (row_1_1_Nout       ),
@@ -130,7 +129,6 @@ module PEs_array (
 
         .config_buffer      (config_buffer_2    ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_2   ),
-        .LSU_to_CBG_bus     (LSU_to_CBG_bus_2   ),
     
         .PE_0_Nout          (row_2_0_Nout       ),
         .PE_1_Nout          (row_2_1_Nout       ),
@@ -159,7 +157,6 @@ module PEs_array (
 
         .config_buffer      (config_buffer_3    ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_3   ),
-        .LSU_to_CBG_bus     (LSU_to_CBG_bus_3   ),
     
         .PE_0_Nout          (row_3_0_Nout       ),
         .PE_1_Nout          (row_3_1_Nout       ),

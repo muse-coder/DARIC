@@ -69,15 +69,15 @@ module TCAD (
         .LSU_R_req_1        (R_request_1        ),
         .LSU_R_req_0        (R_request_0        ),
 
-        .LSU_addr_bus_3     (LSU_addr_bus_0     ),
-        .LSU_addr_bus_2     (LSU_addr_bus_1     ),
-        .LSU_addr_bus_1     (LSU_addr_bus_2     ),
-        .LSU_addr_bus_0     (LSU_addr_bus_3     ),
+        .LSU_addr_bus_3     (LSU_addr_bus_3     ),
+        .LSU_addr_bus_2     (LSU_addr_bus_2     ),
+        .LSU_addr_bus_1     (LSU_addr_bus_1     ),
+        .LSU_addr_bus_0     (LSU_addr_bus_0     ),
 
-        .LSU_W_req_3        (W_request_0        ),
-        .LSU_W_req_2        (W_request_1        ),
-        .LSU_W_req_1        (W_request_2        ),
-        .LSU_W_req_0        (W_request_3        ),
+        .LSU_W_req_3        (W_request_3        ),
+        .LSU_W_req_2        (W_request_2        ),
+        .LSU_W_req_1        (W_request_1        ),
+        .LSU_W_req_0        (W_request_0        ),
 
         .R_response_3       (R_response_3   ), 
         .R_response_2       (R_response_2   ),
@@ -103,10 +103,10 @@ module TCAD (
         .run                (run                ),
         .pe_config          (pe_config          ),
         
-        .CBG_to_LSU_bus_0   (to_LSU_3           ),
-        .CBG_to_LSU_bus_1   (to_LSU_2           ),
-        .CBG_to_LSU_bus_2   (to_LSU_1           ),
-        .CBG_to_LSU_bus_3   (to_LSU_0           ),
+        .CBG_to_LSU_bus_0   (to_LSU_0           ),
+        .CBG_to_LSU_bus_1   (to_LSU_1           ),
+        .CBG_to_LSU_bus_2   (to_LSU_2           ),
+        .CBG_to_LSU_bus_3   (to_LSU_3           ),
 
         .R_request_0        (R_request_0        ),
         .R_request_1        (R_request_1        ),

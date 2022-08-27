@@ -136,6 +136,7 @@ module LSU #(
             load_reg <= din;
     end
 
+    assign LSU_to_PE = load_reg ;
 //----------------end------------------//
 
 //--------------store data ---------------//
