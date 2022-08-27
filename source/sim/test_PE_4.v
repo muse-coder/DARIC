@@ -85,7 +85,7 @@ module test_PE_4 (
     initial begin
         clk = 1'b1;
         rst = 1'b1;
-// -----LSUdata=9进入R0 , din_E=8进入R3 ,din_N=5与R3进行加法  res输出dout_S=13 dout_N输出R0  dout_LSU输出R3
+// -----LSUdata进入R0 , din_E进入R3 ,din_N与R3进行加法  res输出dout_S dout_N输出R0  dout_LSU输出R3
     //inst 值 07074807883f  [`PE_inst -1:0] 48bit
         #30 rst = 1'b0;
         fu_opcode           =  'd0; 

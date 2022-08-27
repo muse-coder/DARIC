@@ -85,15 +85,15 @@ module test_PE_5 (
     initial begin
         clk = 1'b1;
         rst = 1'b1;
-//      din_W输入R3  R3输出dou_S
+//      din_N输入R3  R3输出dou_W
 // inst 0XX0X7XX21af
         #30 rst = 1'b0;
-        fu_opcode           =  'd0; 
+        fu_opcode           =  'd0;
+        R0_sel              =  'd1; 
         _5x4_dout_N_sel     =  'd1;
-        R0_sel              =  'd1;
         _5x4_dout_S_sel     =  'd0;
         _5x4_dout_W_sel     =  'd3;
-        _5x4_dout_E_sel     =  'd2; 
+        _5x4_dout_E_sel     =  'd0; 
         R3_sel              =  'd1; 
         R1_sel              =  'd1; 
         R2_sel              =  'd1;
@@ -102,30 +102,15 @@ module test_PE_5 (
         din_W_r             =  'd7;
         din_E_r             =  'd8;
 
-        _9x7_dout_LSU_sel   = 'dx;
-        _9x7_op_A_sel       = 'dx;
+        _9x7_dout_LSU_sel   = 'd0;
+        _9x7_op_A_sel       = 'd0;
         _9x7_op_B_sel       = 'd0; 
-        _9x7_dout_N_sel     = 'dx;  
-        _9x7_dout_S_sel     = 'd7; 
-        _9x7_dout_W_sel     = 'dx;
-        _9x7_dout_E_sel     = 'dx;
+        _9x7_dout_N_sel     = 'd0;  
+        _9x7_dout_S_sel     = 'd0; 
+        _9x7_dout_W_sel     = 'd7;
+        _9x7_dout_E_sel     = 'd0;
         LSU_data            = 32'd3;
     end
 
-    PE  pe_0(
-        .clk            (clk            ),
-        .rst            (rst            ),
-        .inst           (PE_5_inst      ),
-        .din_N          (din_N          ),//上
-        .din_S          (din_S          ),//下
-        .din_W          (din_W          ),//左 
-        .din_E          (din_E          ),//右
-        .din_LSU        (LSU_data       ),
-        .dout_N         (PE_5_dout_N    ),
-        .dout_S         (PE_5_dout_S    ),
-        .dout_W         (PE_5_dout_W    ),
-        .dout_E         (PE_5_dout_E    ),
-        .dout_LSU       (PE_5_dout_LSU  )
-    );
 
 endmodule

@@ -50,7 +50,10 @@ module reg_file(
 // mux  0 上 1下
     always @(posedge clk ) begin
         if(rst) begin
-            // 待定
+            R0 <= 'b0;
+            R1 <= 'b0; 
+            R2 <= 'b0;
+            R3 <= 'b0; 
         end
 
         else begin

@@ -22,8 +22,8 @@ module address_update (
 	assign	empty =  (count == 32'b0) ;
 	assign	full  =  (count == `F_D) ;
 	assign	almost_full = ((count + 1'b1) == `F_D) ;
-	assign	re_n  = en & (re & ~empty  | almost_full );
-	assign	we_n  = en & ((we & ~full) | (we & re & full ));
+	assign	re_n  = en & ((re & ~empty)  | almost_full );
+	assign	we_n  = en & ((we & ~full )  | (we & re & full ));
     
 
 	always @(posedge clk ) begin

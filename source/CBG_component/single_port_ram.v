@@ -11,7 +11,7 @@ module single_port_ram (
 	output reg [31:0]	dout,
 	output reg read_valid
 );
-	parameter  num = 32'b1<<`A_W;
+	parameter  num = `RAM_DEEP ;
 	reg [31:0] ram[num-1:0];
 	integer i;
 	reg		write_valid;

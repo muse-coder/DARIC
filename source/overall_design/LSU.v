@@ -2,9 +2,9 @@
 `include "../param_define.v"
 
 module LSU #(
-    parameter alpha = 1,
-    parameter beta  = 20,
-    parameter num =20
+    parameter alpha = 60,
+    parameter beta  = 1,
+    parameter num =50
 ) (       
     input                   clk,
     input                   rst,

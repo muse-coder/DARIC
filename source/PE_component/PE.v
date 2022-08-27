@@ -87,10 +87,10 @@ module PE(
         .din_E      (din_E      ),
         .din_LSU    (din_LSU    ),
         .switch     (switch_5x4 ),
-        .dout_N     (din_N_tmp  ),
-        .dout_S     (din_S_tmp  ),
-        .dout_W     (din_W_tmp  ),
-        .dout_E     (din_E_tmp  )
+        .to_R0     (din_N_tmp  ),
+        .to_R1     (din_S_tmp  ),
+        .to_R2     (din_W_tmp  ),
+        .to_R3     (din_E_tmp  )
     );    
 
     reg_file    reg_file_lut(
