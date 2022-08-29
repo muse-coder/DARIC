@@ -40,7 +40,7 @@ module PE(
 
 
 //------------configuration buffer-------------//
-    reg     [`PE_inst-1:0]    config_buffer [31:0]  ;
+    reg     [`PE_inst-1:0]    config_buffer [4:0]  ;
     reg     [31:0]  init_count;
     reg     [31:0]  run_count;
     integer i = 0;
@@ -50,7 +50,8 @@ module PE(
     always @(posedge clk ) begin
         if(rst) begin
             init_count  <=  'b0;
-            for (i = 0; i <32 ; i = i + 1) begin
+            run_count   <=  'b0;
+            for (i = 0; i <4 ; i = i + 1) begin
                 config_buffer[i] <='b0;
             end
             PE_inst_r   <= 'b0;
@@ -59,18 +60,23 @@ module PE(
             config_buffer[init_count] <= PE_inst;
             init_count <= init_count +1'b1;
         end
-    end
-//------------------运行时---------------//
-    always @(posedge clk ) begin
-        if(rst) begin
-            run_count   <=  'b0;
-        end
+
         else if(run) begin
             run_count   <= run_count +1'b1;
             PE_inst_r   <= config_buffer[run_count]; 
         end
     end
-//-----------------end-----------------//
+// //------------------运行时---------------//
+//     always @(posedge clk ) begin
+//         if(rst) begin
+//             run_count   <=  'b0;
+//         end
+//         else if(run) begin
+//             run_count   <= run_count +1'b1;
+//             PE_inst_r   <= config_buffer[run_count]; 
+//         end
+//     end
+// //-----------------end-----------------//
     assign  {
         fu_opcode,   // 47:44  4bit
         switch_9x7,  // 43:16  28 bit

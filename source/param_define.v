@@ -36,5 +36,6 @@
 `define A_bus           10+2
 `define W_d             33
 `define Array           (48 * 4 + 13) * 4 //host_controller_width
-`define H_C_W           (48 * 4 + 13) * 4 + 20 //host_controller_width
+`define H_C_W           60 //host_controller_width
 `define RAM_DEEP        128
+`define Init_PE_A       9

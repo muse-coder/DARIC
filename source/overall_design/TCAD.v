@@ -3,16 +3,29 @@
 module TCAD (
     input   clk,
     input   rst,
-    input   init    ,
-    input   run     ,
     input   [`H_C_W-1:0]    host_controller,
 	input	[`EX_bus-1 :0]	ex_bus
 );
 
-    wire    [`Array     -1:0]   pe_config;
+//-----------加载指令---------------//    
+    wire    init_SPM;
+    wire    run_SPM;
+    wire    [`PE_inst   -1:0]   pe_config;
     wire    [`SPM_INST  -1:0]   scr_config;
-
-    assign  {scr_config , pe_config } = host_controller ;
+    wire    [4:0]   init_PE_array;
+    wire    [4:0]   run_PE_array;
+    wire    [`PE_inst   -1:0]  instruction;
+    assign  {
+            run_SPM    , // 59:59
+            run_PE_array, // 58:54
+            init_SPM    , // 53:53
+            init_PE_array, // 52:48
+            instruction    // 47:0
+        } = host_controller;
+    assign  scr_config  = instruction   [`SPM_INST  -1:0];
+    
+    assign  pe_config   = instruction   [`PE_inst   -1:0];
+//-----------------end-------------------//
 
     wire    [`L_C_bus   -1:0]   L_to_C_bus_3;
     wire    [`L_C_bus   -1:0]   L_to_C_bus_2;
@@ -48,8 +61,8 @@ module TCAD (
 	    .clk                (clk                ),
 	    .rst                (rst                ),
 	    .inst               (scr_config         ),
-        .init               (init               ),
-        .run                (run                ),
+        .init               (init_SPM           ),
+        .run                (run_SPM                ),
 	    .ex_bus             (ex_bus             ),
 	    .switch_in_3        (L_to_C_bus_3       ),
 	    .switch_in_2        (L_to_C_bus_2       ),
@@ -99,8 +112,8 @@ module TCAD (
     PEs_array pes_array (
         .clk                (clk                ),
         .rst                (rst                ),
-        .init               (init               ),
-        .run                (run                ),
+        .run_PE_array                (run_PE_array                ),
+        .init_PE_array      (init_PE_array      ),
         .pe_config          (pe_config          ),
         
         .CBG_to_LSU_bus_0   (to_LSU_0           ),

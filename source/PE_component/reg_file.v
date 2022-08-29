@@ -28,7 +28,7 @@ module reg_file(
     input   [31:0]  din_S,
     input   [31:0]  din_W,
     input   [31:0]  din_E,
-    input   [3:0]   reg_file_inst,
+    (* DONT_TOUCH = "1" *)     input   [3:0]   reg_file_inst,
 
     output  [31:0]  dout_R0,
     output  [31:0]  dout_R1,
