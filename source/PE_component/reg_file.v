@@ -47,6 +47,17 @@ module reg_file(
     reg [31:0]  R1;
     reg [31:0]  R2;
     reg [31:0]  R3;
+
+    wire [31:0]  R0_in;
+    wire [31:0]  R1_in;
+    wire [31:0]  R2_in;
+    wire [31:0]  R3_in;
+
+    assign  R0_in   = R0_sel ? din_N : din_res ;
+    assign  R1_in   = R1_sel ? din_S : R0      ;
+    assign  R2_in   = R2_sel ? din_W : R1      ;
+    assign  R3_in   = R3_sel ? din_E : R2      ;
+    
 // mux  0 上 1下
     always @(posedge clk ) begin
         if(rst) begin
@@ -57,10 +68,10 @@ module reg_file(
         end
 
         else begin
-            R0 <= R0_sel ? din_N : din_res ;//mux 上0 下1
-            R1 <= R1_sel ? din_S : R0      ; 
-            R2 <= R1_sel ? din_W : R1      ;
-            R3 <= R1_sel ? din_E : R2      ; 
+            R0 <=  R0_in   ;//mux 上0 下1
+            R1 <=  R1_in   ; 
+            R2 <=  R2_in   ;
+            R3 <=  R3_in   ; 
         end
     end
 

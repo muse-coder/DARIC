@@ -54,6 +54,58 @@ module PEs_array (
     wire    [31:0]  row_3_1_Nout;
     wire    [31:0]  row_3_2_Nout;
 
+    wire    [31:0]  row_0_0_Sin;
+    wire    [31:0]  row_0_1_Sin;
+    wire    [31:0]  row_0_2_Sin;
+    
+    wire    [31:0]  row_0_0_Nin;
+    wire    [31:0]  row_0_1_Nin;
+    wire    [31:0]  row_0_2_Nin;
+
+    wire    [31:0]  row_1_0_Nin;
+    wire    [31:0]  row_1_1_Nin;
+    wire    [31:0]  row_1_2_Nin;
+
+    wire    [31:0]  row_1_0_Sin;
+    wire    [31:0]  row_1_1_Sin;
+    wire    [31:0]  row_1_2_Sin;
+
+    wire    [31:0]  row_2_0_Nin;
+    wire    [31:0]  row_2_1_Nin;
+    wire    [31:0]  row_2_2_Nin;
+
+    wire    [31:0]  row_2_0_Sin;
+    wire    [31:0]  row_2_1_Sin;
+    wire    [31:0]  row_2_2_Sin;
+
+    wire    [31:0]  row_3_0_Nin;
+    wire    [31:0]  row_3_1_Nin;
+    wire    [31:0]  row_3_2_Nin;
+
+    assign    row_0_0_Sin = row_1_0_Nout;
+    assign    row_0_1_Sin = row_1_1_Nout;
+    assign    row_0_2_Sin = row_1_2_Nout;
+
+    assign    row_1_0_Nin = row_0_0_Sout;
+    assign    row_1_1_Nin = row_0_1_Sout;
+    assign    row_1_2_Nin = row_0_2_Sout;
+
+    assign    row_1_0_Sin = row_2_0_Nout;
+    assign    row_1_1_Sin = row_2_1_Nout;
+    assign    row_1_2_Sin = row_2_2_Nout;
+
+    assign    row_2_0_Nin = row_1_0_Sout;
+    assign    row_2_1_Nin = row_1_1_Sout;
+    assign    row_2_2_Nin = row_1_2_Sout;
+
+    assign    row_2_0_Sin = row_3_0_Nout;
+    assign    row_2_1_Sin = row_3_1_Nout;
+    assign    row_2_2_Sin = row_3_2_Nout;
+
+    assign    row_3_0_Nin = row_2_0_Sout;
+    assign    row_3_1_Nin = row_2_1_Sout;
+    assign    row_3_2_Nin = row_2_2_Sout;
+
     wire    init_row_0,init_row_1,init_row_2,init_row_3;
     wire    [2:0]init_LSU_PE;
     wire    [1:0]init_row_sel;
@@ -78,9 +130,9 @@ module PEs_array (
         .pe_1_Nin           (                   ),
         .pe_2_Nin           (                   ),
 
-        .pe_0_Sin           (row_1_0_Nout       ),
-        .pe_1_Sin           (row_1_1_Nout       ),
-        .pe_2_Sin           (row_1_2_Nout       ),
+        .pe_0_Sin           (row_0_0_Sin       ),
+        .pe_1_Sin           (row_0_1_Sin       ),
+        .pe_2_Sin           (row_0_2_Sin       ),
         .pe_config          (pe_config          ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_0   ),
     
@@ -104,13 +156,13 @@ module PEs_array (
         .run_en             (run_row_1          ),
         .run_sel            (run_LSU_PE         ),
         .pe_config          (pe_config          ),
-        .pe_0_Nin           (row_0_0_Sout       ),
-        .pe_1_Nin           (row_0_1_Sout       ),
-        .pe_2_Nin           (row_0_2_Sout       ),
+        .pe_0_Nin           (row_1_0_Nin       ),
+        .pe_1_Nin           (row_1_1_Nin       ),
+        .pe_2_Nin           (row_1_2_Nin       ),
 
-        .pe_0_Sin           (row_2_0_Nout       ),
-        .pe_1_Sin           (row_2_1_Nout       ),
-        .pe_2_Sin           (row_2_2_Nout       ),
+        .pe_0_Sin           (row_1_0_Sin       ),
+        .pe_1_Sin           (row_1_1_Sin       ),
+        .pe_2_Sin           (row_1_2_Sin       ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_1   ),
     
         .PE_0_Nout          (row_1_0_Nout       ),
@@ -133,13 +185,13 @@ module PEs_array (
         .pe_config          (pe_config          ),
         .run_en             (run_row_2          ),
         .run_sel            (run_LSU_PE         ),
-        .pe_0_Nin           (row_1_0_Sout       ),
-        .pe_1_Nin           (row_1_1_Sout       ),
-        .pe_2_Nin           (row_1_2_Sout       ),
+        .pe_0_Nin           (row_2_0_Nin       ),
+        .pe_1_Nin           (row_2_1_Nin       ),
+        .pe_2_Nin           (row_2_2_Nin       ),
 
-        .pe_0_Sin           (row_3_0_Nout       ),
-        .pe_1_Sin           (row_3_1_Nout       ),
-        .pe_2_Sin           (row_3_2_Nout       ),
+        .pe_0_Sin           (row_2_0_Sin       ),
+        .pe_1_Sin           (row_2_1_Sin       ),
+        .pe_2_Sin           (row_2_2_Sin       ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_2   ),
     
         .PE_0_Nout          (row_2_0_Nout       ),
@@ -162,9 +214,9 @@ module PEs_array (
         .init_sel           (init_LSU_PE        ),
         .run_en             (run_row_3          ),
         .run_sel            (run_LSU_PE         ),
-        .pe_0_Nin           (row_2_0_Sout       ),
-        .pe_1_Nin           (row_2_1_Sout       ),
-        .pe_2_Nin           (row_2_2_Sout       ),
+        .pe_0_Nin           (row_3_0_Nin       ),
+        .pe_1_Nin           (row_3_1_Nin       ),
+        .pe_2_Nin           (row_3_2_Nin       ),
 
         .pe_0_Sin           (                   ),
         .pe_1_Sin           (                   ),

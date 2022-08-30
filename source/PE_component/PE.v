@@ -46,6 +46,26 @@ module PE(
     integer i = 0;
     reg     [`PE_inst-1:0]    PE_inst_r;
 
+    reg     [31:0]  din_N_r;
+    reg     [31:0]  din_S_r;
+    reg     [31:0]  din_W_r;
+    reg     [31:0]  din_E_r;
+
+    always @(posedge clk ) begin
+        if(rst) begin
+            din_N_r <= 'b0;
+            din_S_r <= 'b0;
+            din_W_r <= 'b0;
+            din_E_r <= 'b0;
+        end
+        else  begin
+            din_N_r <= din_N;
+            din_S_r <= din_S;
+            din_W_r <= din_W;
+            din_E_r <= din_E;
+        end
+    end
+
 //-------------初始化-------------------//
     always @(posedge clk ) begin
         if(rst) begin
@@ -117,10 +137,10 @@ module PE(
 
 
     PE_crossbar_9x7 PE_crossbar_9x7_inst(
-        .din_N          (din_N            ),
-        .din_S          (din_S            ),
-        .din_W          (din_W            ),
-        .din_E          (din_E            ),
+        .din_N          (din_N_r            ),
+        .din_S          (din_S_r            ),
+        .din_W          (din_W_r            ),
+        .din_E          (din_E_r            ),
         .din_R0         (dout_R0_tmp      ),
         .din_R1         (dout_R1_tmp      ),
         .din_R2         (dout_R2_tmp      ),
