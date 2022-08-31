@@ -96,7 +96,7 @@ module PE_row (
         .rst            (rst                    ),
         .PE_inst        (pe_config              ),
         .init           (init_PE_0 & init_en    ),
-        .run            (run_PE_0  & run_en      ),
+        .run            (run_PE_0  & run_en     ),
         .din_N          (pe_0_Nin               ),//上
         .din_S          (pe_0_Sin               ),//下
         .din_W          (                       ),//左

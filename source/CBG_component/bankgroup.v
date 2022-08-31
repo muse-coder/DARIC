@@ -27,17 +27,27 @@ module bankgroup (
     reg   [`A_W-1   :0]     addr;
     reg   [1        :0]     fifo_sel;
     reg   en;
-    reg   pattern;//0：随机访存  // 1：FIFO模式
+//---------------解决巨大扇出问题--------------//
+    (* max_fanout = "5" *)   reg   pattern_0;
+    (* max_fanout = "5" *)   reg   pattern_1;
+    (* max_fanout = "5" *)   reg   pattern_2;//0：随机访存  // 1：FIFO模式
+    (* max_fanout = "10" *)  reg   pattern_3_w;//0：随机访存  // 1：FIFO模式
+    (* max_fanout = "10" *)  reg   pattern_3_r;//0：随机访存  // 1：FIFO模式
+    (* max_fanout = "10" *)  reg   pattern_3_addr;//0：随机访存  // 1：FIFO模式
+    (* max_fanout = "10" *)  reg   pattern_3_en;//0：随机访存  // 1：FIFO模式
+    
     reg   we;
     reg   re;
     reg   flush;
        
     always @(posedge clk ) begin
         if(rst)
-            {en , pattern , we , re , flush , din , addr , fifo_sel } <='b0;
+            {en , pattern_0, pattern_1, pattern_2, pattern_3_w, pattern_3_r, pattern_3_addr, pattern_3_en, we , re , flush , din , addr , fifo_sel } <='b0;
         else
-            {en , pattern , we , re , flush , din , addr , fifo_sel} <=     
-            {en_i , pattern_i , we_i , re_i , flush_i , din_i , addr_i , fifo_sel_i };
+            {en   , pattern_0,  pattern_1, pattern_2, we ,   re ,   flush , din , addr , fifo_sel} <=     
+            {en_i , pattern_i , pattern_i ,pattern_i , we_i , re_i , flush_i , din_i , addr_i , fifo_sel_i };
+            { pattern_3_w, pattern_3_r, pattern_3_addr , pattern_3_en } <= {pattern_i,pattern_i,pattern_i,pattern_i};
+    
     end
 //------------------end---------------------------//
     assign  {
@@ -49,7 +59,7 @@ module bankgroup (
     wire    fifo_1_en;
     wire    fifo_2_en;
     // wire    random_en;
-    assign  {fifo_0_en, fifo_1_en, fifo_2_en} = {3'b100} >> fifo_sel;
+    assign  {fifo_0_en, fifo_1_en, fifo_2_en} = (({3'b100} >> fifo_sel) & {pattern_0 , pattern_1 ,pattern_2});
 
 //-----------fifo 0 号--------------//
 
@@ -63,7 +73,7 @@ module bankgroup (
     fifo  fifo_0(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
-        .en         (fifo_0_en & pattern   ),
+        .en         (fifo_0_en  ),
 	    .RE         (re         ),
 	    .WE         (we         ),
         .flush      (flush      ),
@@ -91,7 +101,7 @@ module bankgroup (
     fifo  fifo_1(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
-        .en         (fifo_1_en & pattern   ),
+        .en         (fifo_1_en  ),
 	    .RE         (re         ),
 	    .WE         (we         ),
         .flush      (flush      ),
@@ -118,7 +128,7 @@ module bankgroup (
     fifo  fifo_2(
 	    .clk        (clk        ),
 	    .rst        (rst        ),
-        .en         (fifo_2_en & pattern   ),
+        .en         (fifo_2_en  ),
 	    .RE         (re         ),
 	    .WE         (we         ),
         .flush      (flush      ),
@@ -179,25 +189,25 @@ module bankgroup (
     wire    ram_1_we;
 
 //------------ram_0----------------//
-    assign  ram_0_en =  pattern  ?  FIFO_EN_0 :
+    assign  ram_0_en =  pattern_3_en  ?  FIFO_EN_0 :
                         ~ram_sel ?  1'b1 & en:
                                     1'b0;
 
-    assign  ram_0_we    = pattern ? FIFO_WE_0 :
+    assign  ram_0_we    = pattern_3_w ? FIFO_WE_0 :
                                     we       ;
 
-    assign  ram_0_addr = pattern ?  FIFO_ADDR_0 :
+    assign  ram_0_addr = pattern_3_addr ?  FIFO_ADDR_0 :
                                     random_addr + random_start ;
 
 //------------ram_1----------------//
-    assign  ram_1_en =  pattern  ?  FIFO_EN_1 :
+    assign  ram_1_en =  pattern_3_en ?  FIFO_EN_1 :
                         ram_sel  ?  1'b1 & en:
                                     1'b0;
                            
-    assign  ram_1_we    = pattern ? FIFO_WE_1 :
+    assign  ram_1_we    = pattern_3_w ? FIFO_WE_1 :
                                     we       ;
 
-    assign  ram_1_addr = pattern ?  FIFO_ADDR_1 :
+    assign  ram_1_addr = pattern_3_addr ?  FIFO_ADDR_1 :
                                     random_addr + random_start;
 //-------------end-----------------//
     
