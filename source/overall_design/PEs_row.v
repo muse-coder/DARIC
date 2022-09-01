@@ -28,7 +28,8 @@ module PE_row (
 
     output  [`R_Q   -1          :0]  R_request,
     output  [`W_Q   -1          :0]  W_request, 
-    output  [`A_bus -1          :0]  LSU_addr_bus
+    output  [`A_bus -1          :0]  LSU_addr_bus,
+    output  [31:                 0]  result
 );
 //-----------------end-------------------//
     wire    [31:0]  PE_0_Win;
@@ -70,7 +71,7 @@ module PE_row (
     assign  {run_LSU,run_PE_0,run_PE_1,run_PE_2,run_PE_3} = 5'b10000 >> run_sel ;
     
     assign  LSU_inst = pe_config [`L_I_W  -1:0] ;
-    
+    assign  result  = lsu_to_pe ;
     LSU lsu(
         .clk            (clk                    ),
         .rst            (rst                    ),

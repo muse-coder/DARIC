@@ -19,7 +19,7 @@ module bankgroup (
     parameter    fifo_0_start = 32'b0;
     parameter    fifo_1_start = 32'b0 + `F_D >> 1;
     parameter    fifo_2_start = 32'b0 + `F_D  ;
-    parameter    random_start = fifo_2_start + (`F_D >> 1)  ;
+    parameter    random_start = 32'b0 + `F_D  + (`F_D >> 1)  ;
 
 
 //-----------输入数据 控制信号 和地址暂存一拍  缓解关键路径延迟------------//
@@ -33,7 +33,8 @@ module bankgroup (
     (* max_fanout = "5" *)   reg   pattern_2;//0：随机访存  // 1：FIFO模式
     (* max_fanout = "10" *)  reg   pattern_3_w;//0：随机访存  // 1：FIFO模式
     (* max_fanout = "10" *)  reg   pattern_3_r;//0：随机访存  // 1：FIFO模式
-    (* max_fanout = "10" *)  reg   pattern_3_addr;//0：随机访存  // 1：FIFO模式
+    (* max_fanout = "10" *)  reg   pattern_3_addr_0;//0：随机访存  // 1：FIFO模式
+    (* max_fanout = "10" *)  reg   pattern_3_addr_1;//0：随机访存  // 1：FIFO模式
     (* max_fanout = "10" *)  reg   pattern_3_en;//0：随机访存  // 1：FIFO模式
     
     reg   we;
@@ -42,11 +43,12 @@ module bankgroup (
        
     always @(posedge clk ) begin
         if(rst)
-            {en , pattern_0, pattern_1, pattern_2, pattern_3_w, pattern_3_r, pattern_3_addr, pattern_3_en, we , re , flush , din , addr , fifo_sel } <='b0;
+            {en , pattern_0, pattern_1, pattern_2, pattern_3_w, pattern_3_r, pattern_3_addr_0 ,pattern_3_addr_1 , pattern_3_en, we , re , flush , din , addr , fifo_sel } <='b0;
         else
             {en   , pattern_0,  pattern_1, pattern_2, we ,   re ,   flush , din , addr , fifo_sel} <=     
             {en_i , pattern_i , pattern_i ,pattern_i , we_i , re_i , flush_i , din_i , addr_i , fifo_sel_i };
-            { pattern_3_w, pattern_3_r, pattern_3_addr , pattern_3_en } <= {pattern_i,pattern_i,pattern_i,pattern_i};
+            { pattern_3_w, pattern_3_r, pattern_3_addr_0, pattern_3_addr_1 , pattern_3_en } <= 
+                {pattern_i,pattern_i,   pattern_i, pattern_i ,   pattern_i};
     
     end
 //------------------end---------------------------//
@@ -196,7 +198,7 @@ module bankgroup (
     assign  ram_0_we    = pattern_3_w ? FIFO_WE_0 :
                                     we       ;
 
-    assign  ram_0_addr = pattern_3_addr ?  FIFO_ADDR_0 :
+    assign  ram_0_addr = pattern_3_addr_0 ?  FIFO_ADDR_0 :
                                     random_addr + random_start ;
 
 //------------ram_1----------------//
@@ -207,7 +209,7 @@ module bankgroup (
     assign  ram_1_we    = pattern_3_w ? FIFO_WE_1 :
                                     we       ;
 
-    assign  ram_1_addr = pattern_3_addr ?  FIFO_ADDR_1 :
+    assign  ram_1_addr = pattern_3_addr_1 ?  FIFO_ADDR_1 :
                                     random_addr + random_start;
 //-------------end-----------------//
     

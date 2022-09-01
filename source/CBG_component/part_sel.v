@@ -23,7 +23,7 @@ module part_sel    (
 	assign  {W_A,W_bit} = W_ADR;
 
 //----------  read & write conflct check--------//
-	assign	CONFLICT = (RE_N & WE_N )&&(R_bit ^~ W_bit ) ? 1'b1 : 1'b0;
+	// assign	CONFLICT = (RE_N & WE_N )&&(R_bit ^~ W_bit ) ? 1'b1 : 1'b0;
 // if conflict ,use reg to  keep write signal for 1 clk 
 
 

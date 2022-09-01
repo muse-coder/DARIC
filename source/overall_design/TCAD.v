@@ -4,7 +4,8 @@ module TCAD (
     input   clk,
     input   rst,
     input   [`H_C_W-1:0]    host_controller,
-	input	[`EX_bus-1 :0]	ex_bus
+	input	[`EX_bus-1 :0]	ex_bus,
+    output  [31:0]  TCAD_result
 );
 
 //-----------加载指令---------------//    
@@ -62,7 +63,7 @@ module TCAD (
 	    .rst                (rst                ),
 	    .inst               (scr_config         ),
         .init               (init_SPM           ),
-        .run                (run_SPM                ),
+        .run                (run_SPM            ),
 	    .ex_bus             (ex_bus             ),
 	    .switch_in_3        (L_to_C_bus_3       ),
 	    .switch_in_2        (L_to_C_bus_2       ),
@@ -112,7 +113,7 @@ module TCAD (
     PEs_array pes_array (
         .clk                (clk                ),
         .rst                (rst                ),
-        .run_PE_array                (run_PE_array                ),
+        .run_PE_array       (run_PE_array       ),
         .init_PE_array      (init_PE_array      ),
         .pe_config          (pe_config          ),
         
@@ -134,7 +135,8 @@ module TCAD (
         .LSU_addr_bus_0     (LSU_addr_bus_0     ), 
         .LSU_addr_bus_1     (LSU_addr_bus_1     ), 
         .LSU_addr_bus_2     (LSU_addr_bus_2     ), 
-        .LSU_addr_bus_3     (LSU_addr_bus_3     )
+        .LSU_addr_bus_3     (LSU_addr_bus_3     ),
+        .result             (TCAD_result)
     );
 
 endmodule

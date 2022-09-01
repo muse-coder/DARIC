@@ -24,7 +24,8 @@ module PEs_array (
     output  [`A_bus -1          :0]  LSU_addr_bus_0, 
     output  [`A_bus -1          :0]  LSU_addr_bus_1, 
     output  [`A_bus -1          :0]  LSU_addr_bus_2, 
-    output  [`A_bus -1          :0]  LSU_addr_bus_3
+    output  [`A_bus -1          :0]  LSU_addr_bus_3,
+    output  [31:0]      result
 );
     wire    [31:0]  row_0_0_Sout;
     wire    [31:0]  row_0_1_Sout;
@@ -135,7 +136,7 @@ module PEs_array (
         .pe_2_Sin           (row_0_2_Sin       ),
         .pe_config          (pe_config          ),
         .CBG_to_LSU_bus     (CBG_to_LSU_bus_0   ),
-    
+        .result             (),
         .PE_0_Nout          (                   ),
         .PE_1_Nout          (                   ),
         .PE_2_Nout          (                   ),
@@ -159,7 +160,7 @@ module PEs_array (
         .pe_0_Nin           (row_1_0_Nin       ),
         .pe_1_Nin           (row_1_1_Nin       ),
         .pe_2_Nin           (row_1_2_Nin       ),
-
+        .result             (),
         .pe_0_Sin           (row_1_0_Sin       ),
         .pe_1_Sin           (row_1_1_Sin       ),
         .pe_2_Sin           (row_1_2_Sin       ),
@@ -188,7 +189,7 @@ module PEs_array (
         .pe_0_Nin           (row_2_0_Nin       ),
         .pe_1_Nin           (row_2_1_Nin       ),
         .pe_2_Nin           (row_2_2_Nin       ),
-
+        .result             (),
         .pe_0_Sin           (row_2_0_Sin       ),
         .pe_1_Sin           (row_2_1_Sin       ),
         .pe_2_Sin           (row_2_2_Sin       ),
@@ -232,7 +233,8 @@ module PEs_array (
         .PE_2_Sout          (                   ),
         .R_request          (R_request_3        ),
         .W_request          (W_request_3        ), 
-        .LSU_addr_bus       (LSU_addr_bus_3     )
+        .LSU_addr_bus       (LSU_addr_bus_3     ),
+        .result             (result)
     );
 
 endmodule
