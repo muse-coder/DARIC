@@ -9,7 +9,6 @@ module testbench (
     reg rst;
 
 //-----------Host_controller--------//
-    wire    [`Array     -1:0]       pe_config;
     wire    [`SPM_INST  -1:0]       scr_config;
     wire    [`H_C_W     -1:0]       host_controller;  
     reg     [`PE_inst   -1:0]       inst;
@@ -54,17 +53,19 @@ module testbench (
     wire    run_valid;
     wire    [`H_C_W-1:0]    host_controller_valid;
     wire    [`EX_bus-1 :0]	ex_bus_valid;
+    reg     run_SPM;
+    wire     [4:0]   run_PE_array;
+    
     assign  host_controller = {
         init_SPM,
         init_PE_array,
         inst
     } ;
-
+    wire    [31:0]  result;
     Delay d(
         .run_i               (run                   ),
         .host_controller_i   (host_controller       ),
         .ex_bus_i            (ex_bus                ),
-        .run                 (run_valid             ),
         .host_controller     (host_controller_valid ),
 		.ex_bus              (ex_bus_valid          )
     );
@@ -72,17 +73,26 @@ module testbench (
     TCAD    tcad(
         .clk                (clk                    ),
         .rst                (rst                    ),
-        .run                (run_valid              ),
         .host_controller    (host_controller_valid  ),
-	    .ex_bus             (ex_bus_valid           )
+	    .ex_bus             (ex_bus_valid           ),
+        .TCAD_result        (result                 )
     );
 
+    reg BG0_en , BG1_en , BG2_en , BG3_en ;
+    reg BG0_sel, BG1_sel, BG2_sel, BG3_sel;
+    reg BG0_mode, BG1_mode, BG2_mode, BG3_mode;
+    reg BG0_fifo_sel ,BG1_fifo_sel ,BG2_fifo_sel ,BG3_fifo_sel ;
+    
     always  #(cycle/2)  clk = ~ clk;
     integer i;
     initial begin
         clk = 1'b1;
         rst = 1'b1;
-        init        = 'b0 ;    run = 1'b0 ;
+        BG3_en  =  1'b0 ;   BG3_sel  =  1'b0 ;    BG3_mode  =  1'b0 ; BG3_fifo_sel ='b0 ;   //  19:18
+	    BG2_en  =  1'b0 ;   BG2_sel  =  1'b0 ;    BG2_mode  =  1'b0 ; BG2_fifo_sel ='b0 ;   //  17:16
+	    BG1_en  =  1'b0 ;   BG1_sel  =  1'b0 ;    BG1_mode  =  1'b0 ; BG1_fifo_sel ='b0 ;   //  15:14
+	    BG0_en  =  1'b0 ;   BG0_sel  =  1'b0 ;    BG0_mode  =  1'b0 ; BG0_fifo_sel ='b0 ;   //  13:12
+       
         ex_wen      = 'b0 ;    init_row_0 = 'b0 ;   
 	    ex_ren      = 'b0 ;    init_row_1 = 'b0 ;
 	    ex_addr     = 'b0 ;    init_row_2 = 'b0 ; 

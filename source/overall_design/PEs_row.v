@@ -32,39 +32,51 @@ module PE_row (
     output  [31:                 0]  result
 );
 //-----------------end-------------------//
+    wire    [31:0]  PE_0_Nin;
+    wire    [31:0]  PE_0_Sin;
     wire    [31:0]  PE_0_Win;
     wire    [31:0]  PE_0_Ein;
 
+    wire    [31:0]  PE_1_Nin;
+    wire    [31:0]  PE_1_Sin;
     wire    [31:0]  PE_1_Win;
     wire    [31:0]  PE_1_Ein;
-    
+
+    wire    [31:0]  PE_2_Nin;
+    wire    [31:0]  PE_2_Sin;
     wire    [31:0]  PE_2_Win;
     wire    [31:0]  PE_2_Ein;
 
+    // wire    [31:0]  PE_3_Nin;
+    // wire    [31:0]  PE_3_Sin;
     wire    [31:0]  PE_3_Win;
     wire    [31:0]  PE_3_Ein;
-    
+
+    // wire    [31:0]  PE_0_Nout;
+    // wire    [31:0]  PE_0_Sout;
     wire    [31:0]  PE_0_Wout;
     wire    [31:0]  PE_0_Eout;
-    wire    [31:0]  PE_0_Lout;
-    
+
+    // wire    [31:0]  PE_1_Nout;
+    // wire    [31:0]  PE_1_Sout;
     wire    [31:0]  PE_1_Wout;
     wire    [31:0]  PE_1_Eout;
-    wire    [31:0]  PE_1_Lout;
 
+    // wire    [31:0]  PE_2_Nout;
+    // wire    [31:0]  PE_2_Sout;
     wire    [31:0]  PE_2_Wout;
     wire    [31:0]  PE_2_Eout;
-    wire    [31:0]  PE_2_Lout;
 
+    wire    [31:0]  PE_3_Nout;
+    wire    [31:0]  PE_3_Sout;
     wire    [31:0]  PE_3_Wout;
     wire    [31:0]  PE_3_Eout;
-    wire    [31:0]  PE_3_Lout;
 
 //--------------------end---------------//
     wire    [31:0]  lsu_to_pe;
 
     wire    [`L_I_W  -1:0]  LSU_inst;
-    
+    wire    [31:0]  PE_0_Lout,PE_1_Lout,PE_2_Lout,PE_3_Lout;
     wire    init_LSU,init_PE_0,init_PE_1,init_PE_2,init_PE_3;    
     wire    run_LSU,run_PE_0,run_PE_1,run_PE_2,run_PE_3;    
     assign  {init_LSU,init_PE_0,init_PE_1,init_PE_2,init_PE_3} = 5'b10000 >> init_sel ;
@@ -88,10 +100,12 @@ module PE_row (
         .W_request      (W_request              ), 
         .LSU_addr_bus   (LSU_addr_bus           ) 
     );
-
-        
-
-
+    assign  PE_0_Ein = PE_1_Wout;
+    assign  PE_1_Ein = PE_2_Wout;        
+    assign  PE_1_Win = PE_0_Eout;
+    assign  PE_2_Ein = PE_3_Wout;        
+    assign  PE_2_Win = PE_1_Eout;
+    assign  PE_3_Win = PE_2_Eout;
     PE  pe_0(
         .clk            (clk                    ),
         .rst            (rst                    ),
@@ -101,7 +115,7 @@ module PE_row (
         .din_N          (pe_0_Nin               ),//上
         .din_S          (pe_0_Sin               ),//下
         .din_W          (                       ),//左
-        .din_E          (PE_1_Wout              ),//右
+        .din_E          (PE_0_Ein               ),//右
         .din_LSU        (lsu_to_pe              ),
         .dout_N         (PE_0_Nout              ),
         .dout_S         (PE_0_Sout              ),
@@ -118,8 +132,8 @@ module PE_row (
         .run            (run_PE_1  & run_en      ),
         .din_N          (pe_1_Nin               ),//上
         .din_S          (pe_1_Sin               ),//下
-        .din_W          (PE_0_Eout              ),//左
-        .din_E          (PE_2_Wout              ),//右
+        .din_W          (PE_1_Win              ),//左
+        .din_E          (PE_1_Ein              ),//右
         .din_LSU        (lsu_to_pe              ),
         .dout_N         (PE_1_Nout              ),
         .dout_S         (PE_1_Sout              ),
@@ -136,8 +150,8 @@ module PE_row (
         .run            (run_PE_2  & run_en    ),
         .din_N          (pe_2_Nin               ),//上
         .din_S          (pe_2_Sin               ),//下
-        .din_W          (PE_1_Eout              ),//左
-        .din_E          (PE_3_Wout              ),//右
+        .din_W          (PE_2_Win              ),//左
+        .din_E          (PE_2_Ein              ),//右
         .din_LSU        (lsu_to_pe              ),
         .dout_N         (PE_2_Nout              ),
         .dout_S         (PE_2_Sout              ),
@@ -154,7 +168,7 @@ module PE_row (
         .run            (run_PE_3  & run_en     ),
         .din_N          (                       ),//上
         .din_S          (                       ),//下
-        .din_W          (PE_2_Eout              ),//左
+        .din_W          (PE_3_Win               ),//左
         .din_E          (                       ),//右
         .din_LSU        (lsu_to_pe              ),
         .dout_N         (                       ),
@@ -163,6 +177,5 @@ module PE_row (
         .dout_E         (                       ),
         .dout_LSU       (PE_3_Lout              ) 
         );
-
 
 endmodule

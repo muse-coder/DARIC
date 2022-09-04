@@ -82,7 +82,7 @@ module bankgroup (
 //----------single port ram_0 signal----------//
  	    .ENABLE_0   (fifo_0_en_0   ),
 	    .WE_0       (fifo_0_we_0   ),
-	    .A_0        (fifo_0_addr_0),
+	    .A_0        (fifo_0_addr_0 ),
 //----------single port ram_1 signal----------//
  	    .ENABLE_1   (fifo_0_en_1   ),
 	    .WE_1       (fifo_0_we_1   ),

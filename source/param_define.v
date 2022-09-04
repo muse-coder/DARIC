@@ -27,7 +27,7 @@
 `define EX_bus          44     //external_memory_bus
 `define R_Q             3            //read_request
 `define W_Q             35            //write_request
-`define SPM_INST        20
+`define SPM_INST        24
 // `define H_C_W           (48 * 4 + 13) * 4 //host_controller_width
 `define PE_5x4          12
 `define PE_9x7          28
