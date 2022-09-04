@@ -7,7 +7,7 @@ module single_port_ram (
 	input	wea,
 	input	flush,
 	input	[31:0]	din,
-	input	[8:0] addr,
+	input	[`A_W-2:0] addr,
 	output reg [31:0]	dout,
 	output reg read_valid
 );
@@ -17,9 +17,9 @@ module single_port_ram (
 	// reg		write_valid;
 	always @(posedge clk ) begin
 		if((rst | flush)) begin
-			for (i = 0;i<num ;i=i+1 ) begin
-				ram[i] <= 32'b0;
-			end
+			// for (i = 0;i<num ;i=i+1 ) begin
+			// 	ram[i] <= 32'b0;
+			// end
 			dout <= 32'hffffffff;			
 			read_valid <=1'b0;
 			// write_valid<=1'b0;

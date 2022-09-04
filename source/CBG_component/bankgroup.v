@@ -53,7 +53,7 @@ module bankgroup (
     end
 //------------------end---------------------------//
     assign  {
-        random_addr,//9:1
+        random_addr,//8:1
         ram_sel     //0:0
     }   = addr ;
 // ---------模式选择---------------//

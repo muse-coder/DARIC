@@ -35,17 +35,17 @@ module scratchpad (
 	wire	sin_0_ren,sin_1_ren,sin_2_ren,sin_3_ren;
 	wire	[1:0]	BG_0_fifo_sel,BG_1_fifo_sel,BG_2_fifo_sel,BG_3_fifo_sel;
 	assign	{
-		ex_wen,		//43:43
-		ex_ren,		//42:42
-		ex_addr,	//41:32
+		ex_wen,		//41:41
+		ex_ren,		//40:40
+		ex_addr,	//39:32
 		ex_data		//31:0
 	}	=	ex_bus;
 
 	assign	{
-		sin_0_wen,		//43:43
-		sin_0_data,	
-        sin_0_ren,		//42:42
-		sin_0_addr	//31:0
+		sin_0_wen,		//41:41
+		sin_0_data,	    //40:9
+        sin_0_ren,		//8:8
+		sin_0_addr	    //7:0
 	}	=	switch_in_0;
 
 	assign	{
