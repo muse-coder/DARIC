@@ -82,7 +82,7 @@ module testbench (
     reg BG0_sel, BG1_sel, BG2_sel, BG3_sel;
     reg BG0_mode, BG1_mode, BG2_mode, BG3_mode;
     reg BG0_fifo_sel ,BG1_fifo_sel ,BG2_fifo_sel ,BG3_fifo_sel ;
-    
+    reg flush_0, flush_1, flush_2, flush_3; 
     always  #(cycle/2)  clk = ~ clk;
     integer i;
     initial begin
@@ -92,7 +92,7 @@ module testbench (
 	    BG2_en  =  1'b0 ;   BG2_sel  =  1'b0 ;    BG2_mode  =  1'b0 ; BG2_fifo_sel ='b0 ;   //  17:16
 	    BG1_en  =  1'b0 ;   BG1_sel  =  1'b0 ;    BG1_mode  =  1'b0 ; BG1_fifo_sel ='b0 ;   //  15:14
 	    BG0_en  =  1'b0 ;   BG0_sel  =  1'b0 ;    BG0_mode  =  1'b0 ; BG0_fifo_sel ='b0 ;   //  13:12
-       
+        flush_0 =  1'b0 ;   flush_1  =  1'b0 ;    flush_0   =  1'b0 ; flush_1      =  1'b0 ;
         ex_wen      = 'b0 ;    init_row_0 = 'b0 ;   
 	    ex_ren      = 'b0 ;    init_row_1 = 'b0 ;
 	    ex_addr     = 'b0 ;    init_row_2 = 'b0 ; 
@@ -107,46 +107,55 @@ module testbench (
         inst = 'h004708078d9f;//PE0
         {init_PE_0 , init_PE_1 , init_PE_2 , init_PE_3  } = {4'b1000};
     
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b1000};
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b1000};
         inst = 'h00000700002f;//PE1
         {init_PE_0 , init_PE_1 , init_PE_2 , init_PE_3  } = {4'b0100};
     
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
         inst = 'h07074807883f;//PE4
         {init_PE_0 , init_PE_1 , init_PE_2 , init_PE_3  } = {4'b1000};
     
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
         inst = 'h00000070218f;//PE5
         {init_PE_0 , init_PE_1 , init_PE_2 , init_PE_3  } = {4'b0100};
 
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0010};
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0010};
         inst = 'h07700807054f;//PE8
         {init_PE_0 , init_PE_1 , init_PE_2 , init_PE_3  } = {4'b1000};
 
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b1000};
-        inst = 'h0401;//LSU0
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b1000};
         {init_PE_0 , init_PE_1 , init_PE_2 , init_PE_3  } = {4'b0000};
+        inst = 'h0;   //LSU0  等SPM写
         init_LSU = 1'b1;
-
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b1000};
-        inst = 'h0621;//LSU0
+    #10 inst = 'h0401;//LSU0  随机读
         
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
-        inst = 'h00c0;//LSU1
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b1000};
+        inst = 'h0621;//LSU0  写BG1 FIFO0
+        
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
+        inst = 'h00c0;//LSU1  读BG1 FIFO0
 
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
-        inst = 'h02c0;//LSU1
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0100};
+        inst = 'h02c0;//LSU1  写BG2 FIFO0
     
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0010};
-        inst = 'h0100;//LSU2
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0010};
+        inst = 'h0100;//LSU2  读BG2 FIFO0
 
-    #10 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0000};
+    //init _SPM
+    #30 {init_row_0 , init_row_1 , init_row_2 , init_row_3 } = {4'b0000};
         init_LSU = 'b0;
         init_SPM = 'b1;
-        inst = 'h00100;
-    #10 inst = 'h00110;
-    #10 inst = 'h00776;
-        init_SPM = 'b0;
+        BG0_en   = 'b1;// 随机读取
+    #10 BG1_en   = 'b1;               //BG1 BG2 BG3 FIFO 模式
+        BG2_en   = 'b1;
+        BG3_en   = 'b1;
+        BG1_sel  = 'b1;
+        BG2_sel  = 'b1;
+        BG3_sel  = 'b1;
+        BG1_mode = 'b1;
+        BG2_mode = 'b1;
+        BG3_mode = 'b1;
+
 //------------------启动------------------//
 
     #30 init = 1'b0;
