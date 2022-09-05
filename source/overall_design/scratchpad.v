@@ -80,9 +80,9 @@ module scratchpad (
         if(rst) begin
             init_count  <=  'b0;
             run_count   <=  'b0;
-            // for (i = 0; i <4 ; i = i + 1) begin
-            //     config_buffer[i] <='b0;
-            // end
+            for (i = 0; i <`buffer_depth ; i = i + 1) begin
+                config_buffer[i] <='b0;
+            end
             inst_r <= 'b0;
         end
 

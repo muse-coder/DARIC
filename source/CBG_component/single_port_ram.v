@@ -5,7 +5,7 @@ module single_port_ram (
 	input	rst,
 	input	ena,
 	input	wea,
-	input	flush,
+	// input	flush,
 	input	[31:0]	din,
 	input	[`A_W-2:0] addr,
 	output reg [31:0]	dout,
@@ -16,7 +16,7 @@ module single_port_ram (
 	integer i;
 	// reg		write_valid;
 	always @(posedge clk ) begin
-		if((rst | flush)) begin
+		if((rst )) begin
 			for (i = 0;i<num ;i=i+1 ) begin
 				ram[i] <= 32'b0;
 			end
