@@ -10,17 +10,14 @@ module TCAD (
 
 //-----------加载指令---------------//    
     wire    init_SPM;
-    wire    run_SPM;
     wire    [`PE_inst   -1:0]   pe_config;
     wire    [`SPM_INST  -1:0]   scr_config;
-    wire    [4:0]   init_PE_array;
-    wire    [4:0]   run_PE_array;
+    wire    [8:0]   init_PE_array;
     wire    [`PE_inst   -1:0]  instruction;
     assign  {
-            run_SPM    , // 59:59     1bit
-            run_PE_array, // 58:54    5bit
-            init_SPM    , // 53:53    1bit
-            init_PE_array, // 52:48   5bit
+            run,          // 58:58    1bit
+            init_SPM    , // 57:57    1bit
+            init_PE_array, // 56:48   9bit
             instruction    // 47:0   48bit
         } = host_controller;
     assign  scr_config  = instruction   [`SPM_INST  -1:0];
@@ -63,7 +60,7 @@ module TCAD (
 	    .rst                (rst                ),
 	    .inst               (scr_config         ),
         .init               (init_SPM           ),
-        .run                (run_SPM            ),
+        .run                (run                ),
 	    .ex_bus             (ex_bus             ),
 	    .switch_in_3        (L_to_C_bus_3       ),
 	    .switch_in_2        (L_to_C_bus_2       ),
@@ -113,7 +110,7 @@ module TCAD (
     PEs_array pes_array (
         .clk                (clk                ),
         .rst                (rst                ),
-        .run_PE_array       (run_PE_array       ),
+        .run                (run                ),
         .init_PE_array      (init_PE_array      ),
         .pe_config          (pe_config          ),
         

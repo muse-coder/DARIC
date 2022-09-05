@@ -5,9 +5,8 @@ module PE_row (
     input   clk,
     input   rst,
     input   init_en,
-    input   run_en,
-    input   [2 :                0]  run_sel,
-    input   [2 :                0]  init_sel,
+    input   run,
+    input   [ 4:                0]  init_sel,
     input   [31:                0]  pe_0_Nin,
     input   [31:                0]  pe_1_Nin,
     input   [31:                0]  pe_2_Nin,
@@ -78,9 +77,7 @@ module PE_row (
     wire    [`L_I_W  -1:0]  LSU_inst;
     wire    [31:0]  PE_0_Lout,PE_1_Lout,PE_2_Lout,PE_3_Lout;
     wire    init_LSU,init_PE_0,init_PE_1,init_PE_2,init_PE_3;    
-    wire    run_LSU,run_PE_0,run_PE_1,run_PE_2,run_PE_3;    
-    assign  {init_LSU,init_PE_0,init_PE_1,init_PE_2,init_PE_3} = 5'b10000 >> init_sel ;
-    assign  {run_LSU,run_PE_0,run_PE_1,run_PE_2,run_PE_3} = 5'b10000 >> run_sel ;
+    assign  {init_LSU,init_PE_0,init_PE_1,init_PE_2,init_PE_3} = init_sel ;
     
     assign  LSU_inst = pe_config [`L_I_W  -1:0] ;
     assign  result  = lsu_to_pe ;
@@ -89,7 +86,7 @@ module PE_row (
         .rst            (rst                    ),
         .LSU_inst       (LSU_inst               ),
         .init           (init_LSU & init_en     ),
-        .run            (run_LSU  & run_en      ),
+        .run            (run                    ),
         .PE_0           (PE_0_Lout              ),
         .PE_1           (PE_1_Lout              ),
         .PE_2           (PE_2_Lout              ),
@@ -111,7 +108,7 @@ module PE_row (
         .rst            (rst                    ),
         .PE_inst        (pe_config              ),
         .init           (init_PE_0 & init_en    ),
-        .run            (run_PE_0  & run_en     ),
+        .run            (run                    ),
         .din_N          (pe_0_Nin               ),//上
         .din_S          (pe_0_Sin               ),//下
         .din_W          (                       ),//左
@@ -129,7 +126,7 @@ module PE_row (
         .rst            (rst                    ),
         .PE_inst        (pe_config              ),
         .init           (init_PE_1 & init_en    ),
-        .run            (run_PE_1  & run_en      ),
+        .run            (run                    ),
         .din_N          (pe_1_Nin               ),//上
         .din_S          (pe_1_Sin               ),//下
         .din_W          (PE_1_Win              ),//左
@@ -147,7 +144,7 @@ module PE_row (
         .rst            (rst                    ),
         .PE_inst        (pe_config              ),
         .init           (init_PE_2 & init_en    ),
-        .run            (run_PE_2  & run_en    ),
+        .run            (run                    ),
         .din_N          (pe_2_Nin               ),//上
         .din_S          (pe_2_Sin               ),//下
         .din_W          (PE_2_Win              ),//左
@@ -165,7 +162,7 @@ module PE_row (
         .rst            (rst                    ),
         .PE_inst        (pe_config              ),
         .init           (init_PE_3 & init_en    ),
-        .run            (run_PE_3  & run_en     ),
+        .run            (run                    ),
         .din_N          (                       ),//上
         .din_S          (                       ),//下
         .din_W          (PE_3_Win               ),//左

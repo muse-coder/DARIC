@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 `define A_W             8 //address_width
-`define F_D             6        //fifo_depth
+`define F_D             10        //fifo_depth
 `define L_I_W           13    //lsu_inst_width
 `define L_C_bus         33 + 1+ 8    //lsu_to_CBG_bus
 `define C_L_bus         33    //CBG_to_lsu_bus  
@@ -36,6 +36,7 @@
 `define A_bus           8+2
 `define W_d             33
 `define Array           (48 * 4 + 13) * 4 //host_controller_width
-`define H_C_W           60 //host_controller_width
+`define H_C_W           59 //host_controller_width
 `define RAM_DEEP        128
 `define Init_PE_A       9
+`define buffer_depth    10

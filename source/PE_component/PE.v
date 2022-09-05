@@ -40,7 +40,7 @@ module PE(
 
 
 //------------configuration buffer-------------//
-    reg     [`PE_inst-1:0]    config_buffer [4:0]  ;
+    reg     [`PE_inst-1:0]    config_buffer [`buffer_depth-1:0]  ;
     reg     [31:0]  init_count;
     reg     [31:0]  run_count;
     integer i = 0;
@@ -71,9 +71,9 @@ module PE(
         if(rst) begin
             init_count  <=  'b0;
             run_count   <=  'b0;
-            for (i = 0; i <4 ; i = i + 1) begin
-                config_buffer[i] <='b0;
-            end
+            // for (i = 0; i <4 ; i = i + 1) begin
+            //     config_buffer[i] <='b0;
+            // end
             PE_inst_r   <= 'b0;
         end
         else if(init) begin
