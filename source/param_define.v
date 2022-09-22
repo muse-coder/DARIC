@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 `define A_W             8 //address_width
 `define F_D             10        //fifo_depth
-`define L_I_W           13    //lsu_inst_width
+`define L_I_W           11    //lsu_inst_width
 `define L_C_bus         33 + 1+ 8    //lsu_to_CBG_bus
 `define C_L_bus         33    //CBG_to_lsu_bus  
 `define Config_W        48 * 4 + 13  //config_buffer_width
