@@ -7,16 +7,17 @@ module scratchpad (
 	input	[`SPM_INST-1:0]	inst,
     input   init,
     input   run,
-	input	[`EX_bus-1 :0]	ex_bus,
-	input	[`L_C_bus-1:0]	switch_in_3,
-	input	[`L_C_bus-1:0]	switch_in_2,
-	input	[`L_C_bus-1:0]	switch_in_1,
-	input	[`L_C_bus-1:0]	switch_in_0,
+	input	[`EX_in_bus-1  :0]	ex_in_bus,
+	input	[`L_C_bus-1    :0]	switch_in_3,
+	input	[`L_C_bus-1    :0]	switch_in_2,
+	input	[`L_C_bus-1    :0]	switch_in_1,
+	input	[`L_C_bus-1    :0]	switch_in_0,
 	
-	output	[`C_L_bus-1:0]	switch_out_3,
-	output	[`C_L_bus-1:0]	switch_out_2,
-	output	[`C_L_bus-1:0]	switch_out_1,
-	output	[`C_L_bus-1:0]	switch_out_0
+	output	[`C_L_bus-1    :0]	switch_out_3,
+	output	[`C_L_bus-1    :0]	switch_out_2,
+	output	[`C_L_bus-1    :0]	switch_out_1,
+	output	[`C_L_bus-1    :0]	switch_out_0,
+    output  [`EX_out_bus-1 :0]  ex_out_bus
 );
 	wire 	BG0_sel,BG1_sel,BG2_sel,BG3_sel;
 	wire 	BG0_mode,BG1_mode,BG2_mode,BG3_mode;
@@ -39,8 +40,14 @@ module scratchpad (
 		ex_ren,		//40:40
 		ex_addr,	//39:32
 		ex_data		//31:0
-	}	=	ex_bus;
+    }	=	ex_in_bus;
 
+    assign ex_out_bus ={
+        switch_out_3[31:0],
+        switch_out_2[31:0],
+        switch_out_1[31:0],
+        switch_out_0[31:0]
+    };
 	assign	{
 		sin_0_wen,		//41:41
 		sin_0_data,	    //40:9

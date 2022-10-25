@@ -1,4 +1,4 @@
-`include "../param_define.v"
+`include "../source/param_define.v"
 `timescale 1ns / 1ps
 
 module testbench (

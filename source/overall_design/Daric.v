@@ -1,11 +1,11 @@
 `include "../param_define.v"
 
-module TCAD (
+module Daric (
     input   clk,
     input   rst,
-    input   [`H_C_W-1:0]    host_controller,
-	input	[`EX_bus-1 :0]	ex_bus,
-    output  [31:0]  TCAD_result
+    input   [`H_C_W-1       :0]    host_controller,
+	input	[`EX_in_bus-1   :0]    ex_in_bus,
+    output  [`EX_out_bus-1  :0]    ex_out_bus
 );
 
 //-----------加载指令---------------//    
@@ -61,7 +61,7 @@ module TCAD (
 	    .inst               (scr_config         ),
         .init               (init_SPM           ),
         .run                (run                ),
-	    .ex_bus             (ex_bus             ),
+	    .ex_in_bus          (ex_in_bus          ),
 	    .switch_in_3        (L_to_C_bus_3       ),
 	    .switch_in_2        (L_to_C_bus_2       ),
 	    .switch_in_1        (L_to_C_bus_1       ),
@@ -69,7 +69,8 @@ module TCAD (
 	    .switch_out_3       (R_response_3       ),
 	    .switch_out_2       (R_response_2       ),
 	    .switch_out_1       (R_response_1       ),
-	    .switch_out_0       (R_response_0       )
+	    .switch_out_0       (R_response_0       ),
+        .ex_out_bus         (ex_out_bus         )
     );    
 
 
@@ -132,8 +133,7 @@ module TCAD (
         .LSU_addr_bus_0     (LSU_addr_bus_0     ), 
         .LSU_addr_bus_1     (LSU_addr_bus_1     ), 
         .LSU_addr_bus_2     (LSU_addr_bus_2     ), 
-        .LSU_addr_bus_3     (LSU_addr_bus_3     ),
-        .result             (TCAD_result)
+        .LSU_addr_bus_3     (LSU_addr_bus_3     )
     );
 
 endmodule
