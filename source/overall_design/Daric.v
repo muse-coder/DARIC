@@ -10,19 +10,19 @@ module Daric (
 
 //-----------加载指令---------------//    
     wire    init_SPM;
-    wire    [`PE_inst   -1:0]   pe_config;
+    wire    [`PE_inst   -1:0]   PE_config;
     wire    [`SPM_INST  -1:0]   scr_config;
     wire    [8:0]   init_PE_array;
     wire    [`PE_inst   -1:0]  instruction;
     assign  {
-            run,          // 58:58    1bit
-            init_SPM    , // 57:57    1bit
-            init_PE_array, // 56:48   9bit
-            instruction    // 47:0   48bit
+            run,          // 38:38    1bit
+            init_SPM    , // 37:37    1bit
+            init_PE_array, // 36:28   9bit
+            instruction    // 27:0   28bit
         } = host_controller;
     assign  scr_config  = instruction   [`SPM_INST  -1:0];
     
-    assign  pe_config   = instruction   [`PE_inst   -1:0];
+    assign  PE_config   = instruction   [`PE_inst   -1:0];
 //-----------------end-------------------//
 
     wire    [`L_C_bus   -1:0]   L_to_C_bus_3;
@@ -113,7 +113,7 @@ module Daric (
         .rst                (rst                ),
         .run                (run                ),
         .init_PE_array      (init_PE_array      ),
-        .pe_config          (pe_config          ),
+        .PE_config          (PE_config          ),
         
         .CBG_to_LSU_bus_0   (to_LSU_0           ),
         .CBG_to_LSU_bus_1   (to_LSU_1           ),

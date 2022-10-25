@@ -18,7 +18,6 @@ module LSU #(
     output  [`W_Q-1    :0]  W_request,  
     output  [`A_bus    -1:0]  LSU_addr_bus
     );
-    wire    [`L_I_W-1   :0] inst;
     wire            store_sel;
     wire    ren;
     wire    wen;
@@ -37,6 +36,7 @@ module LSU #(
     reg     [31:0]  run_count;
     integer i = 0;
     reg     [`L_I_W-1:0]    inst_r;
+    wire    [31:0]  din;
 //-------------初始化-------------------//
     always @(posedge clk ) begin
         if(rst) begin
@@ -60,8 +60,8 @@ module LSU #(
     assign  {read_valid , din} =  CBG_to_LSU_bus;
 
     assign  {
-        ren,      //12:11
-        wen,      //10:9
+        ren,      //10:10
+        wen,      //9:9
         r_sel,    //8:7
         w_sel,    //6:5
         addr_sel, //4:3

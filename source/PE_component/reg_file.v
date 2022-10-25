@@ -61,10 +61,18 @@ module reg_file(
     
 // mux  0 上 1下
     always @(posedge clk ) begin
-        R0 <=  R0_in   ;//mux 上0 下1
-        R1 <=  R1_in   ; 
-        R2 <=  R2_in   ;
-        R3 <=  R3_in   ; 
+        if(rst) begin
+            R0 <=  R0_in   ;//mux 上0 下1
+            R1 <=  R1_in   ; 
+            R2 <=  R2_in   ;
+            R3 <=  R3_in   ;         
+        end
+        else begin
+            R0 <=  R0_in   ;//mux 上0 下1
+            R1 <=  R1_in   ; 
+            R2 <=  R2_in   ;
+            R3 <=  R3_in   ; 
+        end
     end
 
     assign  dout_R0 = R0 ;

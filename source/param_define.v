@@ -37,8 +37,7 @@
 `define PE_inst         28
 `define A_bus           8+2
 `define W_d             33
-`define Array           (48 * 4 + 13) * 4 //host_controller_width
-`define H_C_W           59 //host_controller_width
+`define H_C_W           39 //host_controller_width
 `define RAM_DEEP        128
 `define Init_PE_A       9
 `define buffer_depth    10

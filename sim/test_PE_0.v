@@ -49,7 +49,7 @@ module test_PE_0 (
         rst = 1'b1;
     #10 rst = 1'b0;    
         init ='b1;
-        PE_inst='h962af0;
+        PE_inst='h965b70;
     #20 init ='b0;
         run ='b1;
     #10 run ='b0;

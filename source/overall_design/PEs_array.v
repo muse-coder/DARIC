@@ -5,7 +5,7 @@ module PEs_array (
     input   rst     ,
     input   run     ,
     input   [8:0    ]                init_PE_array   ,
-    input   [`PE_inst   -1:0    ]    pe_config       ,
+    input   [`PE_inst   -1:0    ]    PE_config       ,
     input   [`C_L_bus   -1:0    ]    CBG_to_LSU_bus_0,
     input   [`C_L_bus   -1:0    ]    CBG_to_LSU_bus_1,
     input   [`C_L_bus   -1:0    ]    CBG_to_LSU_bus_2,
@@ -122,7 +122,7 @@ module PEs_array (
     wire    [4:0]init_LSU_PE;
     wire    [3:0]init_row_sel;
     assign   {init_row_sel,init_LSU_PE} = init_PE_array;
-
+    
     assign    {init_row_0,init_row_1,init_row_2,init_row_3} = init_row_sel ;
 
 
@@ -132,7 +132,7 @@ module PEs_array (
     .init_en            (init_row_0         ),
     .run                (run                ),
     .CBG_to_LSU_bus     (CBG_to_LSU_bus_0   ),
-    .PE_config          (pe_config          ),
+    .PE_config          (PE_config          ),
     .init_sel           (init_LSU_PE        ),
     .PE_0_Sin           (row_0_0_Sin        ),
     .PE_1_Sin           (row_0_1_Sin        ),
@@ -154,7 +154,7 @@ module PEs_array (
     .init_en            (init_row_1         ),
     .run                (run                ),
     .CBG_to_LSU_bus     (CBG_to_LSU_bus_1   ),
-    .PE_config          (pe_config          ),
+    .PE_config          (PE_config          ),
     .init_sel           (init_LSU_PE        ),
     
     .PE_0_Nin           (row_1_0_Nin        ),
@@ -188,7 +188,7 @@ module PEs_array (
     .init_en            (init_row_2         ),
     .run                (run                ),
     .CBG_to_LSU_bus     (CBG_to_LSU_bus_2   ),
-    .PE_config          (pe_config          ),
+    .PE_config          (PE_config          ),
     .init_sel           (init_LSU_PE        ),
     
     .PE_0_Nin           (row_2_0_Nin        ),
@@ -221,7 +221,7 @@ module PEs_array (
     .rst                (rst                ),
     .init_en            (init_row_3         ),
     .run                (run                ),
-    .PE_config          (pe_config          ), 
+    .PE_config          (PE_config          ), 
     .CBG_to_LSU_bus     (CBG_to_LSU_bus_3   ),
     .init_sel           (init_LSU_PE        ),
     .PE_0_Nin           (row_3_0_Nin        ),
@@ -232,6 +232,7 @@ module PEs_array (
     .PE_0_Nout          (row_3_0_Nout        ),
     .PE_1_Nout          (row_3_1_Nout        ),
     .PE_2_Nout          (row_3_2_Nout        ),
+
     .PE_3_Nout          (row_3_3_Nout        ),
 
     .R_request          (R_request_3        ),

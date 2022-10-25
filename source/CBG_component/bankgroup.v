@@ -217,30 +217,35 @@ module bankgroup (
     wire    read_valid_0;
     wire    read_valid_1;
     
-    single_port_ram RAM_0(
-        .clk        (clk            ),
-        .rst        (rst            ),
-        .ena        (ram_0_en       ),
-        .wea        (ram_0_we       ),
-       	.din        (din            ),
-    	.addr       (ram_0_addr     ),
-        .read_valid (read_valid_0   ),
-    	.dout       (data0)
+    sram_1rw0r0w_32_128_freepdk45 sram_0 (
+        .clk0           (clk),
+        .csb0           (~ram_0_en),
+        .web0           (~ram_0_we),
+        .addr0          (ram_0_addr),
+        .din0           (din),
+        .dout0          (data0),
+        .read_valid     (read_valid_0)
+    );
+
+    sram_1rw0r0w_32_128_freepdk45 sram_1 (
+        .clk0           (clk),
+        .csb0           (~ram_1_en),
+        .web0           (~ram_1_we),
+        .addr0          (ram_1_addr),
+        .din0           (din),
+        .dout0          (data1),
+        .read_valid     (read_valid_1)
     );
     
-    single_port_ram RAM_1(
-        .clk        (clk            ),
-        .rst        (rst            ),
-        .ena        (ram_1_en       ),
-        .wea        (ram_1_we       ),
-       	.din        (din            ),
-    	.addr       (ram_1_addr     ),
-        .read_valid (read_valid_1   ),
-    	.dout       (data1)
-    );
-    
-    assign  dout_bus =  read_valid_0 ? {read_valid_0,data0} :
+    reg [32:0] dout_bus_r;
+    always @(posedge clk ) begin
+        dout_bus_r =    read_valid_0 ? {read_valid_0,data0} :
                         read_valid_1 ? {read_valid_1,data1} :
                                                   'hffffffff; 
+    end
+    assign dout_bus = dout_bus_r;
+    // assign  dout_bus =  read_valid_0 ? {read_valid_0,data0} :
+    //                     read_valid_1 ? {read_valid_1,data1} :
+    //                                               'hffffffff; 
     
 endmodule
