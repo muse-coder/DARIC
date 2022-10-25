@@ -26,20 +26,34 @@ module scratchpad (
 	wire 	BG0_en,BG1_en,BG2_en,BG3_en;
 	wire	[`A_W-1:0]	BG0_addr,BG1_addr,BG2_addr,BG3_addr;
 	
-	wire	[31:0]		ex_data;
 	wire	[`A_W-1:0]	ex_addr;
-	wire	ex_wen,ex_ren;
-
+	wire	ex_wen_0,ex_wen_1,ex_wen_2,ex_wen_3;
+    wire    ex_ren_0,ex_ren_1,ex_ren_2,ex_ren_3;
+        
 	wire	[`A_W-1:0]	sin_0_addr,sin_1_addr,sin_2_addr,sin_3_addr;
 	wire	[31:0]	sin_0_data,sin_1_data,sin_2_data,sin_3_data;
 	wire	sin_0_wen,sin_1_wen,sin_2_wen,sin_3_wen;
 	wire	sin_0_ren,sin_1_ren,sin_2_ren,sin_3_ren;
 	wire	[1:0]	BG_0_fifo_sel,BG_1_fifo_sel,BG_2_fifo_sel,BG_3_fifo_sel;
-	assign	{
-		ex_wen,		//41:41
-		ex_ren,		//40:40
-		ex_addr,	//39:32
-		ex_data		//31:0
+	wire    [7:0]   ex_addr_3,ex_addr_2,ex_addr_1,ex_addr_0;
+    wire    [31:0]  ex_data_0,ex_data_1,ex_data_2,ex_data_3;
+    assign	{
+		ex_wen_3,		//167:167
+		ex_wen_2,		//166:166
+		ex_wen_1,		//165:165
+		ex_wen_0,		//164:164
+		ex_ren_3,		//163:163
+		ex_ren_2,		//162:162
+		ex_ren_1,		//161:161
+		ex_ren_0,		//160:160
+		ex_addr_3,	    //159:152
+		ex_addr_2,	    //151:144
+		ex_addr_1,	    //143:136
+		ex_addr_0,	    //135:128
+		ex_data_3,		//127:96
+		ex_data_2,		//95:64
+		ex_data_1,		//63:32
+		ex_data_0		//31:0
     }	=	ex_in_bus;
 
     assign ex_out_bus ={
@@ -136,25 +150,25 @@ module scratchpad (
 		BG0_mode//	0:0
 	} = inst_r;
 
-	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data ;
-	assign	BG2_feed_data = BG2_sel ? sin_2_data :	ex_data ;
-	assign	BG1_feed_data = BG1_sel ? sin_1_data :	ex_data ;
-	assign	BG0_feed_data = BG0_sel ? sin_0_data :	ex_data ;
+	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data_3 ;
+	assign	BG2_feed_data = BG2_sel ? sin_2_data :	ex_data_2 ;
+	assign	BG1_feed_data = BG1_sel ? sin_1_data :	ex_data_1 ;
+	assign	BG0_feed_data = BG0_sel ? sin_0_data :	ex_data_0 ;
 	
-	assign	BG3_addr  =  BG3_sel ?  sin_3_addr	:	ex_addr	;	
-	assign	BG2_addr  =  BG2_sel ?  sin_2_addr	:	ex_addr	;
-	assign	BG1_addr  =  BG1_sel ?  sin_1_addr	:	ex_addr	;	
-	assign	BG0_addr  =  BG0_sel ?  sin_0_addr	:	ex_addr	;
+	assign	BG3_addr  =  BG3_sel ?  sin_3_addr	:	ex_addr_3	;	
+	assign	BG2_addr  =  BG2_sel ?  sin_2_addr	:	ex_addr_2	;
+	assign	BG1_addr  =  BG1_sel ?  sin_1_addr	:	ex_addr_1	;	
+	assign	BG0_addr  =  BG0_sel ?  sin_0_addr	:	ex_addr_0	;
 
-	assign	BG3_wen	  =  BG3_sel ?	sin_3_wen	:	ex_wen	;
-	assign	BG2_wen	  =  BG2_sel ?	sin_2_wen	:	ex_wen	;
-	assign	BG1_wen	  =  BG1_sel ?	sin_1_wen	:	ex_wen	;
-	assign	BG0_wen	  =  BG0_sel ?	sin_0_wen	:	ex_wen	;
+	assign	BG3_wen	  =  BG3_sel ?	sin_3_wen	:	ex_wen_3	;
+	assign	BG2_wen	  =  BG2_sel ?	sin_2_wen	:	ex_wen_2	;
+	assign	BG1_wen	  =  BG1_sel ?	sin_1_wen	:	ex_wen_1	;
+	assign	BG0_wen	  =  BG0_sel ?	sin_0_wen	:	ex_wen_0	;
 
-	assign	BG3_ren	  =  BG3_sel ?	sin_3_ren	:	ex_ren	;
-	assign	BG2_ren	  =  BG2_sel ?	sin_2_ren	:	ex_ren	;
-	assign	BG1_ren	  =  BG1_sel ?	sin_1_ren	:	ex_ren	;
-	assign	BG0_ren	  =  BG0_sel ?	sin_0_ren	:	ex_ren	;
+	assign	BG3_ren	  =  BG3_sel ?	sin_3_ren	:	ex_ren_3	;
+	assign	BG2_ren	  =  BG2_sel ?	sin_2_ren	:	ex_ren_2	;
+	assign	BG1_ren	  =  BG1_sel ?	sin_1_ren	:	ex_ren_1	;
+	assign	BG0_ren	  =  BG0_sel ?	sin_0_ren	:	ex_ren_0	;
 
 	bankgroup	BG0(
     	.clk		    (clk			),

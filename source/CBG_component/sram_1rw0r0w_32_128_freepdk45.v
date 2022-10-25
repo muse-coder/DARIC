@@ -45,11 +45,6 @@ module sram_1rw0r0w_32_128_freepdk45(
     web0_reg = web0;
     addr0_reg = addr0;
     din0_reg = din0;
-    // #(T_HOLD) dout0 = 32'bx;
-    if ( !csb0_reg && web0_reg && VERBOSE )
-      $display($time," Reading %m addr0=%b dout0=%b",addr0_reg,mem[addr0_reg]);
-    if ( !csb0_reg && !web0_reg && VERBOSE )
-      $display($time," Writing %m addr0=%b din0=%b",addr0_reg,din0_reg);
   end
 
 
@@ -59,7 +54,6 @@ module sram_1rw0r0w_32_128_freepdk45(
   begin : MEM_WRITE0
     if ( !csb0_reg && !web0_reg ) begin
         mem[addr0_reg][31:0] = din0_reg[31:0];
-        read_valid <='b0;
     end
   end
 
