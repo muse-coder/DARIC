@@ -50,7 +50,7 @@ module PE_F(
     reg     [`PE_inst-1:0]    config_buffer [`buffer_depth-1:0]  ;
     reg     [31:0]  init_count;
     reg     [31:0]  run_count;
-    integer i = 0;
+    integer i ;
     reg     [`PE_inst-1:0]    PE_inst_r;
 
 //-------------初始化-------------------//

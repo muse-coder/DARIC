@@ -14,6 +14,7 @@ module Daric (
     wire    [`SPM_INST  -1:0]   scr_config;
     wire    [8:0]   init_PE_array;
     wire    [`PE_inst   -1:0]  instruction;
+    wire    run;
     assign  {
             run,          // 38:38    1bit
             init_SPM    , // 37:37    1bit

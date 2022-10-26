@@ -71,7 +71,7 @@ module PE_row_1_2(
     assign  {init_LSU,init_PE_0,init_PE_1,init_PE_2,init_PE_3} = init_sel ;
     
     assign  LSU_inst = PE_config [`L_I_W  -1:0] ;
-    assign  result  = LSU_to_PE ;
+    
     LSU LSU(
         .clk            (clk                    ),
         .rst            (rst                    ),
