@@ -28,14 +28,14 @@
 `define EX_out_bus      32     //external_memory_in_bus
 
 `define R_Q             3            //read_request
-`define W_Q             35            //write_request
-`define SPM_INST        24
+`define W_Q             36            //write_request
+`define SPM_INST        48
 // `define H_C_W           (48 * 4 + 13) * 4 //host_controller_width
 `define PE_5x4          12
 `define PE_7x6          18
 `define FU              4
 `define PE_inst         28
-`define A_bus           8+2
+`define A_bus           8+3
 `define W_d             33
 `define H_C_W           39 //host_controller_width
 `define RAM_DEEP        128
