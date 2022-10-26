@@ -29,39 +29,29 @@ module scratchpad (
 	wire	[`A_W-1:0]	ex_addr;
 	wire	ex_wen_0,ex_wen_1,ex_wen_2,ex_wen_3;
     wire    ex_ren_0,ex_ren_1,ex_ren_2,ex_ren_3;
+    wire    [1:0]   ex_read_sel;
+    wire    [1:0]   ex_write_sel;
         
 	wire	[`A_W-1:0]	sin_0_addr,sin_1_addr,sin_2_addr,sin_3_addr;
 	wire	[31:0]	sin_0_data,sin_1_data,sin_2_data,sin_3_data;
 	wire	sin_0_wen,sin_1_wen,sin_2_wen,sin_3_wen;
 	wire	sin_0_ren,sin_1_ren,sin_2_ren,sin_3_ren;
 	wire	[1:0]	BG_0_fifo_sel,BG_1_fifo_sel,BG_2_fifo_sel,BG_3_fifo_sel;
-	wire    [7:0]   ex_addr_3,ex_addr_2,ex_addr_1,ex_addr_0;
-    wire    [31:0]  ex_data_0,ex_data_1,ex_data_2,ex_data_3;
-    assign	{
-		ex_wen_3,		//167:167
-		ex_wen_2,		//166:166
-		ex_wen_1,		//165:165
-		ex_wen_0,		//164:164
-		ex_ren_3,		//163:163
-		ex_ren_2,		//162:162
-		ex_ren_1,		//161:161
-		ex_ren_0,		//160:160
-		ex_addr_3,	    //159:152
-		ex_addr_2,	    //151:144
-		ex_addr_1,	    //143:136
-		ex_addr_0,	    //135:128
-		ex_data_3,		//127:96
-		ex_data_2,		//95:64
-		ex_data_1,		//63:32
-		ex_data_0		//31:0
+    wire    [31:0]  ex_data;
+    assign	{	            
+		ex_write_sel,		//43:42
+		ex_read_sel,		//41:40
+		ex_addr,	    //39:32
+		ex_data 		//31:0
     }	=	ex_in_bus;
 
-    assign ex_out_bus ={
-        switch_out_3[31:0],
-        switch_out_2[31:0],
-        switch_out_1[31:0],
-        switch_out_0[31:0]
-    };
+    assign  {ex_wen_0,ex_wen_1,ex_wen_2,ex_wen_3} = {4'b1000} >> ex_write_sel;
+    assign  {ex_ren_0,ex_ren_1,ex_ren_2,ex_ren_3} = {4'b1000} >> ex_read_sel;
+
+    assign ex_out_bus =  ex_read_sel == 'b00 ? switch_out_0[31:0]:
+                         ex_read_sel == 'b01 ? switch_out_1[31:0]:
+                         ex_read_sel == 'b10 ? switch_out_2[31:0]:
+                         ex_read_sel == 'b11 ? switch_out_3[31:0]:'b0;
 	assign	{
 		sin_0_wen,		//41:41
 		sin_0_data,	    //40:9
@@ -150,15 +140,15 @@ module scratchpad (
 		BG0_mode//	0:0
 	} = inst_r;
 
-	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data_3 ;
-	assign	BG2_feed_data = BG2_sel ? sin_2_data :	ex_data_2 ;
-	assign	BG1_feed_data = BG1_sel ? sin_1_data :	ex_data_1 ;
-	assign	BG0_feed_data = BG0_sel ? sin_0_data :	ex_data_0 ;
+	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data ;
+	assign	BG2_feed_data = BG2_sel ? sin_2_data :	ex_data ;
+	assign	BG1_feed_data = BG1_sel ? sin_1_data :	ex_data ;
+	assign	BG0_feed_data = BG0_sel ? sin_0_data :	ex_data ;
 	
-	assign	BG3_addr  =  BG3_sel ?  sin_3_addr	:	ex_addr_3	;	
-	assign	BG2_addr  =  BG2_sel ?  sin_2_addr	:	ex_addr_2	;
-	assign	BG1_addr  =  BG1_sel ?  sin_1_addr	:	ex_addr_1	;	
-	assign	BG0_addr  =  BG0_sel ?  sin_0_addr	:	ex_addr_0	;
+	assign	BG3_addr  =  BG3_sel ?  sin_3_addr	:	ex_addr	;	
+	assign	BG2_addr  =  BG2_sel ?  sin_2_addr	:	ex_addr	;
+	assign	BG1_addr  =  BG1_sel ?  sin_1_addr	:	ex_addr	;	
+	assign	BG0_addr  =  BG0_sel ?  sin_0_addr	:	ex_addr	;
 
 	assign	BG3_wen	  =  BG3_sel ?	sin_3_wen	:	ex_wen_3	;
 	assign	BG2_wen	  =  BG2_sel ?	sin_2_wen	:	ex_wen_2	;
