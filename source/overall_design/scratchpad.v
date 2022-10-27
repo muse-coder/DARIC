@@ -20,7 +20,6 @@ module scratchpad (
     output  [`EX_out_bus-1 :0]  ex_out_bus
 );
 	wire 	BG0_sel,BG1_sel,BG2_sel,BG3_sel;
-	wire 	BG0_mode,BG1_mode,BG2_mode,BG3_mode;
 	wire 	BG0_wen,BG1_wen,BG2_wen,BG3_wen;
 	wire 	BG0_ren,BG1_ren,BG2_ren,BG3_ren;
 	wire 	BG0_en,BG1_en,BG2_en,BG3_en;
@@ -114,12 +113,7 @@ module scratchpad (
 
 	wire    [31:0] BG0_feed_data,BG1_feed_data,BG2_feed_data,BG3_feed_data;
     wire    [1:0] BG0_fifo_sel,BG1_fifo_sel,BG2_fifo_sel,BG3_fifo_sel;
-	wire    flush_0,flush_1,flush_2,flush_3;
-    assign {
-        flush_3,        //  23:23
-        flush_2,        //  22:22
-        flush_1,        //  21:21
-        flush_0,        //  20:20
+	assign {
         BG3_fifo_sel,   //  19:18
 		BG2_fifo_sel,   //  17:16
 		BG1_fifo_sel,   //  15:14
@@ -132,12 +126,8 @@ module scratchpad (
 		BG3_sel,//	7:7
 		BG2_sel,// 	6:6
 		BG1_sel,//  5:5
-		BG0_sel,//  4:4
+		BG0_sel//  4:4
 		
-		BG3_mode,// 3:3
-		BG2_mode,//	2:2
-		BG1_mode,//	1:1
-		BG0_mode//	0:0
 	} = inst_r;
 
 	assign	BG3_feed_data = BG3_sel ? sin_3_data :	ex_data ;
@@ -165,12 +155,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG0_en 		),		
     	.din_i		    (BG0_feed_data	),
-    	.pattern_i	    (BG0_mode		),
     	.addr_i		    (BG0_addr		),
     	.we_i			(BG0_wen		),
     	.re_i			(BG0_ren		),
-		.fifo_sel_i	    (BG0_fifo_sel	),
-    	.flush_i		(flush_0        ),
     	.dout_bus		(switch_out_0   )
 	);
 
@@ -179,12 +166,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG1_en 		),		
     	.din_i		    (BG1_feed_data	),
-    	.pattern_i	    (BG1_mode		),
     	.addr_i		    (BG1_addr       ),
     	.we_i			(BG1_wen        ),
     	.re_i			(BG1_ren        ),
-    	.fifo_sel_i	    (BG1_fifo_sel	),
-    	.flush_i		(flush_1        ),
     	.dout_bus		(switch_out_1	)
 	);
 
@@ -193,12 +177,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG2_en 		),		
     	.din_i		    (BG2_feed_data	),
-    	.pattern_i	    (BG2_mode		),
     	.addr_i		    (BG2_addr       ),
     	.we_i			(BG2_wen        ),
     	.re_i			(BG2_ren        ),
-    	.fifo_sel_i	    (BG2_fifo_sel	),
-    	.flush_i		(flush_2        ),
     	.dout_bus		(switch_out_2	)
 	);
 
@@ -207,12 +188,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG3_en 		),		
     	.din_i		    (BG3_feed_data	),
-    	.pattern_i	    (BG3_mode		),
     	.addr_i		    (BG3_addr       ),
     	.we_i			(BG3_wen        ),
     	.re_i			(BG3_ren        ),
-    	.fifo_sel_i	    (BG3_fifo_sel	),
-    	.flush_i		(flush_3        ),
     	.dout_bus		(switch_out_3	)
 	);
 

@@ -1,8 +1,8 @@
 // OpenRAM SRAM model
-// Words: 128
+// Words: 256
 // Word size: 32
 
-module sram_1rw0r0w_32_128_freepdk45(
+module sram_1rw0r0w_32_256_freepdk45(
 `ifdef USE_POWER_PINS
     vdd,
     gnd,
@@ -12,10 +12,10 @@ module sram_1rw0r0w_32_128_freepdk45(
   );
 
   parameter DATA_WIDTH = 32 ;
-  parameter ADDR_WIDTH = 7 ;
+  parameter ADDR_WIDTH = 8 ;
   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
   // FIXME: This delay is arbitrary.
-  parameter DELAY = 0 ;
+  parameter DELAY = 3 ;
   parameter VERBOSE = 1 ; //Set to 0 to only display warnings
   parameter T_HOLD = 1 ; //Delay to hold dout value after posedge. Value is arbitrary
 

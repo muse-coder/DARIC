@@ -36,8 +36,8 @@ module PE_F(
     wire    c1,c2;
     assign  din_0 = c1 ? din_N : din_W;
     assign  din_1 = c1 ? din_W : din_N;
-    assign  din_2 = c2 ? din_S : din_E;
-    assign  din_3 = c2 ? din_E : din_S;
+    assign  din_2 = c2 ? 'b0 : 'b0;
+    assign  din_3 = c2 ? 'b0 : 'b0;
 
     wire    [3:0]   reg_file_sel;
     wire    [`FU-1:0]   fu_opcode;
