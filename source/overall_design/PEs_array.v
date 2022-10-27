@@ -4,7 +4,7 @@ module PEs_array (
     input   clk     ,
     input   rst     ,
     input   run     ,
-    input   [8:0    ]                init_PE_array   ,
+    input   [12:0    ]                init_PE_array   ,
     input   [`PE_inst   -1:0    ]    PE_config       ,
     input   [`C_L_bus   -1:0    ]    CBG_to_LSU_bus_0,
     input   [`C_L_bus   -1:0    ]    CBG_to_LSU_bus_1,
@@ -147,18 +147,19 @@ module PEs_array (
     wire    init_row_0,init_row_1,init_row_2,init_row_3;
     wire    [4:0]init_LSU_PE;
     wire    [3:0]init_row_sel;
-    assign   {init_row_sel,init_LSU_PE} = init_PE_array;
+    wire    init_lsu_4,init_lsu_5,init_lsu_6,init_lsu_7;
+    assign   {init_lsu_4,init_lsu_5,init_lsu_6,init_lsu_7,init_row_sel,init_LSU_PE} = init_PE_array;
     
     assign    {init_row_0,init_row_1,init_row_2,init_row_3} = init_row_sel ;
-
-
+    wire    [`L_I_W  -1:0]  LSU_inst;
+    assign  LSU_inst = PE_config [`L_I_W  -1:0];
     LSU LSU_4(
-        .clk            (clk                    ),
-        .rst            (rst                    ),
-        .LSU_inst       (LSU_inst               ),
-        .init           (init_LSU & init_en     ),
-        .run            (run                    ),
-        .PE_in          (row_0_0_Nout              ),
+        .clk            (clk                      ),
+        .rst            (rst                      ),
+        .LSU_inst       (LSU_inst                 ),
+        .init           (init_lsu_4               ),
+        .run            (run                      ),
+        .PE_in          (row_0_0_Nout             ),
         .CBG_to_LSU_bus (CBG_to_LSU_bus_4         ),
         .LSU_to_PE      (row_0_0_Nin              ),
         .R_request      (R_request_4              ),
@@ -170,42 +171,42 @@ module PEs_array (
         .clk            (clk                    ),
         .rst            (rst                    ),
         .LSU_inst       (LSU_inst               ),
-        .init           (init_LSU & init_en     ),
+        .init           (init_lsu_5             ),
         .run            (run                    ),
-        .PE_in          (row_0_1_Nout              ),
-        .CBG_to_LSU_bus (CBG_to_LSU_bus_5         ),
-        .LSU_to_PE      (row_0_1_Nin              ),
-        .R_request      (R_request_5              ),
-        .W_request      (W_request_5              ), 
-        .LSU_addr_bus   (LSU_addr_bus_5           ) 
+        .PE_in          (row_0_1_Nout           ),
+        .CBG_to_LSU_bus (CBG_to_LSU_bus_5       ),
+        .LSU_to_PE      (row_0_1_Nin            ),
+        .R_request      (R_request_5            ),
+        .W_request      (W_request_5            ), 
+        .LSU_addr_bus   (LSU_addr_bus_5         ) 
     );
 
     LSU LSU_6(
         .clk            (clk                    ),
         .rst            (rst                    ),
         .LSU_inst       (LSU_inst               ),
-        .init           (init_LSU & init_en     ),
+        .init           (init_lsu_6             ),
         .run            (run                    ),
         .PE_in          (row_0_2_Nout           ),
-        .CBG_to_LSU_bus (CBG_to_LSU_bus_6         ),
-        .LSU_to_PE      (row_0_2_Nin              ),
-        .R_request      (R_request_6              ),
-        .W_request      (W_request_6              ), 
-        .LSU_addr_bus   (LSU_addr_bus_6           ) 
+        .CBG_to_LSU_bus (CBG_to_LSU_bus_6       ),
+        .LSU_to_PE      (row_0_2_Nin            ),
+        .R_request      (R_request_6            ),
+        .W_request      (W_request_6            ), 
+        .LSU_addr_bus   (LSU_addr_bus_6         ) 
     );
     
     LSU LSU_7(
         .clk            (clk                    ),
         .rst            (rst                    ),
         .LSU_inst       (LSU_inst               ),
-        .init           (init_LSU & init_en     ),
+        .init           (init_lsu_7             ),
         .run            (run                    ),
         .PE_in          (row_0_3_Nout           ),
-        .CBG_to_LSU_bus (CBG_to_LSU_bus_7         ),
-        .LSU_to_PE      (row_0_3_Nin              ),
-        .R_request      (R_request_7              ),
-        .W_request      (W_request_7              ), 
-        .LSU_addr_bus   (LSU_addr_bus_7           ) 
+        .CBG_to_LSU_bus (CBG_to_LSU_bus_7       ),
+        .LSU_to_PE      (row_0_3_Nin            ),
+        .R_request      (R_request_7            ),
+        .W_request      (W_request_7            ), 
+        .LSU_addr_bus   (LSU_addr_bus_7         ) 
     );
 
     PE_row_1_2  pe_row_0(

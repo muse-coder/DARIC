@@ -55,6 +55,31 @@ module crossbar_8x8_write_data (
         W_data_3
     } = LSU_W_req_3;
 
+
+    assign {
+        LSU_4_W_sel,
+        Wen_4,
+        W_data_4
+    } = LSU_W_req_4;
+
+    assign {
+        LSU_5_W_sel,
+        Wen_5,
+        W_data_5
+    } = LSU_W_req_5;
+
+    assign {
+        LSU_6_W_sel,
+        Wen_6,
+        W_data_6
+    } = LSU_W_req_6;
+
+    assign {
+        LSU_7_W_sel,
+        Wen_7,
+        W_data_7
+    } = LSU_W_req_7;
+
 	wire    BG_0_Wen,BG_1_Wen,BG_2_Wen,BG_3_Wen,BG_4_Wen,BG_5_Wen,BG_6_Wen,BG_7_Wen;
 
 

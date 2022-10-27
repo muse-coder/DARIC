@@ -18,26 +18,23 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`define A_W             8 //address_width
+`define A_W             7 //address_width
 `define F_D             10        //fifo_depth
-`define L_I_W           11    //lsu_inst_width
-`define L_C_bus         33 + 1+ 8    //lsu_to_CBG_bus
+`define L_I_W           12    //lsu_inst_width
+`define L_C_bus         33 + 1+ 7    //lsu_to_CBG_bus
 `define C_L_bus         33    //CBG_to_lsu_bus  
-`define Config_W        48 * 4 + 13  //config_buffer_width
-`define EX_in_bus       44     //external_memory_in_bus
+`define EX_in_bus       45     //external_memory_in_bus
 `define EX_out_bus      32     //external_memory_in_bus
-
-`define R_Q             3            //read_request
+`define Top_inst        48
+`define R_Q             4            //read_request
 `define W_Q             36            //write_request
 `define SPM_INST        48
-// `define H_C_W           (48 * 4 + 13) * 4 //host_controller_width
-`define PE_5x4          12
 `define PE_7x6          18
 `define FU              4
 `define PE_inst         28
-`define A_bus           8+3
+`define A_bus           7+3
 `define W_d             33
-`define H_C_W           39 //host_controller_width
-`define RAM_DEEP        128
+`define H_C_W           63 //host_controller_width
+`define RAM_DEEP        64
 `define Init_PE_A       9
 `define buffer_depth    10

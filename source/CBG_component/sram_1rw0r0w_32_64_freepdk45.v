@@ -1,23 +1,23 @@
 // OpenRAM SRAM model
-// Words: 128
+// Words: 64
 // Word size: 32
 
-module sram_1rw0r0w_32_128_freepdk45(
+module sram_1rw0r0w_32_64_freepdk45(
 `ifdef USE_POWER_PINS
     vdd,
     gnd,
 `endif
 // Port 0: RW
-    clk0,csb0,web0,addr0,din0,dout0,read_valid
+    clk0,csb0,web0,addr0,din0,dout0
   );
 
   parameter DATA_WIDTH = 32 ;
-  parameter ADDR_WIDTH = 7 ;
+  parameter ADDR_WIDTH = 6 ;
   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
   // FIXME: This delay is arbitrary.
   parameter DELAY = 0 ;
   parameter VERBOSE = 1 ; //Set to 0 to only display warnings
-  parameter T_HOLD = 3 ; //Delay to hold dout value after posedge. Value is arbitrary
+  parameter T_HOLD = 1 ; //Delay to hold dout value after posedge. Value is arbitrary
 
 `ifdef USE_POWER_PINS
     inout vdd;
@@ -29,7 +29,7 @@ module sram_1rw0r0w_32_128_freepdk45(
   input [ADDR_WIDTH-1:0]  addr0;
   input [DATA_WIDTH-1:0]  din0;
   output [DATA_WIDTH-1:0] dout0;
-  output read_valid;
+
   reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
 
   reg  csb0_reg;
@@ -37,7 +37,7 @@ module sram_1rw0r0w_32_128_freepdk45(
   reg [ADDR_WIDTH-1:0]  addr0_reg;
   reg [DATA_WIDTH-1:0]  din0_reg;
   reg [DATA_WIDTH-1:0]  dout0;
-  reg   read_valid;
+
   // All inputs are registers
   always @(posedge clk0)
   begin
@@ -61,11 +61,8 @@ module sram_1rw0r0w_32_128_freepdk45(
   // Read Operation : When web0 = 1, csb0 = 0
   always @ (negedge clk0)
   begin : MEM_READ0
-    if (!csb0_reg && web0_reg) begin
+    if (!csb0_reg && web0_reg)
        dout0 <= #(DELAY) mem[addr0_reg];
-        read_valid <='b1;        
-    end
-    else   read_valid <='b0;
   end
 
 endmodule

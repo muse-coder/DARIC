@@ -21,9 +21,9 @@ module LSU #(
     wire            store_sel;
     wire    ren;
     wire    wen;
-    wire    [1:0]   w_sel;
-    wire    [1:0]   r_sel;
-    wire    [1:0]   addr_sel;
+    wire    [2:0]   w_sel;
+    wire    [2:0]   r_sel;
+    wire    [2:0]   addr_sel;
 
     reg     [31:0]  load_reg;
     reg     [31:0]  store_reg;
@@ -60,11 +60,11 @@ module LSU #(
     assign  {read_valid , din} =  CBG_to_LSU_bus;
 
     assign  {
-        ren,      //10:10
-        wen,      //9:9
-        r_sel,    //8:7
-        w_sel,    //6:5
-        addr_sel, //4:3
+        ren,      //11:11
+        wen,      //10:10
+        r_sel,    //9:7
+        w_sel,    //6:4
+        addr_sel, //3:1
         store_sel //0:0
     } = inst_r;
 

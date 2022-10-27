@@ -50,9 +50,9 @@ module scratchpad (
     
     wire    [31:0]  ex_data;
     assign	{	            
-		ex_write_sel,		//45:43
-		ex_read_sel,		//42:40
-		ex_addr,	    //39:32
+		ex_write_sel,		//44:42
+		ex_read_sel,		//41:39
+		ex_addr,	    //38:32
 		ex_data 		//31:0
     }	=	ex_in_bus;
 
