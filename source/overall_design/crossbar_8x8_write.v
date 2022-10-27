@@ -55,31 +55,89 @@ module crossbar_8x8_write_data (
         W_data_3
     } = LSU_W_req_3;
 
-	wire    BG_0_Wen,BG_1_Wen,BG_2_Wen,BG_3_Wen;
+	wire    BG_0_Wen,BG_1_Wen,BG_2_Wen,BG_3_Wen,BG_4_Wen,BG_5_Wen,BG_6_Wen,BG_7_Wen;
 
 
 //-------------------write crossbar select---------------------//
-    assign  W_BG_0   =  (LSU_0_W_sel == 2'b00) ? {Wen_0 , W_data_0} :
-                        (LSU_1_W_sel == 2'b00) ? {Wen_1 , W_data_1} :
-                        (LSU_2_W_sel == 2'b00) ? {Wen_2 , W_data_2} :
-                        (LSU_3_W_sel == 2'b00) ? {Wen_3 , W_data_3} :
+    assign  W_BG_0   =  (LSU_0_W_sel == 3'b000) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b000) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b000) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b000) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b000) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b000) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b000) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b000) ? {Wen_7 , W_data_7} :
                                                                             'b0;    
     
-    assign  W_BG_1   =  (LSU_0_W_sel == 2'b01) ? {Wen_0 , W_data_0} :
-                        (LSU_1_W_sel == 2'b01) ? {Wen_1 , W_data_1} :
-                        (LSU_2_W_sel == 2'b01) ? {Wen_2 , W_data_2} :
-                        (LSU_3_W_sel == 2'b01) ? {Wen_3 , W_data_3} :
+    assign  W_BG_1   =  (LSU_0_W_sel == 3'b001) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b001) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b001) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b001) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b001) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b001) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b001) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b001) ? {Wen_7 , W_data_7} :
                                                                             'b0;    
        
-    assign  W_BG_2   =  (LSU_0_W_sel == 2'b10) ? {Wen_0 , W_data_0} : 
-                        (LSU_1_W_sel == 2'b10) ? {Wen_1 , W_data_1} :
-                        (LSU_2_W_sel == 2'b10) ? {Wen_2 , W_data_2} :
-                        (LSU_3_W_sel == 2'b10) ? {Wen_3 , W_data_3} :
+    assign  W_BG_2   =  (LSU_0_W_sel == 3'b010) ? {Wen_0 , W_data_0} : 
+                        (LSU_1_W_sel == 3'b010) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b010) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b010) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b010) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b010) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b010) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b010) ? {Wen_7 , W_data_7} :
                                                                             'b0;    
      
-    assign  W_BG_3   =  (LSU_0_W_sel == 2'b11) ? {Wen_0 , W_data_0} :
-                        (LSU_1_W_sel == 2'b11) ? {Wen_1 , W_data_1} :
-                        (LSU_2_W_sel == 2'b11) ? {Wen_2 , W_data_2} :
-                        (LSU_3_W_sel == 2'b11) ? {Wen_3 , W_data_3} :
+    assign  W_BG_3   =  (LSU_0_W_sel == 3'b011) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b011) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b011) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b011) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b011) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b011) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b011) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b011) ? {Wen_7 , W_data_7} :
                                                                             'b0;    
+
+    assign  W_BG_4   =  (LSU_0_W_sel == 3'b100) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b100) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b100) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b100) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b100) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b100) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b100) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b100) ? {Wen_7 , W_data_7} :
+                                                                            'b0;    
+
+    assign  W_BG_5   =  (LSU_0_W_sel == 3'b101) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b101) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b101) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b101) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b101) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b101) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b101) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b101) ? {Wen_7 , W_data_7} :
+                                                                            'b0;    
+
+    assign  W_BG_6   =  (LSU_0_W_sel == 3'b110) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b110) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b110) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b110) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b110) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b110) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b110) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b110) ? {Wen_7 , W_data_7} :
+                                                                            'b0;    
+
+    assign  W_BG_7   =  (LSU_0_W_sel == 3'b111) ? {Wen_0 , W_data_0} :
+                        (LSU_1_W_sel == 3'b111) ? {Wen_1 , W_data_1} :
+                        (LSU_2_W_sel == 3'b111) ? {Wen_2 , W_data_2} :
+                        (LSU_3_W_sel == 3'b111) ? {Wen_3 , W_data_3} :
+                        (LSU_4_W_sel == 3'b111) ? {Wen_4 , W_data_4} :
+                        (LSU_5_W_sel == 3'b111) ? {Wen_5 , W_data_5} :
+                        (LSU_6_W_sel == 3'b111) ? {Wen_6 , W_data_6} :
+                        (LSU_7_W_sel == 3'b111) ? {Wen_7 , W_data_7} :
+                                                                            'b0;    
+
+
 endmodule

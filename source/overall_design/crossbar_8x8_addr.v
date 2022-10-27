@@ -1,6 +1,6 @@
 `include "../param_define.v"
 
-module crossbar_4x4_addr (
+module crossbar_8x8_addr (
     input    [`A_bus    -1:0]  LSU_addr_bus_7,
     input    [`A_bus    -1:0]  LSU_addr_bus_6,
     input    [`A_bus    -1:0]  LSU_addr_bus_5,
