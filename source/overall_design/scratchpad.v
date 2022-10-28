@@ -45,8 +45,6 @@ module scratchpad (
 	wire	[31:0]	sin_0_data,sin_1_data,sin_2_data,sin_3_data,sin_4_data,sin_5_data,sin_6_data,sin_7_data;
 	wire	sin_0_wen,sin_1_wen,sin_2_wen,sin_3_wen,sin_4_wen,sin_5_wen,sin_6_wen,sin_7_wen;
 	wire	sin_0_ren,sin_1_ren,sin_2_ren,sin_3_ren,sin_4_ren,sin_5_ren,sin_6_ren,sin_7_ren;
-	wire	[1:0]	BG_0_fifo_sel,BG_1_fifo_sel,BG_2_fifo_sel,BG_3_fifo_sel;
-    wire	[1:0]	BG_4_fifo_sel,BG_5_fifo_sel,BG_6_fifo_sel,BG_7_fifo_sel;
     
     wire    [31:0]  ex_data;
     assign	{	            
@@ -165,22 +163,7 @@ module scratchpad (
     wire    [1:0] BG4_fifo_sel,BG5_fifo_sel,BG6_fifo_sel,BG7_fifo_sel;
 	wire    flush_0,flush_1,flush_2,flush_3,flush_4,flush_5,flush_6,flush_7;
     assign {
-        flush_7,        //  3
-        flush_6,        //  2
-        flush_5,        //  1
-        flush_4,        //  0
-        flush_3,        //  3
-        flush_2,        //  2
-        flush_1,        //  1
-        flush_0,        //  0
-        BG7_fifo_sel,   //  8
-		BG6_fifo_sel,   //  6
-		BG5_fifo_sel,   //  4
-        BG4_fifo_sel,   //  2
-		BG3_fifo_sel,   //  8
-		BG2_fifo_sel,   //  6
-		BG1_fifo_sel,   //  4
-        BG0_fifo_sel,   //  2
+
 		BG7_en,         //	1
 		BG6_en,         // 	0
 		BG5_en,         //  
@@ -251,12 +234,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG0_en 		),		
     	.din_i		    (BG0_feed_data	),
-    	.pattern_i	    (BG0_mode		),
     	.addr_i		    (BG0_addr		),
     	.we_i			(BG0_wen		),
     	.re_i			(BG0_ren		),
-		.fifo_sel_i	    (BG0_fifo_sel	),
-    	.flush_i		(flush_0        ),
     	.dout_bus		(switch_out_0   )
 	);
 
@@ -265,12 +245,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG1_en 		),		
     	.din_i		    (BG1_feed_data	),
-    	.pattern_i	    (BG1_mode		),
     	.addr_i		    (BG1_addr       ),
     	.we_i			(BG1_wen        ),
     	.re_i			(BG1_ren        ),
-    	.fifo_sel_i	    (BG1_fifo_sel	),
-    	.flush_i		(flush_1        ),
     	.dout_bus		(switch_out_1	)
 	);
 
@@ -279,12 +256,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG2_en 		),		
     	.din_i		    (BG2_feed_data	),
-    	.pattern_i	    (BG2_mode		),
     	.addr_i		    (BG2_addr       ),
     	.we_i			(BG2_wen        ),
     	.re_i			(BG2_ren        ),
-    	.fifo_sel_i	    (BG2_fifo_sel	),
-    	.flush_i		(flush_2        ),
     	.dout_bus		(switch_out_2	)
 	);
 
@@ -293,12 +267,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG3_en 		),		
     	.din_i		    (BG3_feed_data	),
-    	.pattern_i	    (BG3_mode		),
     	.addr_i		    (BG3_addr       ),
     	.we_i			(BG3_wen        ),
     	.re_i			(BG3_ren        ),
-    	.fifo_sel_i	    (BG3_fifo_sel	),
-    	.flush_i		(flush_3        ),
     	.dout_bus		(switch_out_3	)
 	);
 
@@ -307,12 +278,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG4_en 		),		
     	.din_i		    (BG4_feed_data	),
-    	.pattern_i	    (BG4_mode		),
     	.addr_i		    (BG4_addr       ),
     	.we_i			(BG4_wen        ),
     	.re_i			(BG4_ren        ),
-    	.fifo_sel_i	    (BG4_fifo_sel	),
-    	.flush_i		(flush_4        ),
     	.dout_bus		(switch_out_4	)
 	);
 
@@ -321,12 +289,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG5_en 		),		
     	.din_i		    (BG5_feed_data	),
-    	.pattern_i	    (BG5_mode		),
     	.addr_i		    (BG5_addr       ),
     	.we_i			(BG5_wen        ),
     	.re_i			(BG5_ren        ),
-    	.fifo_sel_i	    (BG5_fifo_sel	),
-    	.flush_i		(flush_5        ),
     	.dout_bus		(switch_out_5	)
 	);
 
@@ -335,12 +300,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG6_en 		),		
     	.din_i		    (BG6_feed_data	),
-    	.pattern_i	    (BG6_mode		),
     	.addr_i		    (BG6_addr       ),
     	.we_i			(BG6_wen        ),
     	.re_i			(BG6_ren        ),
-    	.fifo_sel_i	    (BG6_fifo_sel	),
-    	.flush_i		(flush_6        ),
     	.dout_bus		(switch_out_6	)
 	);
 
@@ -349,12 +311,9 @@ module scratchpad (
     	.rst		    (rst			),
     	.en_i			(BG7_en 		),		
     	.din_i		    (BG7_feed_data	),
-    	.pattern_i	    (BG7_mode		),
     	.addr_i		    (BG7_addr       ),
     	.we_i			(BG7_wen        ),
     	.re_i			(BG7_ren        ),
-    	.fifo_sel_i	    (BG7_fifo_sel	),
-    	.flush_i		(flush_7        ),
     	.dout_bus		(switch_out_7	)
 	);
 
