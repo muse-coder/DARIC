@@ -23,7 +23,6 @@
 `define L_I_W           11    //lsu_inst_width
 `define L_C_bus         33 + 1+ 8    //lsu_to_CBG_bus
 `define C_L_bus         33    //CBG_to_lsu_bus  
-`define Config_W        48 * 4 + 13  //config_buffer_width
 `define EX_in_bus       44     //external_memory_in_bus
 `define EX_out_bus      32     //external_memory_in_bus
 
