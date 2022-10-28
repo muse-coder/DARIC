@@ -28,7 +28,7 @@
 `define Top_inst        48
 `define R_Q             4            //read_request
 `define W_Q             36            //write_request
-`define SPM_INST        48
+`define SPM_INST        16
 `define PE_7x6          18
 `define FU              4
 `define PE_inst         28

@@ -180,16 +180,8 @@ module scratchpad (
 		BG3_sel,//	
 		BG2_sel,// 	
 		BG1_sel,// 
-		BG0_sel,// 
+		BG0_sel// 
 		
-		BG7_mode,//
-		BG6_mode,//
-		BG5_mode,//
-		BG4_mode,//
-		BG3_mode,//
-		BG2_mode,//
-		BG1_mode,//
-		BG0_mode//
 	} = inst_r;
 
 	assign	BG7_feed_data = BG7_sel ? sin_7_data :	ex_data ;
