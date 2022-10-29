@@ -1,2 +1,2 @@
-## DARIC 4x4
-异构
+## DARIC 8bank 8LSU
+异构PE
