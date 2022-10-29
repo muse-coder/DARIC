@@ -5,3 +5,12 @@ pic1.drawio
 /EDA_source
 /source/TCAD-report
 /report.xlsx
+/report
+/report_8_LSU_no_FIFO_reports_power.csv
+/report_8_LSU_no_FIFO_reports_area.csv
+/report_8_LSU_FIFO_reports_power.csv
+/report_8_LSU_FIFO_reports_area.csv
+/report_4_LSU_no_FIFO_reports_power.csv
+/report_4_LSU_no_FIFO_reports_area.csv
+/report_4_LSU_FIFO_reports_area.csv
+/report_4_LSU_FIFO_reports_power.csv
