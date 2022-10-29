@@ -1,2 +1,2 @@
-## DARIC 4x4
-异构
+## DARIC 8 LSU 
+异构PE 没有FIFO
