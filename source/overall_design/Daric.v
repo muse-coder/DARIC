@@ -1,28 +1,29 @@
 `include "../param_define.v"
 
-module TCAD (
+module Daric (
     input   clk,
     input   rst,
-    input   [`H_C_W-1:0]    host_controller,
-	input	[`EX_bus-1 :0]	ex_bus,
-    output  [31:0]  TCAD_result
+    input   [`H_C_W-1       :0]    host_controller,
+	input	[`EX_in_bus-1   :0]    ex_in_bus,
+    output  [`EX_out_bus-1  :0]    ex_out_bus
 );
 
 //-----------加载指令---------------//    
     wire    init_SPM;
-    wire    [`PE_inst   -1:0]   pe_config;
+    wire    [`PE_inst   -1:0]   PE_config;
     wire    [`SPM_INST  -1:0]   scr_config;
     wire    [8:0]   init_PE_array;
     wire    [`PE_inst   -1:0]  instruction;
+    wire    run;
     assign  {
-            run,          // 58:58    1bit
-            init_SPM    , // 57:57    1bit
-            init_PE_array, // 56:48   9bit
-            instruction    // 47:0   48bit
+            run,          // 38:38    1bit
+            init_SPM    , // 37:37    1bit
+            init_PE_array, // 36:28   9bit
+            instruction    // 27:0   28bit
         } = host_controller;
     assign  scr_config  = instruction   [`SPM_INST  -1:0];
     
-    assign  pe_config   = instruction   [`PE_inst   -1:0];
+    assign  PE_config   = instruction   [`PE_inst   -1:0];
 //-----------------end-------------------//
 
     wire    [`L_C_bus   -1:0]   L_to_C_bus_3;
@@ -61,7 +62,7 @@ module TCAD (
 	    .inst               (scr_config         ),
         .init               (init_SPM           ),
         .run                (run                ),
-	    .ex_bus             (ex_bus             ),
+	    .ex_in_bus          (ex_in_bus          ),
 	    .switch_in_3        (L_to_C_bus_3       ),
 	    .switch_in_2        (L_to_C_bus_2       ),
 	    .switch_in_1        (L_to_C_bus_1       ),
@@ -69,7 +70,8 @@ module TCAD (
 	    .switch_out_3       (R_response_3       ),
 	    .switch_out_2       (R_response_2       ),
 	    .switch_out_1       (R_response_1       ),
-	    .switch_out_0       (R_response_0       )
+	    .switch_out_0       (R_response_0       ),
+        .ex_out_bus         (ex_out_bus         )
     );    
 
 
@@ -112,7 +114,7 @@ module TCAD (
         .rst                (rst                ),
         .run                (run                ),
         .init_PE_array      (init_PE_array      ),
-        .pe_config          (pe_config          ),
+        .PE_config          (PE_config          ),
         
         .CBG_to_LSU_bus_0   (to_LSU_0           ),
         .CBG_to_LSU_bus_1   (to_LSU_1           ),
@@ -132,8 +134,7 @@ module TCAD (
         .LSU_addr_bus_0     (LSU_addr_bus_0     ), 
         .LSU_addr_bus_1     (LSU_addr_bus_1     ), 
         .LSU_addr_bus_2     (LSU_addr_bus_2     ), 
-        .LSU_addr_bus_3     (LSU_addr_bus_3     ),
-        .result             (TCAD_result)
+        .LSU_addr_bus_3     (LSU_addr_bus_3     )
     );
 
 endmodule

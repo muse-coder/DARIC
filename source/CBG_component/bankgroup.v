@@ -214,31 +214,46 @@ module bankgroup (
 //-------------end-----------------//
     
     wire    [31:0] data0,data1;
-    wire    read_valid_0;
-    wire    read_valid_1;
+    reg    read_valid_0;
+    reg    read_valid_1;
     
-    single_port_ram RAM_0(
-        .clk        (clk            ),
-        .rst        (rst            ),
-        .ena        (ram_0_en       ),
-        .wea        (ram_0_we       ),
-       	.din        (din            ),
-    	.addr       (ram_0_addr     ),
-        .read_valid (read_valid_0   ),
-    	.dout       (data0)
+    sram_1rw0r0w_32_128_freepdk45 sram_0 (
+        .clk0           (clk),
+        .csb0           (~ram_0_en),
+        .web0           (~ram_0_we),
+        .addr0          (ram_0_addr),
+        .din0           (din),
+        .dout0          (data0)
+    );
+
+    sram_1rw0r0w_32_128_freepdk45 sram_1 (
+        .clk0           (clk),
+        .csb0           (~ram_1_en),
+        .web0           (~ram_1_we),
+        .addr0          (ram_1_addr),
+        .din0           (din),
+        .dout0          (data1)
     );
     
-    single_port_ram RAM_1(
-        .clk        (clk            ),
-        .rst        (rst            ),
-        .ena        (ram_1_en       ),
-        .wea        (ram_1_we       ),
-       	.din        (din            ),
-    	.addr       (ram_1_addr     ),
-        .read_valid (read_valid_1   ),
-    	.dout       (data1)
-    );
-    
+    reg read_valid_0_reg,read_valid_1_reg;
+    always @(posedge clk ) begin
+        if(ram_0_en && ~ram_0_we)
+            read_valid_0_reg<=1'b1;
+        else
+            read_valid_0_reg<=1'b0;
+
+        read_valid_0<=read_valid_0_reg;
+    end
+
+    always @(posedge clk ) begin
+        if(ram_1_en && ~ram_1_we)
+            read_valid_1_reg<=1'b1;
+        else
+            read_valid_1_reg<=1'b0;
+
+        read_valid_1<=read_valid_1_reg;
+    end
+
     assign  dout_bus =  read_valid_0 ? {read_valid_0,data0} :
                         read_valid_1 ? {read_valid_1,data1} :
                                                   'hffffffff; 

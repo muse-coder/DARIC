@@ -24,10 +24,10 @@ module reg_file(
     input   rst,
     input   clk,
     input   [31:0]  din_res,
-    input   [31:0]  din_N,
-    input   [31:0]  din_S,
-    input   [31:0]  din_W,
-    input   [31:0]  din_E,
+    input   [31:0]  din_0,
+    input   [31:0]  din_1,
+    input   [31:0]  din_2,
+    input   [31:0]  din_3,
     (* DONT_TOUCH = "1" *)     input   [3:0]   reg_file_inst,
 
     output  [31:0]  dout_R0,
@@ -43,6 +43,7 @@ module reg_file(
         R2_sel, //1:1
         R3_sel  //0:0
     }   = reg_file_inst;
+    
     reg [31:0]  R0;
     reg [31:0]  R1;
     reg [31:0]  R2;
@@ -53,20 +54,19 @@ module reg_file(
     wire [31:0]  R2_in;
     wire [31:0]  R3_in;
 
-    assign  R0_in   = R0_sel ? din_N : din_res ;
-    assign  R1_in   = R1_sel ? din_S : R0      ;
-    assign  R2_in   = R2_sel ? din_W : R1      ;
-    assign  R3_in   = R3_sel ? din_E : R2      ;
+    assign  R0_in   = R0_sel ? din_0 : din_res ;
+    assign  R1_in   = R1_sel ? din_1 : R0      ;
+    assign  R2_in   = R2_sel ? din_2 : R1      ;
+    assign  R3_in   = R3_sel ? din_3 : R2      ;
     
 // mux  0 上 1下
     always @(posedge clk ) begin
         if(rst) begin
-            R0 <= 'b0;
-            R1 <= 'b0; 
-            R2 <= 'b0;
-            R3 <= 'b0; 
+            R0 <=  'b0   ;//mux 上0 下1
+            R1 <=  'b0   ; 
+            R2 <=  'b0   ;
+            R3 <=  'b0   ;         
         end
-
         else begin
             R0 <=  R0_in   ;//mux 上0 下1
             R1 <=  R1_in   ; 
